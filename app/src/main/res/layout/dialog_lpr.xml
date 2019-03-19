@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/status_init"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="初始化" />
+
+
+            <TextView
+                android:id="@+id/status_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2c000000"
+                android:text="正在获取车牌信息，请稍后···"
+                android:textColor="#d40505" />
+
+            <TextView
+                android:id="@+id/tv_persetnum_dialoglpr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2c000000"
+                android:text="状态"
+                android:textColor="#d40505" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

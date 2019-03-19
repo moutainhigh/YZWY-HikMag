@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:orientation="horizontal"
+            android:background="#73a3a3a3">
+
+            <TextView
+                android:id="@+id/tv_serialNumber_itPreset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="序号"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <!--预置点-->
+            <TextView
+                android:id="@+id/tv_persetNum_itpreset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="预置点"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <!--地磁设备地址-->
+            <TextView
+                android:id="@+id/tv_geomagneticAddress_itpreset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="地磁地址"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="操作"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recv_item_setPreset"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1">-->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/status_init"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="初始化" />
+
+
+        <TextView
+            android:id="@+id/status_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2c000000"
+            android:text="状态"
+            android:textColor="#d40505" />
+
+        <ImageView
+            android:id="@+id/SetImageView"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="预置点："
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+
+
+            <EditText
+                android:id="@+id/edt_putPreset_setPreset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="请输入预置点"
+                android:inputType="number"
+                android:text="1"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="地磁地址："
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edt_putGeomagnetismAddressNumber_setPreset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="请输入地磁地址"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_setPreset_setPreset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#72CB6F"
+            android:text="设置预置点"
+            android:textColor="#181717" />
+
+
+        <Button
+            android:id="@+id/btn_goTo_setPreset"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#72CB6F"
+            android:ems="10"
+            android:gravity="center"
+            android:text="转到预置点"
+            android:textColor="#181717"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!--</ScrollView>-->
+
+</LinearLayout>
