@@ -20,6 +20,7 @@
         android:layout_height="120px"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:scaleType="fitXY"
         android:background="@drawable/ac_rect"></View>
 
     <!--<LinearLayout-->

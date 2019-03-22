@@ -16,7 +16,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion '27.0.3'
     defaultConfig {
-        applicationId "com.yxwy.lprmag"
+        applicationId "com.example.yzwy.lprmag"
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
