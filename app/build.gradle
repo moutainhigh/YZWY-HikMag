@@ -68,7 +68,6 @@ dependencies {
 //    compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.android.support:recyclerview-v7:26.1.0'
 
-
     //引导页动画
     compile 'com.nineoldandroids:library:2.4.0'
 }
