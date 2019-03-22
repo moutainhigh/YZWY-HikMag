@@ -29,9 +29,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".HiKCameraActivity"
-            android:screenOrientation="landscape">
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,14 +40,20 @@
 
         <activity
             android:name=".dialog.DialogPerset"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle">
+
+        </activity>
 
         <activity
             android:name=".dialog.LprDialog"
             android:theme="@style/MyDialogStyle"></activity>
 
-        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".guide.animation.guide.MainActivity" />
+        <activity
+            android:name=".HiKCameraActivity"
+            android:screenOrientation="landscape" />
         <activity android:name=".MyMainActivity" />
+        <activity android:name=".guide.animation.guide.GuideActivity" />
     </application>
 
 </manifest>

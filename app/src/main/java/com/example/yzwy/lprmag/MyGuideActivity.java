@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * 引导页
  */
-public class GuideActivity extends AppCompatActivity implements View.OnClickListener,ViewPager.OnPageChangeListener, CompoundButton.OnCheckedChangeListener {
+public class MyGuideActivity extends AppCompatActivity implements View.OnClickListener,ViewPager.OnPageChangeListener, CompoundButton.OnCheckedChangeListener {
     //定义ViewPager对象
     private ViewPager viewPager;
 
@@ -93,9 +93,9 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
                     /**
                      * 跳转到主界面
                      */
-                    Tools.Intent(GuideActivity.this, MyMainActivity.class);
+                    Tools.Intent(MyGuideActivity.this, MyMainActivity.class);
                 }else{
-                    Tools.Toast(GuideActivity.this, "请查看相关协议");
+                    Tools.Toast(MyGuideActivity.this, "请查看相关协议");
                 }
             }
         });
@@ -120,7 +120,7 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
 //
 //            @Override
 //            public void onClick(View view) {
-//                Tools.IntentBack(GuideActivity.this, AgreementActivity.class);
+//                Tools.IntentBack(MyGuideActivity.this, AgreementActivity.class);
 //            }
 //        });
 
@@ -239,11 +239,11 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
 
     private void exitAPP() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
-            Tools.Toast(GuideActivity.this, "再按一次退出屏幕");
+            Tools.Toast(MyGuideActivity.this, "再按一次退出屏幕");
             exitTime = System.currentTimeMillis();
         } else {
             //退出程序，下次还会进入引导页
-            TsSharePreferences.putBooleanValue(GuideActivity.this, "FIRST", false);
+            TsSharePreferences.putBooleanValue(MyGuideActivity.this, "FIRST", false);
             System.exit(0);
         }
     }
