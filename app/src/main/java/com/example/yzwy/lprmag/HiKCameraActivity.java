@@ -39,9 +39,10 @@ import com.example.yzwy.lprmag.hik.model.CameraManager;
 import com.example.yzwy.lprmag.hik.util.CrashUtil;
 import com.example.yzwy.lprmag.hik.util.NotNull;
 import com.example.yzwy.lprmag.myConstant.CarRectLintScreen;
+import com.example.yzwy.lprmag.myConstant.ConfigDataConstant;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
-import com.example.yzwy.lprmag.util.TsSharePreferences;
+import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import com.hikvision.netsdk.ExceptionCallBack;
 import com.hikvision.netsdk.HCNetSDK;
 import com.hikvision.netsdk.NET_DVR_DEVICEINFO_V30;
@@ -115,10 +116,12 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
      *
      * */
 
-    public final String ADDRESS = "192.168.1.64";//摄像头IP地址
-    public final int PORT = 8000;//摄像头端口号
-    public final String USER = "admin";//摄像头用户名
-    public final String PSD = "admin123";//摄像头密码
+    private String ADDRESS = "192.168.1.64";//摄像头IP地址
+    private int PORT = 8000;//摄像头端口号
+    private String USER = "admin";//摄像头用户名
+    private String PSD = "admin123";//摄像头密码
+
+
     private View rectLine;
 
 
@@ -145,17 +148,19 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         CrashUtil crashUtil = CrashUtil.getInstance();
         crashUtil.init(this);
 
+        initHiKConnectConfig();
+
         /**
          * 加载海康SDK 加载失败退出活动页面
          * */
         if (!initeSdk()) {
             this.finish();
-            return;
+            //return;
         }
 
         if (!initeActivity()) {
             this.finish();
-            return;
+            //return;
         }
 
         /**
@@ -168,7 +173,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
          * */
         if (m_iLogID < 0) {
             Log.e(TAG, "This device logins failed!");
-            return;
+            //return;
         } else {
             //打印设备登录ID
             System.out.println("m_iLogID=" + m_iLogID);
@@ -182,12 +187,11 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         ExceptionCallBack oexceptionCbf = getExceptiongCbf();
         if (oexceptionCbf == null) {
             Log.e(TAG, "ExceptionCallBack object is failed!");
-            return;
+            //return;
         }
-        if (!HCNetSDK.getInstance().NET_DVR_SetExceptionCallBack(
-                oexceptionCbf)) {
+        if (!HCNetSDK.getInstance().NET_DVR_SetExceptionCallBack(oexceptionCbf)) {
             Log.e(TAG, "NET_DVR_SetExceptionCallBack is failed!");
-            return;
+            //return;
         }
 
         //预览
@@ -262,6 +266,19 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
 
     }
 
+    /**
+     * =============================================================================================
+     * 初始化海康连接诶信息
+     */
+    private void initHiKConnectConfig() {
+
+        ADDRESS = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, ConfigDataConstant.hkIp_cfgset_str, ConfigDataConstant.hkIp_cfgset_str_default);
+        PORT = Integer.valueOf(SharePreferencesUtil.getStringValue(HiKCameraActivity.this, ConfigDataConstant.hkport_cfgset_str, ConfigDataConstant.hkport_cfgset_str_default));
+        USER = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, ConfigDataConstant.hikusername_cfgset_str, ConfigDataConstant.hikusername_cfgset_str_default);
+        PSD = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, ConfigDataConstant.hikpwd_cfgset_str, ConfigDataConstant.hikpwd_cfgset_str_default);
+
+    }
+
 
     /**
      * =============================================================================================
@@ -277,8 +294,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         }
         Surface surface = holder.getSurface();
         if (surface.isValid()) {
-            if (!Player.getInstance()
-                    .setVideoWindow(m_iPort, 0, holder)) {
+            if (!Player.getInstance().setVideoWindow(m_iPort, 0, holder)) {
                 Log.e(TAG, "Player setVideoWindow failed!");
             }
         }
@@ -293,8 +309,8 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
      * @param height
      */
     // @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                               int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
     }
 
     /**
@@ -360,6 +376,13 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         if (!HCNetSDK.getInstance().NET_DVR_Init()) {
             //加载海康SDK失败
             Log.e(TAG, "HCNetSDK init is failed!");
+
+            //设置连接时间与重连时间
+            //超时时间，单位毫秒，取值范围[300,75000]，实际最大超时时间因系统的connect超时时间而不同。
+            HCNetSDK.getInstance().NET_DVR_SetConnectTime(2000);
+            //dwInterval [in] 重连间隔，单位:毫秒 bEnableRecon [in] 是否重连，0-不重连，1-重连，参数默认值为1
+            HCNetSDK.getInstance().NET_DVR_SetReconnect(3000, true);
+
             return false;
         }
         HCNetSDK.getInstance().NET_DVR_SetLogToFile(3, "/mnt/sdcard/sdklog/", true);
@@ -606,7 +629,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         // whether we have logout
         if (!HCNetSDK.getInstance().NET_DVR_Logout_V30(m_iLogID)) {
             Log.e(TAG, " NET_DVR_Logout is failed!");
-            return;
+            //return;
         }
         //停止单个预览
         stopSinglePreview();
@@ -642,7 +665,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
             // whether we have logout
             if (!HCNetSDK.getInstance().NET_DVR_Logout_V30(m_iLogID)) {
                 Log.e(TAG, " NET_DVR_Logout is failed!");
-                return;
+                //return;
             }
             m_iLogID = -1;
 
@@ -688,9 +711,11 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         }
         h1 = new CameraManager();
         h1.setLoginId(m_iLogID);
+
+        //设置预置点
         Intent intent = getIntent();
         if (NotNull.isNotNull(intent) && intent.getIntExtra("INDEX", -1) != -1) {
-            int point = TsSharePreferences.getIntValue(this, "POINT", 0);
+            int point = SharePreferencesUtil.getIntValue(this, "POINT", 0);
             boolean b = HCNetSDK.getInstance().NET_DVR_PTZPreset(m_iPlayID, PTZCommand.GOTO_PRESET, point);
         }
     }
@@ -711,8 +736,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         }
         // net sdk stop preview
         if (!HCNetSDK.getInstance().NET_DVR_StopRealPlay(m_iPlayID)) {
-            Log.e(TAG, "StopRealPlay is failed!Err:"
-                    + HCNetSDK.getInstance().NET_DVR_GetLastError());
+            Log.e(TAG, "StopRealPlay is failed!Err:" + HCNetSDK.getInstance().NET_DVR_GetLastError());
             return;
         }
 
@@ -767,8 +791,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         int iLogID = HCNetSDK.getInstance().NET_DVR_Login_V30(ADDRESS, PORT,
                 USER, PSD, m_oNetDvrDeviceInfoV30);
         if (iLogID < 0) {
-            Log.e(TAG, "NET_DVR_Login is failed!Err:"
-                    + HCNetSDK.getInstance().NET_DVR_GetLastError());
+            Log.e(TAG, "NET_DVR_Login is failed!Err:" + HCNetSDK.getInstance().NET_DVR_GetLastError());
             return -1;
         }
         if (m_oNetDvrDeviceInfoV30.byChanNum > 0) {
@@ -843,8 +866,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
      * @author zhuzhenlei
      * @brief process real data
      */
-    public void processRealData(int iDataType,
-                                byte[] pDataBuffer, int iDataSize, int iStreamMode) {
+    public void processRealData(int iDataType, byte[] pDataBuffer, int iDataSize, int iStreamMode) {
         if (!m_bNeedDecode) {
             // Log.i(TAG, "iPlayViewNo:" + iPlayViewNo + ",iDataType:" +
             // iDataType + ",iDataSize:" + iDataSize);

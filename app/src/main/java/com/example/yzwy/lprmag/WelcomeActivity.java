@@ -34,7 +34,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     ed.commit();
                     Tools.Intent(WelcomeActivity.this, GuideActivity.class);
                 } else {
-                    Tools.Intent(WelcomeActivity.this, HiKCameraActivity.class);
+                    Tools.Intent(WelcomeActivity.this, LoginActivity.class);
                 }
             }
         };

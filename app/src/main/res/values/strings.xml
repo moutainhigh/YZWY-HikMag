@@ -97,6 +97,8 @@
 
     <!--  输入框的输入限制 -->
     <string name="filter_vcode">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <!--  IP4地址 -->
+    <string name="filter_ip4">0123456789.</string>
 
 
 </resources>

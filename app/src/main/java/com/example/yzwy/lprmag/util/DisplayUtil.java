@@ -8,7 +8,7 @@ import android.content.Context;
  * @author 仲超
  * 
  */  
-public class TsDisplayUtil {  
+public class DisplayUtil {
     /** 
      * 将px值转换为dip或dp值，保证尺寸大小不变 
      *  

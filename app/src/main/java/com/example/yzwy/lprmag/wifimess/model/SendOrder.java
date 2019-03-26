@@ -78,4 +78,22 @@ public class SendOrder {
     }
 
 
+    /**
+     * =============================================================================================
+     * 设置摄像头或者终端的优先级
+     */
+    public static String setPriority(String Priority) {
+        JSONObject jo1 = new JSONObject();
+        try {
+            jo1.put("Order", PersetOrderConstant.ORDER_SetPriority);
+            jo1.put("Priority", Priority);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String json = jo1.toString();
+        System.out.println("发送命令 设置优先级>>>>>" + json);
+        return json;
+    }
+
+
 }

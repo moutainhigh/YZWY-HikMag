@@ -9,10 +9,10 @@ import android.content.SharedPreferences.Editor;
  * 数据储存 SharedPrenference 工具类 
  *
  */
-public class TsSharePreferences {
+public class SharePreferencesUtil {
 
 	/** 数据存储的XML的名称 **/
-	public final static String SETTING = "dbvcd";
+	public final static String SETTING = "lprmagsp";
 	
 	
 	/////////////////////////////////////////////

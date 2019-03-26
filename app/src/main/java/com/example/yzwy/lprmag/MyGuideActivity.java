@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.example.yzwy.lprmag.adapter.GuideViewPagerAdapter;
 import com.example.yzwy.lprmag.util.ExitApplication;
 import com.example.yzwy.lprmag.util.Tools;
-import com.example.yzwy.lprmag.util.TsSharePreferences;
+import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 
 import java.util.ArrayList;
 
@@ -243,7 +243,7 @@ public class MyGuideActivity extends AppCompatActivity implements View.OnClickLi
             exitTime = System.currentTimeMillis();
         } else {
             //退出程序，下次还会进入引导页
-            TsSharePreferences.putBooleanValue(MyGuideActivity.this, "FIRST", false);
+            SharePreferencesUtil.putBooleanValue(MyGuideActivity.this, "FIRST", false);
             System.exit(0);
         }
     }

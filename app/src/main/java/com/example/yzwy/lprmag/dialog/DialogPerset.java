@@ -28,7 +28,7 @@ import com.example.yzwy.lprmag.adapter.PresetAdapter;
 import com.example.yzwy.lprmag.bean.PresetBean;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
-import com.example.yzwy.lprmag.util.TsDisplayUtil;
+import com.example.yzwy.lprmag.util.DisplayUtil;
 import com.example.yzwy.lprmag.wifimess.model.SendOrder;
 import com.example.yzwy.lprmag.wifimess.thread.ConnectThread;
 import com.example.yzwy.lprmag.wifimess.thread.ListenerThread;
@@ -88,10 +88,27 @@ public class DialogPerset extends Activity {
      */
     private List<PresetBean> presetBeansList = new ArrayList<PresetBean>();
     private Button btnSetPreset;
+
+    /**
+     * 设置优先级
+     */
+    private Button btn_setpriority_setPreset;
     //    private Button btnClearPreset;
 //    private Button btnGoPreset;
+
+    /**
+     * 预置点
+     */
     private EditText edtPreset;
+
+    /**
+     * 地磁目标地址
+     */
     private EditText edt_putGeomagnetismAddressNumber_setPreset;
+    /**
+     * 优先级
+     */
+    private EditText edt_priority_setPreset;
 
 
     private int m_iPlayID;
@@ -104,6 +121,11 @@ public class DialogPerset extends Activity {
      * 是否初始化适配器 false 否   true 是
      */
     private boolean isInitAdapterPreset = false;
+
+    /**
+     * 关闭页面
+     * */
+    private Button btn_closePage_dialogPerset;
 
 
     /**
@@ -124,10 +146,10 @@ public class DialogPerset extends Activity {
         Window win = this.getWindow();
         win.getDecorView().setPadding(0, 0, 0, 0);
         WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = this.getWindowManager().getDefaultDisplay().getWidth() - TsDisplayUtil.dip2px(DialogPerset.this, 80);
-        lp.height = this.getWindowManager().getDefaultDisplay().getHeight() - TsDisplayUtil.dip2px(DialogPerset.this, 50);
-        //        //lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        //        //lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width = this.getWindowManager().getDefaultDisplay().getWidth() - DisplayUtil.dip2px(DialogPerset.this, 50);
+        lp.height = this.getWindowManager().getDefaultDisplay().getHeight() - DisplayUtil.dip2px(DialogPerset.this, 50);
+        //lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        //lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         lp.gravity = Gravity.CENTER;//设置对话框置顶显示
         win.setAttributes(lp);
         //设置点击外部空白处可以关闭Activity
@@ -182,13 +204,13 @@ public class DialogPerset extends Activity {
         if (!wifiManager.isWifiEnabled())
             wifiManager.setWifiEnabled(true);
 
-
         status_init.setText("已连接到：" + wifiManager.getConnectionInfo().getSSID() +
                 "\nIP:" + getIp()
                 + "\n路由：" + getWifiRouteIPAddress(DialogPerset.this));
 
         //initBroadcastReceiver();
-        //开启连接线程
+        //开启连接线程00
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -421,6 +443,8 @@ public class DialogPerset extends Activity {
 
                                 JSONArray jsonArrayPrset = jsonObject.getJSONArray("data");
 
+                                String Priority = jsonObject.getString("Priority");
+
                                 if (presetBeansList.size() > 0) {
                                     presetBeansList.clear();//清除之前的数据
                                 }
@@ -439,6 +463,10 @@ public class DialogPerset extends Activity {
                                     isInitAdapterPreset = true;
                                 } else {
                                     adapter.notifyDataSetChanged(); //更新界面
+                                }
+
+                                if (!Priority.equals("0")) {
+                                    edt_priority_setPreset.setText(Priority);
                                 }
 
 
@@ -497,6 +525,17 @@ public class DialogPerset extends Activity {
                                 }
                                 break;
 
+
+                            case "ORDER_SetPriority":
+                                String errcodePriority = jsonObject.getString("errcode");
+                                String errmsgPriority = jsonObject.getString("errmsg");
+                                if (errcodePriority.equals("0")) {
+                                    Tools.Toast(DialogPerset.this, errmsgPriority);
+                                } else {
+                                    Tools.Toast(DialogPerset.this, errmsgPriority);
+                                }
+                                break;
+
                         }
 
                     } catch (JSONException e) {
@@ -545,11 +584,14 @@ public class DialogPerset extends Activity {
 //        btnClearPreset = (Button) findViewById(R.id.btn_clearPreset_setPreset);
 //        //实例化转到预置点
 //        btnGoPreset = (Button) findViewById(R.id.btn_goTo_setPreset);
+        //设置优先级
+        btn_setpriority_setPreset = (Button) findViewById(R.id.btn_setpriority_setPreset);
 
         //设置获取预置点的序号
         edtPreset = (EditText) findViewById(R.id.edt_putPreset_setPreset);
         edt_putGeomagnetismAddressNumber_setPreset = (EditText) findViewById(R.id.edt_putGeomagnetismAddressNumber_setPreset);
-
+        edt_priority_setPreset = (EditText) findViewById(R.id.edt_priority_setPreset);
+        btn_closePage_dialogPerset = (Button) findViewById(R.id.btn_closePage_dialogPerset);
     }
 
     /**
@@ -636,6 +678,30 @@ public class DialogPerset extends Activity {
 //                }
 //            }
 //        });
+
+
+        btn_setpriority_setPreset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String edtPriorityStr = edt_priority_setPreset.getText().toString();
+                if (edtPriorityStr.equals("")) {
+                    Tools.Toast(DialogPerset.this, "优先级不能为空");
+                }
+//                else if (edtPriorityStr.length() != 8) {
+//                    Tools.Toast(DialogPerset.this, "优先级必须输入8位长度");
+//                }
+                //发送数据
+                connectThread.sendData(SendOrder.setPriority(edtPriorityStr));
+            }
+        });
+
+
+        btn_closePage_dialogPerset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exit();
+            }
+        });
 
     }
 

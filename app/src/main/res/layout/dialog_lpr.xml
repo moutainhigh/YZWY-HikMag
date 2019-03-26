@@ -10,14 +10,56 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="360dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:minWidth="200dp"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="车牌识别"
+                    android:textColor="@color/white_f"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/btn_closePage_dialogLpr"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_close_white_f" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white_e"/>
+
+
+            <!--<Button-->
+            <!--android:id="@+id/btn_closePage_dialogLpr"-->
+            <!--android:layout_width="55dp"-->
+            <!--android:layout_height="55dp"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:background="@drawable/ic_close_white_f" />-->
 
             <TextView
                 android:id="@+id/status_init"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="初始化" />
 
 
@@ -25,16 +67,19 @@
                 android:id="@+id/status_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="#2c000000"
-                android:text="正在获取车牌信息，请稍后···"
+                android:text="正在获取车牌，请稍后···"
                 android:textColor="#d40505" />
 
             <TextView
                 android:id="@+id/tv_persetnum_dialoglpr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#2c000000"
-                android:text="状态"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text=""
                 android:textColor="#d40505" />
 
         </LinearLayout>

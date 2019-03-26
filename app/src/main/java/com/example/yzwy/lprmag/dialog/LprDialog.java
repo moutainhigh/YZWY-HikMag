@@ -13,8 +13,10 @@ import android.text.format.Formatter;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.yzwy.lprmag.R;
@@ -65,6 +67,11 @@ public class LprDialog extends Activity {
     private TextView status_init;
     private TextView tv_persetnum_dialoglpr;
 
+    /**
+     * 关闭按钮
+     */
+    private Button btn_closePage_dialogLpr;
+
 
     /**
      * @param savedInstanceState
@@ -78,7 +85,7 @@ public class LprDialog extends Activity {
         Window win = this.getWindow();
         win.getDecorView().setPadding(0, 0, 0, 0);
         WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;//设置对话框置顶显示
         win.setAttributes(lp);
@@ -90,6 +97,8 @@ public class LprDialog extends Activity {
          * */
         initView();
 
+        initOnClick();
+
 
         /**
          * wifi模块的架子啊
@@ -97,6 +106,19 @@ public class LprDialog extends Activity {
         initViewWifi();
 
 
+    }
+
+    /**
+     * =============================================================================================
+     * 事件监听器
+     */
+    private void initOnClick() {
+        btn_closePage_dialogLpr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exit();
+            }
+        });
     }
 
     /**
@@ -288,6 +310,7 @@ public class LprDialog extends Activity {
         text_state = (TextView) findViewById(R.id.status_info);
         status_init = (TextView) findViewById(R.id.status_init);
         tv_persetnum_dialoglpr = (TextView) findViewById(R.id.tv_persetnum_dialoglpr);
+        btn_closePage_dialogLpr = (Button) findViewById(R.id.btn_closePage_dialogLpr);
     }
 
     /**

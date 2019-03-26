@@ -37,12 +37,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".ConfigSetActivity" />
+
+        <!--Dialog 预置点-->
         <activity
             android:name=".dialog.DialogPerset"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle_Perset"></activity>
         <activity
             android:name=".dialog.LprDialog"
-            android:theme="@style/MyDialogStyle" />
+            android:theme="@style/MyDialogStyle_Lpr" />
         <activity android:name=".guide.animation.guide.MainActivity" />
         <activity
             android:name=".HiKCameraActivity"
@@ -50,6 +52,7 @@
         <activity android:name=".MyMainActivity" />
         <activity android:name=".guide.animation.guide.GuideActivity" />
         <activity android:name=".LoginActivity"></activity>
+
     </application>
 
 </manifest>
