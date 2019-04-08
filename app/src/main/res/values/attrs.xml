@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <declare-styleable name="NumberPicker">
         <attr name="textColor" format="color" />
@@ -64,4 +64,12 @@
         <attr name="android:background"/>
     </declare-styleable>
 
+
+
+    <declare-styleable name="SwitchButton" tools:ignore="ResourceName">
+        <!-- 是否选中 -->
+        <attr name="android:checked" />
+        <!-- 是否禁用 -->
+        <attr name="android:enabled" />
+    </declare-styleable>
 </resources>

@@ -5,7 +5,7 @@ import android.os.Message;
 import android.util.Log;
 
 
-import com.example.yzwy.lprmag.dialog.DialogPerset;
+import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -36,7 +36,7 @@ public class ListenerThread extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (!isInterrupted()) {
             try {
                 //中断处理逻辑
                 if (Thread.currentThread().isInterrupted()) {
@@ -48,13 +48,14 @@ public class ListenerThread extends Thread {
                 if (serverSocket != null)
                     socket = serverSocket.accept();
                 Message message = Message.obtain();
-                message.what = DialogPerset.DEVICE_CONNECTING;
+                message.what = WifiMsgConstant.DEVICE_CONNECTING;
                 handler.sendMessage(message);
             } catch (IOException e) {
                 Log.i("ListennerThread", "error:" + e.getMessage());
                 e.printStackTrace();
-                //中断状态在抛出异常前，被清除掉，因此在此处重置中断状态
                 Thread.currentThread().interrupt();
+                break;
+                //中断状态在抛出异常前，被清除掉，因此在此处重置中断状态
             }
         }
     }
@@ -65,10 +66,10 @@ public class ListenerThread extends Thread {
 
     public void close() {
         try {
-            if (serverSocket != null)
-                serverSocket.close();
             if (socket != null)
                 socket.close();
+            if (serverSocket != null)
+                serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

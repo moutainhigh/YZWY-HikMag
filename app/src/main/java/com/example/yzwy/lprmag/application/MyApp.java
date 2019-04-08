@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import com.example.yzwy.lprmag.myConstant.CarRectLintScreen;
+import com.example.yzwy.lprmag.myConstant.HiKLineWHRectLintScreen;
 import com.example.yzwy.lprmag.util.LogUtilUtil;
 
 
@@ -36,31 +36,6 @@ public class MyApp extends Application {
      * 判断程序生命周期结束后是否首次启动 默认为false
      */
     private boolean firstInAppLife = false;
-
-    public boolean isFirstInAppLife() {
-        return firstInAppLife;
-    }
-
-    public void setFirstInAppLife(boolean firstInAppLife) {
-        this.firstInAppLife = firstInAppLife;
-    }
-
-
-    public int getmRectHeight() {
-        return mRectHeight;
-    }
-
-    public void setmRectHeight(int mRectHeight) {
-        this.mRectHeight = mRectHeight;
-    }
-
-    public int getmRectWidth() {
-        return mRectWidth;
-    }
-
-    public void setmRectWidth(int mRectWidth) {
-        this.mRectWidth = mRectWidth;
-    }
 
     public int getScreenHeight() {
         return screenHeight;
@@ -100,8 +75,8 @@ public class MyApp extends Application {
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         density = getResources().getDisplayMetrics().density;
         //
-        mRectWidth = (int) ((int) myApp.getScreenWidth() / CarRectLintScreen.WidthProportion);//125
-        mRectHeight = (int) ((int) myApp.getScreenHeight() / CarRectLintScreen.WidthProportion);//125
+        mRectWidth = (int) ((int) myApp.getScreenWidth() / HiKLineWHRectLintScreen.WidthProportion);//125
+        mRectHeight = (int) ((int) myApp.getScreenHeight() / HiKLineWHRectLintScreen.HeightProportion);//125
 
 
         ///**

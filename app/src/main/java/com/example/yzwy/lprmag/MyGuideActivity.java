@@ -22,7 +22,13 @@ import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import java.util.ArrayList;
 
 /**
- * 引导页
+ * #################################################################################################
+ * Copyright: Copyright (c) 2018
+ * Created on 2019-04-03
+ * Author: 仲超(zhongchao)
+ * Version 1.0
+ * Describe: 引导页-横向
+ * #################################################################################################
  */
 public class MyGuideActivity extends AppCompatActivity implements View.OnClickListener,ViewPager.OnPageChangeListener, CompoundButton.OnCheckedChangeListener {
     //定义ViewPager对象
@@ -55,6 +61,7 @@ public class MyGuideActivity extends AppCompatActivity implements View.OnClickLi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.ly_guide);
+
         ExitApplication.getInstance().addActivity(this);
 
         initView();
@@ -93,7 +100,7 @@ public class MyGuideActivity extends AppCompatActivity implements View.OnClickLi
                     /**
                      * 跳转到主界面
                      */
-                    Tools.Intent(MyGuideActivity.this, MyMainActivity.class);
+                    Tools.Intent(MyGuideActivity.this, MainActivity.class);
                 }else{
                     Tools.Toast(MyGuideActivity.this, "请查看相关协议");
                 }

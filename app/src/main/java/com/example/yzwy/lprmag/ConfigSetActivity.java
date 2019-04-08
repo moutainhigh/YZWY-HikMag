@@ -1,60 +1,107 @@
 package com.example.yzwy.lprmag;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.yzwy.lprmag.myConstant.ConfigDataConstant;
+import com.example.yzwy.lprmag.myConstant.OrderConstant;
+import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
+import com.example.yzwy.lprmag.util.ExitApplication;
 import com.example.yzwy.lprmag.util.InetAddressUtil;
+import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.NetUtils;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
+import com.example.yzwy.lprmag.wifimess.model.SendOrder;
+import com.example.yzwy.lprmag.wifimess.util.SocketUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import static com.example.yzwy.lprmag.util.Tools.getWifiRouteIPAddress;
+
+/**
+ * #################################################################################################
+ * Copyright: Copyright (c) 2018
+ * Created on 2019-04-03
+ * Author: 仲超(zhongchao)
+ * Version 1.0
+ * Describe: 海康摄像头配置页面
+ * #################################################################################################
+ */
 public class ConfigSetActivity extends AppCompatActivity {
 
     /**
-     *
-     * */
+     * 本机IP
+     */
     private EditText edt_locIP_cfgset;
     /**
-     *
-     * */
+     * 本机Internet状态
+     */
     private EditText edt_wwwnet_cfgset;
     /**
-     *
-     * */
+     * 本机Internet类型
+     */
     private EditText edt_nettype_cfgset;
     /**
-     *
-     * */
+     * 海康本地地址
+     */
     private EditText edt_hkIp_cfgset;
     /**
-     *
-     * */
+     * 海康本地端口号
+     */
     private EditText edt_hkport_cfgset;
     /**
-     *
-     * */
+     * 海康本地用户名
+     */
     private EditText edt_hikusername_cfgset;
     /**
-     *
-     * */
+     * 海康本地密码
+     */
     private EditText edt_hikpwd_cfgset;
     /**
-     *
-     * */
+     * 确认按钮
+     */
     private Button btn_enter_cfgset;
-    private Button btn_back_cfgset;
+
+    /**
+     * 返回按钮
+     */
+    private ImageButton imgbtn_back_cfgset;
+
+    /**
+     * 刷新按钮
+     */
     private Button btn_f5data_cfgset;
+
+    /**
+     * 海康同步终端文本显示
+     */
+    private TextView tv_hikpushstatus_cfgset;
+
+    /**
+     * 海康同步终端按钮
+     */
+    private ImageButton imgbtn_hikpush_cfgset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.ly_config_set);
+        //==========================================================================================
+        ExitApplication.getInstance().addActivity(this);
 
         /**
          * 加载View
@@ -77,8 +124,10 @@ public class ConfigSetActivity extends AppCompatActivity {
 
 
         btn_enter_cfgset = (Button) findViewById(R.id.btn_enter_cfgset);
-        btn_back_cfgset = (Button) findViewById(R.id.btn_back_cfgset);
+        imgbtn_back_cfgset = (ImageButton) findViewById(R.id.imgbtn_back_cfgset);
+        imgbtn_hikpush_cfgset = (ImageButton) findViewById(R.id.imgbtn_hikpush_cfgset);
         btn_f5data_cfgset = (Button) findViewById(R.id.btn_f5data_cfgset);
+        tv_hikpushstatus_cfgset = (TextView) findViewById(R.id.tv_hikpushstatus_cfgset);
 
         //设置输入框不可编辑
         setEnabled();
@@ -89,6 +138,7 @@ public class ConfigSetActivity extends AppCompatActivity {
         //按钮监听事件
         initOnClick();
 
+
     }
 
     /**
@@ -96,13 +146,22 @@ public class ConfigSetActivity extends AppCompatActivity {
      * 按钮监听事件
      */
     private void initOnClick() {
+
+        /**
+         * -----------------------------------------------------------------------------------------
+         * 确认按钮事件
+         * */
         btn_enter_cfgset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //RestartAPPTool.restartAPP(ConfigSetActivity.this,1000);
+
+                String edt_hkIp_cfgset_str = edt_hkIp_cfgset.getText().toString().trim();
+                String edt_hkport_cfgset_str = edt_hkport_cfgset.getText().toString().trim();
+                String edt_hikusername_cfgset_str = edt_hikusername_cfgset.getText().toString().trim();
+                String edt_hikpwd_cfgset_str = edt_hikpwd_cfgset.getText().toString().trim();
 
                 //数据修改
-                if (SharedPreferencesConfigData()) {
+                if (SharedPreferencesConfigData(edt_hkIp_cfgset_str, edt_hkport_cfgset_str, edt_hikusername_cfgset_str, edt_hikpwd_cfgset_str)) {
                     final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
@@ -110,22 +169,57 @@ public class ConfigSetActivity extends AppCompatActivity {
             }
         });
 
-        btn_back_cfgset.setOnClickListener(new View.OnClickListener() {
+
+        /**
+         * -----------------------------------------------------------------------------------------
+         * 返回按钮事件
+         * */
+        imgbtn_back_cfgset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ConfigSetActivity.this.finish();
             }
         });
 
+        /**
+         * -----------------------------------------------------------------------------------------
+         * 刷新按钮事件
+         * */
         btn_f5data_cfgset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 setEditText();
-
                 Tools.Toast(ConfigSetActivity.this, "刷新成功~");
+            }
+        });
 
+        imgbtn_hikpush_cfgset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                final String edt_hkIp_cfgset_str = edt_hkIp_cfgset.getText().toString().trim();
+                final String edt_hkport_cfgset_str = edt_hkport_cfgset.getText().toString().trim();
+                final String edt_hikusername_cfgset_str = edt_hikusername_cfgset.getText().toString().trim();
+                final String edt_hikpwd_cfgset_str = edt_hikpwd_cfgset.getText().toString().trim();
+
+                //数据修改
+                if (SharedPreferencesConfigData(edt_hkIp_cfgset_str, edt_hkport_cfgset_str, edt_hikusername_cfgset_str, edt_hikpwd_cfgset_str)) {
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                String socketServerMsg = SocketUtil.getInstance().SocketRequest(getWifiRouteIPAddress(ConfigSetActivity.this), WifiMsgConstant.PORT_wifi, SendOrder.ORDER_PushHiKConfig(edt_hkIp_cfgset_str, edt_hkport_cfgset_str, edt_hikusername_cfgset_str, edt_hikpwd_cfgset_str));
+                                LogUtil.showLog("ConfigSetActivity /...", socketServerMsg);
+                                HandlerMsgSend(handler, 100, "data", socketServerMsg);
+                            } catch (final IOException e) {
+                                e.printStackTrace();
+                                LogUtil.showLog("ConfigSetActivity /***", e.toString());
+                                HandlerMsgSend(handler, 101, "data", e.toString());
+                            }
+                        }
+                    }).start();
+                }
             }
         });
 
@@ -133,9 +227,72 @@ public class ConfigSetActivity extends AppCompatActivity {
 
     /**
      * =============================================================================================
+     * 海康初次登录发消息
+     *
+     * @param handler
+     * @param what
+     * @param Key
+     * @param Val
+     */
+    private void HandlerMsgSend(Handler handler, int what, String Key, String Val) {
+        Message messageHiK_111 = new Message();
+        messageHiK_111.what = what;
+        Bundle bundle = new Bundle();
+        bundle.putString(Key, Val);
+        messageHiK_111.setData(bundle);
+        handler.sendMessage(messageHiK_111);
+    }
+
+    @SuppressLint("HandlerLeak")
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String dataMsg = msg.getData().getString("data");
+            switch (msg.what) {
+                case 100:
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(dataMsg);
+
+                        int Order = Integer.valueOf(jsonObject.getString("Order"));
+
+                        switch (Order) {
+
+                            //返回同步海康配置的的消息
+                            case OrderConstant.ORDER_PushHiKConfig:
+                                String errcode = jsonObject.getString("errcode");
+                                if (errcode.equals("0")) {
+                                    String errmsg = jsonObject.getString("errmsg");
+                                    Tools.Toast(ConfigSetActivity.this, "同步成功");
+                                    tv_hikpushstatus_cfgset.setText("同步成功");
+                                } else {
+                                    String errmsg = jsonObject.getString("errmsg");
+                                    Tools.Toast(ConfigSetActivity.this, errmsg);
+                                    tv_hikpushstatus_cfgset.setText("同步失败");
+                                }
+
+                                break;
+
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+                case 101:
+                    Tools.Toast(ConfigSetActivity.this, "失败Log" + "\n" + dataMsg);
+                    LogUtil.showLog("ResSocket >>>", dataMsg);
+                    break;
+            }
+        }
+    };
+
+    /**
+     * =============================================================================================
      * 存储配置信息
      */
-    private boolean SharedPreferencesConfigData() {
+    private boolean SharedPreferencesConfigData(String edt_hkIp_cfgset_str, String edt_hkport_cfgset_str, String edt_hikusername_cfgset_str, String edt_hikpwd_cfgset_str) {
 
         /**
          * 获取所有的数据框的数据，去除首位空格
@@ -143,10 +300,11 @@ public class ConfigSetActivity extends AppCompatActivity {
         //String edt_locIP_cfgset_str = edt_locIP_cfgset.getText().toString().trim();
         //String edt_wwwnet_cfgset_str = edt_wwwnet_cfgset.getText().toString().trim();
         //String edt_nettype_cfgset_str = edt_nettype_cfgset.getText().toString().trim();
-        String edt_hkIp_cfgset_str = edt_hkIp_cfgset.getText().toString().trim();
-        String edt_hkport_cfgset_str = edt_hkport_cfgset.getText().toString().trim();
-        String edt_hikusername_cfgset_str = edt_hikusername_cfgset.getText().toString().trim();
-        String edt_hikpwd_cfgset_str = edt_hikpwd_cfgset.getText().toString().trim();
+
+//        String edt_hkIp_cfgset_str = edt_hkIp_cfgset.getText().toString().trim();
+//        String edt_hkport_cfgset_str = edt_hkport_cfgset.getText().toString().trim();
+//        String edt_hikusername_cfgset_str = edt_hikusername_cfgset.getText().toString().trim();
+//        String edt_hikpwd_cfgset_str = edt_hikpwd_cfgset.getText().toString().trim();
 
         //==========================================================================================
         //海康IP地址校验
@@ -189,13 +347,21 @@ public class ConfigSetActivity extends AppCompatActivity {
             return false;
         }
 
+        PutSpHiConfig(edt_hkIp_cfgset_str, edt_hkport_cfgset_str, edt_hikusername_cfgset_str, edt_hikpwd_cfgset_str);
 
+        return true;
+    }
+
+    /**
+     * =============================================================================================
+     * 提交数据，保存数据
+     */
+    private void PutSpHiConfig(String edt_hkIp_cfgset_str, String edt_hkport_cfgset_str, String edt_hikusername_cfgset_str, String edt_hikpwd_cfgset_str) {
         SharePreferencesUtil.putStringValue(ConfigSetActivity.this, ConfigDataConstant.hkIp_cfgset_str, edt_hkIp_cfgset_str);
         SharePreferencesUtil.putStringValue(ConfigSetActivity.this, ConfigDataConstant.hkport_cfgset_str, edt_hkport_cfgset_str);
         SharePreferencesUtil.putStringValue(ConfigSetActivity.this, ConfigDataConstant.hikusername_cfgset_str, edt_hikusername_cfgset_str);
         SharePreferencesUtil.putStringValue(ConfigSetActivity.this, ConfigDataConstant.hikpwd_cfgset_str, edt_hikpwd_cfgset_str);
 
-        return true;
     }
 
     /**
@@ -217,7 +383,13 @@ public class ConfigSetActivity extends AppCompatActivity {
      * 初始化值
      */
     private void setEditText() {
-        edt_locIP_cfgset.setText(InetAddressUtil.getIP());
+
+        String InetAddress = InetAddressUtil.getIP();
+        if (InetAddress == null || InetAddress.equals("")) {
+            edt_locIP_cfgset.setText("0.0.0.0");
+        } else {
+            edt_locIP_cfgset.setText(InetAddressUtil.getIP());
+        }
 
 
         boolean netConnected = NetUtils.isNetConnected(ConfigSetActivity.this);
@@ -241,6 +413,12 @@ public class ConfigSetActivity extends AppCompatActivity {
         edt_hkport_cfgset.setText(hkport_cfgset);
         edt_hikusername_cfgset.setText(hikusername_cfgset);
         edt_hikpwd_cfgset.setText(hikpwd_cfgset);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
     }
 }

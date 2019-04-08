@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by liruiyuan on 2015/12/22.
+ * Created by 仲超(zhongchao) on 2015/12/22.
  */
-public class MainActivity extends FragmentActivity implements ViewPager.OnPageChangeListener, View.OnClickListener{
+public class GuideActivity2 extends FragmentActivity implements ViewPager.OnPageChangeListener, View.OnClickListener{
 
     private ViewPager mPager;
     private VerticalFragementPagerAdapter mAdapter;
@@ -93,7 +93,7 @@ public class MainActivity extends FragmentActivity implements ViewPager.OnPageCh
                     public void onGlobalLayout() {
                         int h1 = centerLayout.getTop();
                         int h2 = centerLayout.getBottom();
-                        DensityUtil densityUtil = new DensityUtil(MainActivity.this);
+                        DensityUtil densityUtil = new DensityUtil(GuideActivity2.this);
                         int w = densityUtil.getScreenWidth();
 
                         fx1 = t3_icon2.getTop() + t3_icon2.getHeight();
@@ -136,7 +136,7 @@ public class MainActivity extends FragmentActivity implements ViewPager.OnPageCh
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.t4_start:
-                Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+                Intent intent = new Intent(GuideActivity2.this, GuideActivity.class);
                 startActivity(intent);
             break;
         }
@@ -195,15 +195,15 @@ public class MainActivity extends FragmentActivity implements ViewPager.OnPageCh
                 t1_icon1_animationDrawable = (AnimationDrawable) t1_icon1.getDrawable();
                 t1_icon1_animationDrawable.start();
 
-                Animation animation1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tutorail_rotate);
+                Animation animation1 = AnimationUtils.loadAnimation(GuideActivity2.this, R.anim.tutorail_rotate);
                 LinearInterpolator lin = new LinearInterpolator();
                 animation1.setInterpolator(lin);
 
                 t1_icon2.setVisibility(View.VISIBLE);
                 t1_icon2.startAnimation(animation1);
 
-                animationTop = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tutorail_scalate_top);
-                animationBottom = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tutorail_bottom);
+                animationTop = AnimationUtils.loadAnimation(GuideActivity2.this, R.anim.tutorail_scalate_top);
+                animationBottom = AnimationUtils.loadAnimation(GuideActivity2.this, R.anim.tutorail_bottom);
                 t1_fixed.startAnimation(animationTop);
                 t1_next.startAnimation(animationBottom);
 
@@ -224,7 +224,7 @@ public class MainActivity extends FragmentActivity implements ViewPager.OnPageCh
                     t1_icon2.getAnimation().cancel();
                     t1_icon2.setVisibility(View.INVISIBLE);
                 }
-                Animation animation2 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tutorail_scalate);
+                Animation animation2 = AnimationUtils.loadAnimation(GuideActivity2.this, R.anim.tutorail_scalate);
 
                 t2_icon1.setVisibility(View.VISIBLE);
                 t2_icon1.startAnimation(animation2);

@@ -13,6 +13,12 @@
         android:layout_gravity="center" />
 
 
+    <!--<com.example.yzwy.lprmag.view.ScanView-->
+    <!--android:id="@+id/findView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
+
+
     <!--裁剪的图片-->
     <View
         android:id="@+id/rectLine"
@@ -21,24 +27,37 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:background="@drawable/ac_rect"
-        android:scaleType="fitXY"></View>
+        android:scaleType="fitXY" />
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:background="#55000000">-->
-    <!--<TextView-->
-    <!--android:id="@+id/tv_Loading"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:gravity="center"-->
-    <!--android:text="我是结果"-->
-    <!--android:textColor="@android:color/white"-->
-    <!--android:textSize="20sp"-->
-    <!--android:layout_margin="20dp"/>-->
-    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/li_loading_hik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_loading_hik"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="7dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_dialog_loading" />
+
+        <TextView
+            android:id="@+id/tv_Loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="正在登录设备中···"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 
     <!--<TextView-->
@@ -52,6 +71,7 @@
     <!--android:visibility="visible" />-->
 
     <LinearLayout
+        android:id="@+id/li_magPage_hik"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -61,7 +81,36 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="5dp">
+
+            <RelativeLayout
+                android:id="@+id/rltv_cmdSpeed_hik"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp">
+
+                <SeekBar
+                    android:id="@+id/skb_speed_hik"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:max="6"
+                    android:maxHeight="2dp"
+                    android:minHeight="2dp"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/seekbar_layer_progress"
+                    android:thumb="@drawable/seekbar_shape_circle" />
+
+                <TextView
+                    android:id="@+id/tv_speed_hik"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/skb_speed_hik"
+                    android:gravity="left"
+                    android:text="速度：1"
+                    android:textColor="#16BC5C"
+                    android:textSize="16dp" />
+            </RelativeLayout>
 
 
             <RelativeLayout
@@ -124,44 +173,162 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_setPreset_hik"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:id="@+id/rltv_cmdScale_hik"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="地磁管理"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_scwidthshow_hik"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="识别区域宽度比例："
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <SeekBar
+                    android:id="@+id/skb_scwidth_hik"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_scwidthshow_hik"
+                    android:max="99"
+                    android:maxHeight="2dp"
+                    android:minHeight="2dp"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/seekbar_layer_progress"
+                    android:thumb="@drawable/seekbar_shape_circle" />
+
+                <TextView
+                    android:id="@+id/tv_scwidth_hik"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_scwidthshow_hik"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@+id/skb_scwidth_hik"
+                    android:gravity="left"
+                    android:text="速度：1"
+                    android:textColor="#16BC5C"
+                    android:textSize="14.5dp" />
+
+
+                <TextView
+                    android:id="@+id/tv_scheightshow_hik"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/skb_scwidth_hik"
+                    android:layout_marginTop="15dp"
+                    android:text="识别区域高度比例："
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+
+                <SeekBar
+                    android:id="@+id/skb_scheight_hik"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_scheightshow_hik"
+                    android:layout_marginTop="5dp"
+                    android:max="99"
+                    android:maxHeight="2dp"
+                    android:minHeight="2dp"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/seekbar_layer_progress"
+                    android:thumb="@drawable/seekbar_shape_circle" />
+
+                <TextView
+                    android:id="@+id/tv_scheight_hik"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_scheightshow_hik"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/skb_scheight_hik"
+                    android:gravity="left"
+                    android:text="速度：1"
+                    android:textColor="#16BC5C"
+                    android:textSize="14.5dp" />
+            </RelativeLayout>
 
             <Button
-                android:id="@+id/btn_setConfig_hik"
+                android:id="@+id/btn_geomagneticMag_hik"
+                style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_gravity="right"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="连接配置管理"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:text="地磁管理" />
+
 
             <Button
                 android:id="@+id/btn_carnum_hik"
+                style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_gravity="right"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="识别车牌"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:text="识别车牌" />
+
+
+            <Button
+                android:id="@+id/btn_priority_hik"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="优先级" />
 
 
         </LinearLayout>
     </LinearLayout>
 
 
+    <LinearLayout
+        android:id="@+id/li_cmdtop_hik"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#5d000000">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/translucent"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/imgbtn_back_hik"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_title_bar_back_btn_white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text="退出"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

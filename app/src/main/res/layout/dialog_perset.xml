@@ -7,8 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:layout_width="0dp"
@@ -29,7 +29,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/white_e"/>
+        android:background="@color/white_e" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,46 +107,47 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/status_init"
+                    android:id="@+id/status_init_dialogPreset"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="初始化"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
+                    android:text="未连接"
+                    android:textColor="@color/orange"
+                    android:textSize="12sp" />
 
 
                 <TextView
-                    android:id="@+id/status_info"
+                    android:id="@+id/status_info_dialogPreset"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="状态"
-                    android:textColor="#d40505"
-                    android:textSize="12sp" />
+                    android:textColor="@color/gold"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.2"
                         android:gravity="right"
-                        android:text="预置点："
+                        android:text="预置点:"
                         android:textColor="#ffffff"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
 
                     <EditText
                         android:id="@+id/edt_putPreset_setPreset"
+                        style="@style/EditTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:gravity="center"
                         android:hint="请输入预置点"
                         android:inputType="number"
                         android:maxLength="3"
@@ -154,16 +155,16 @@
                         android:singleLine="true"
                         android:text=""
                         android:textColor="#ffffff"
-                        android:textColorHint="#ffffff"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
 
                 </LinearLayout>
 
+                <View style="@style/HorizontalLineStyle" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
@@ -171,84 +172,86 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.2"
                         android:gravity="right"
-                        android:text="地磁地址："
+                        android:text="地磁地址:"
                         android:textColor="#ffffff"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                     <EditText
                         android:id="@+id/edt_putGeomagnetismAddressNumber_setPreset"
+                        style="@style/EditTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
+                        android:background="@null"
                         android:digits="@string/filter_vcode"
-                        android:gravity="center"
                         android:hint="请输入地磁地址"
                         android:maxLength="8"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#ffffff"
-                        android:textColorHint="#ffffff"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
+                <View style="@style/HorizontalLineStyle" />
 
                 <Button
                     android:id="@+id/btn_setPreset_setPreset"
+                    style="@style/ButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_margin="10dp"
-                    android:background="#72CB6F"
                     android:text="设置预置点"
                     android:textColor="#181717"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="12dp"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="优先级："
-                        android:textColor="#ffffff"
-                        android:textSize="14sp" />
-
-
-                    <EditText
-                        android:id="@+id/edt_priority_setPreset"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:hint="请输入优先级"
-                        android:inputType="number"
-                        android:maxLength="4"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text=""
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="right"-->
+                <!--android:text="优先级："-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="12sp" />-->
 
 
-                <Button
-                    android:id="@+id/btn_setpriority_setPreset"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="#72CB6F"
-                    android:text="设置优先级"
-                    android:textColor="#181717"
-                    android:textSize="14sp" />
+                <!--<EditText-->
+                <!--android:id="@+id/edt_priority_setPreset"-->
+                <!--style="@style/EditTextStyle"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="2"-->
+                <!--android:hint="请输入优先级"-->
+                <!--android:inputType="number"-->
+                <!--android:maxLength="4"-->
+                <!--android:maxLines="1"-->
+                <!--android:singleLine="true"-->
+                <!--android:text=""-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="12sp" />-->
+                <!--</LinearLayout>-->
+
+                <!--<View style="@style/HorizontalLineStyle" />-->
+
+
+                <!--<Button-->
+                <!--android:id="@+id/btn_setpriority_setPreset"-->
+                <!--style="@style/ButtonStyle"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:text="设置优先级"-->
+                <!--android:textColor="#181717"-->
+                <!--android:textSize="12sp" />-->
 
             </LinearLayout>
 

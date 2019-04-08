@@ -20,10 +20,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.yzwy.lprmag.R;
+import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
 import com.example.yzwy.lprmag.util.LogUtil;
-import com.example.yzwy.lprmag.wifimess.lprthread.ConnectThread;
-import com.example.yzwy.lprmag.wifimess.lprthread.ListenerThread;
+import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.wifimess.model.SendOrder;
+import com.example.yzwy.lprmag.wifimess.thread.ConnectThread;
+import com.example.yzwy.lprmag.wifimess.thread.ListenerThread;
+import com.example.yzwy.lprmag.wifimess.util.SocketUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +37,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import static com.example.yzwy.lprmag.myConstant.OrderConstant.ORDER_OrderPlate;
+import static com.example.yzwy.lprmag.util.Tools.getWifiRouteIPAddress;
+
 
 public class LprDialog extends Activity {
 
@@ -41,28 +47,17 @@ public class LprDialog extends Activity {
     /**
      *
      * */
-    public static final int DEVICE_CONNECTING = 1;//有设备正在连接热点
-    public static final int DEVICE_CONNECTED = 2;//有设备连上热点
-    public static final int SEND_MSG_SUCCSEE = 3;//发送消息成功
-    public static final int SEND_MSG_ERROR = 4;//发送消息失败
-    public static final int GET_MSG = 6;//获取新消息
+    public static final int DEVICE_CONNECTING = WifiMsgConstant.DEVICE_CONNECTING;//有设备正在连接热点
+    public static final int DEVICE_CONNECTED = WifiMsgConstant.DEVICE_CONNECTED;//有设备连上热点
+    public static final int SEND_MSG_SUCCSEE = WifiMsgConstant.SEND_MSG_SUCCSEE;//发送消息成功
+    public static final int SEND_MSG_ERROR = WifiMsgConstant.SEND_MSG_ERROR;//发送消息失败
+    public static final int GET_MSG = WifiMsgConstant.GET_MSG;//获取新消息
 
     private TextView text_state;
-    /**
-     * 连接线程
-     */
-    private ConnectThread connectThread;
-
-
-    /**
-     * 监听线程
-     */
-    private ListenerThread listenerThread;
 
     /**
      * 端口号
      */
-    private static final int PORT_wifi = 54321;
     private WifiManager wifiManager;
     private TextView status_init;
     private TextView tv_persetnum_dialoglpr;
@@ -71,6 +66,8 @@ public class LprDialog extends Activity {
      * 关闭按钮
      */
     private Button btn_closePage_dialogLpr;
+    private String scwidth_hik;
+    private String scheight_hik;
 
 
     /**
@@ -92,6 +89,9 @@ public class LprDialog extends Activity {
         //设置点击外部空白处可以关闭Activity
         this.setFinishOnTouchOutside(true);
 
+
+        IntentData();
+
         /**
          * 初始化组件
          * */
@@ -106,6 +106,17 @@ public class LprDialog extends Activity {
         initViewWifi();
 
 
+    }
+
+    /**
+     * =============================================================================================
+     * 获取Intent值
+     */
+    private void IntentData() {
+        Bundle receive = getIntent().getExtras();
+        //得到随Intent传递过来的Bundle对象
+        scwidth_hik = receive.getString("scwidth_hik");
+        scheight_hik = receive.getString("scheight_hik");
     }
 
     /**
@@ -137,30 +148,28 @@ public class LprDialog extends Activity {
                 "\nIP:" + getIp()
                 + "\n路由：" + getWifiRouteIPAddress(LprDialog.this));
 
-        //initBroadcastReceiver();
-        //开启连接线程
+
+
+
+        LogUtil.showLog("LprDialog scwidth_hik--->" , scwidth_hik);
+        LogUtil.showLog("LprDialog scheight_hik--->" , scheight_hik);
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket(getWifiRouteIPAddress(LprDialog.this), PORT_wifi);
-                    connectThread = new ConnectThread(socket, handler);
-                    connectThread.start();
-                } catch (IOException e) {
+                    String socketServerMsg = SocketUtil.getInstance().SocketRequest(getWifiRouteIPAddress(LprDialog.this), WifiMsgConstant.PORT_wifi, SendOrder.Get_OrderPlateNum(scwidth_hik,scheight_hik));
+                    LogUtil.showLog("ConfigSetActivity /...", socketServerMsg);
+                    HandlerMsgSend(handler, 100, "data", socketServerMsg);
+                } catch (final IOException e) {
                     e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            text_state.setText("通信连接失败");
-                        }
-                    });
-
+                    LogUtil.showLog("ConfigSetActivity /***", e.toString());
+                    HandlerMsgSend(handler, 101, "data", e.toString());
                 }
             }
         }).start();
 
-        listenerThread = new ListenerThread(PORT_wifi, handler);
-        listenerThread.start();
     }
 
     /**
@@ -236,36 +245,32 @@ public class LprDialog extends Activity {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
+            String BackMsgData = msg.getData().getString("data");
+            System.out.println("返回的数据>>>>>>>>>>>>>" + BackMsgData);
+
             switch (msg.what) {
-                case DEVICE_CONNECTING:
-                    connectThread = new ConnectThread(listenerThread.getSocket(), handler);
-                    connectThread.start();
-                    break;
-                case DEVICE_CONNECTED:
-                    text_state.setText("设备连接成功");
-                    //向终端发送获取所有预置点的命令
-                    connectThread.sendData(SendOrder.getOrderPlateNum());
-                    break;
-                case SEND_MSG_SUCCSEE:
-                    text_state.setText("发送消息成功:" + msg.getData().getString("MSG"));
-                    break;
-                case SEND_MSG_ERROR:
-                    text_state.setText("发送消息失败:" + msg.getData().getString("MSG"));
-                    break;
-                case GET_MSG:
-                    String BackMsgData = msg.getData().getString("MSG");
-                    System.out.println("返回的数据>>>>>>>>>>>>>" + BackMsgData);
+                case 100:
+
 
                     try {
                         JSONObject jsonObject = new JSONObject(BackMsgData);
-                        String Order = jsonObject.getString("Order");
+
+                        int Order = Integer.valueOf(jsonObject.getString("Order"));
 
                         switch (Order) {
 
-                            //返回查询所有预置点的消息
-                            case "OrderPlate":
-                                String carNum = jsonObject.getString("carNum");
-                                tv_persetnum_dialoglpr.setText("拍到的车牌号码为：\n" + carNum);
+                            //返回查询所有的消息
+                            case ORDER_OrderPlate:
+                                String errcode = jsonObject.getString("errcode");
+                                if (errcode.equals("0")) {
+                                    String carNum = jsonObject.getString("carNum");
+                                    tv_persetnum_dialoglpr.setText("拍到的车牌号码为：\n" + carNum);
+                                } else {
+                                    String errmsg = jsonObject.getString("errmsg");
+                                    tv_persetnum_dialoglpr.setText(errmsg);
+                                }
+
                                 break;
 
                         }
@@ -275,35 +280,14 @@ public class LprDialog extends Activity {
                     }
 
                     break;
+
+                case 101:
+                    Tools.Toast(LprDialog.this, "失败Log" + "\n" + BackMsgData);
+                    LogUtil.showLog("ResSocket >>>", BackMsgData);
+                    break;
             }
         }
     };
-
-    /**
-     * 获取连接到热点上的手机ip
-     *
-     * @return
-     */
-    private ArrayList<String> getConnectedIP() {
-        ArrayList<String> connectedIP = new ArrayList<String>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(
-                    "/proc/net/arp"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] splitted = line.split(" +");
-                if (splitted != null && splitted.length >= 4) {
-                    String ip = splitted[0];
-                    connectedIP.add(ip);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //        Log.i("connectIp:", connectedIP);
-        return connectedIP;
-    }
-
 
     public void initView() {
 
@@ -322,24 +306,6 @@ public class LprDialog extends Activity {
         super.onDestroy();
 
         LogUtil.showLog("DiaLogPersetActivity", "准备关闭 onDestroy");
-
-
-        /**
-         * 关闭多线程
-         * */
-        if (connectThread != null) {
-            connectThread.interrupt();
-            connectThread.close();
-            LogUtil.showLog("DiaLogPersetActivity", "connectThread 关闭 onDestroy");
-        }
-
-        if (listenerThread != null) {
-            listenerThread.interrupt();
-            listenerThread.close();
-            LogUtil.showLog("DiaLogPersetActivity", "listenerThread 关闭  onDestroy");
-        }
-        //结束当前活动
-        this.finish();
     }
 
     /**
@@ -356,19 +322,26 @@ public class LprDialog extends Activity {
 
     private void exit() {
         LogUtil.showLog("DiaLogPersetActivity", "物理按键准备关闭当前活动");
-        if (connectThread != null) {
-            connectThread.interrupt();
-            connectThread.close();
-            LogUtil.showLog("DiaLogPersetActivity", "connectThread 关闭");
-        }
-
-        if (listenerThread != null) {
-            listenerThread.interrupt();
-            listenerThread.close();
-            LogUtil.showLog("DiaLogPersetActivity", "listenerThread 关闭");
-        }
         //结束当前活动
         finish();
+    }
+
+    /**
+     * =============================================================================================
+     * 海康初次登录发消息
+     *
+     * @param handler
+     * @param what
+     * @param Key
+     * @param Val
+     */
+    private void HandlerMsgSend(Handler handler, int what, String Key, String Val) {
+        Message messageHiK_111 = new Message();
+        messageHiK_111.what = what;
+        Bundle bundle = new Bundle();
+        bundle.putString(Key, Val);
+        messageHiK_111.setData(bundle);
+        handler.sendMessage(messageHiK_111);
     }
 
 

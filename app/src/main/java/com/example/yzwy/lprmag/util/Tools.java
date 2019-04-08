@@ -3,12 +3,18 @@ package com.example.yzwy.lprmag.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Environment;
+import android.text.format.Formatter;
 import android.text.format.Time;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,8 +75,7 @@ public class Tools {
      * @param pag  （通信检索）
      * @param data （通信内容） 示例代码：D_MainActivity类第108行
      */
-    public static void IntentDataBack(Context con, Class<?> cls, String pag,
-                                      String data) {
+    public static void IntentDataBack(Context con, Class<?> cls, String pag, String data) {
         Intent in = new Intent(con, cls);
         in.putExtra(pag, data);
         con.startActivity(in);
@@ -365,6 +370,7 @@ public class Tools {
     /**
      * =============================================================================================
      * IP4判断
+     *
      * @param addr
      * @return
      */
@@ -402,4 +408,92 @@ public class Tools {
     }
 
 
+    /**
+     * wifi获取 已连接网络路由  路由ip地址---方法同上
+     *
+     * @param context
+     * @return
+     */
+    public static String getWifiRouteIPAddress(Context context) {
+        WifiManager wifi_service = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        DhcpInfo dhcpInfo = wifi_service.getDhcpInfo();
+        String routeIp = Formatter.formatIpAddress(dhcpInfo.gateway);
+        //Log.i("route ip", "wifi route ip：" + routeIp);
+        return routeIp;
+    }
+
+
+    /**
+     * 获取已连接的热点路由
+     *
+     * @return
+     */
+    public static String getIp(WifiManager wifiManager) {
+        //检查Wifi状态
+        if (!wifiManager.isWifiEnabled())
+            wifiManager.setWifiEnabled(true);
+        WifiInfo wi = wifiManager.getConnectionInfo();
+        //获取32位整型IP地址
+        int ipAdd = wi.getIpAddress();
+        //把整型地址转换成“*.*.*.*”地址
+        String ip = intToIp(ipAdd);
+        return ip;
+    }
+
+
+
+
+
+    private static String intToIp(int i) {
+        return (i & 0xFF) + "." +
+                ((i >> 8) & 0xFF) + "." +
+                ((i >> 16) & 0xFF) + "." +
+                (i >> 24 & 0xFF);
+    }
+
+    public String intToRouterIp(int i) {
+        return (i & 0xFF) + "." +
+                ((i >> 8) & 0xFF) + "." +
+                ((i >> 16) & 0xFF) + "." +
+                1;
+    }
+
+
+    /**
+     * 获取路由
+     *
+     * @return
+     */
+
+    private String getRouterIp(WifiManager wifiManager) {
+        //检查Wifi状态
+        if (!wifiManager.isWifiEnabled())
+            wifiManager.setWifiEnabled(true);
+        WifiInfo wi = wifiManager.getConnectionInfo();
+        //获取32位整型IP地址
+        int ipAdd = wi.getIpAddress();
+        //把整型地址转换成“*.*.*.*”地址
+        String ip = intToRouterIp(ipAdd);
+        return ip;
+    }
+
+
+    /**
+     * 提供（相对）精确的除法运算。当发生除不尽的情况时，由scale参数指
+     * 定精度，以后的数字四舍五入。
+     *
+     * @param v1    被除数
+     * @param v2    除数
+     * @param scale 表示表示需要精确到小数点以后几位。
+     * @return 两个参数的商
+     */
+    public static double divisorScale(double v1, double v2, int scale) {
+        if (scale < 0) {
+            throw new IllegalArgumentException(
+                    "The scale must be a positive integer or zero");
+        }
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+        BigDecimal b2 = new BigDecimal(Double.toString(v2));
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
 }

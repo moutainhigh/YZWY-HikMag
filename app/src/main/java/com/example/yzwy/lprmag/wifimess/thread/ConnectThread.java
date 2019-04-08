@@ -6,7 +6,8 @@ import android.os.Message;
 import android.util.Log;
 
 
-import com.example.yzwy.lprmag.dialog.DialogPerset;
+import com.example.yzwy.lprmag.dialog.MessageDialog;
+import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 /**
+ * 發送和接收線程
  * 连接线程
  * Created by syhuang on 2016/9/7.
  */
@@ -26,6 +28,8 @@ public class ConnectThread extends Thread {
     private Handler handler;
     private InputStream inputStream;
     private OutputStream outputStream;
+
+//    private OnConnecListener onConnecListener;
 
     public ConnectThread(Socket socket, Handler handler) {
         setName("ConnectThread");
@@ -42,7 +46,7 @@ public class ConnectThread extends Thread {
         if (socket == null) {
             return;
         }
-        handler.sendEmptyMessage(DialogPerset.DEVICE_CONNECTED);
+        handler.sendEmptyMessage(WifiMsgConstant.DEVICE_CONNECTED);
         try {
             //获取数据流
             inputStream = socket.getInputStream();
@@ -50,28 +54,34 @@ public class ConnectThread extends Thread {
 
             byte[] buffer = new byte[1024];
             int bytes;
-            while (true) {
+            while (!isInterrupted()) {
 
                 //中断处理逻辑
                 if (Thread.currentThread().isInterrupted()) {
                     System.out.println("DiaLogPersetActivity" + "The thread is interrupted!");
                     break;
                 }
+                try {
+                    //读取数据
+                    bytes = inputStream.read(buffer);
+                    if (bytes > 0) {
+                        final byte[] data = new byte[bytes];
+                        System.arraycopy(buffer, 0, data, 0, bytes);
 
-                //读取数据
-                bytes = inputStream.read(buffer);
-                if (bytes > 0) {
-                    final byte[] data = new byte[bytes];
-                    System.arraycopy(buffer, 0, data, 0, bytes);
+                        Message message = Message.obtain();
+                        message.what = WifiMsgConstant.GET_MSG;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("MSG", new String(data));
+                        message.setData(bundle);
+                        handler.sendMessage(message);
 
-                    Message message = Message.obtain();
-                    message.what = DialogPerset.GET_MSG;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("MSG", new String(data));
-                    message.setData(bundle);
-                    handler.sendMessage(message);
-
-                    Log.i("ConnectThread", "读取到数据:" + new String(data));
+                        Log.i("ConnectThread", "读取到数据:" + new String(data));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                    break;
+                    //中断状态在抛出异常前，被清除掉，因此在此处重置中断状态
                 }
             }
         } catch (IOException e) {
@@ -84,30 +94,7 @@ public class ConnectThread extends Thread {
     /**
      * 发送数据
      */
-//    public void sendData(String msg) {
-////        Log.i("ConnectThread", "发送数据:" + (outputStream == null));
-////        if (outputStream != null) {
-////            try {
-////                outputStream.write(msg.getBytes());
-////                Log.i("ConnectThread", "发送消息：" + msg);
-////                Message message = Message.obtain();
-////                message.what = MyMainActivity.SEND_MSG_SUCCSEE;
-////                Bundle bundle = new Bundle();
-////                bundle.putString("MSG", new String(msg));
-////                message.setData(bundle);
-////                handler.sendMessage(message);
-////            } catch (IOException e) {
-////                e.printStackTrace();
-////                Message message = Message.obtain();
-////                message.what = MyMainActivity.SEND_MSG_ERROR;
-////                Bundle bundle = new Bundle();
-////                bundle.putString("MSG", new String(msg));
-////                message.setData(bundle);
-////                handler.sendMessage(message);
-////            }
-////        }
-////    }
-    public void sendData(final String msg) {
+    public ConnectThread sendData(final String msg) {
         Log.i("ConnectThread", "发送数据:" + (outputStream == null));
         if (outputStream != null) {
 
@@ -116,24 +103,41 @@ public class ConnectThread extends Thread {
                 public void run() {
                     try {
                         outputStream.write(msg.getBytes());
+                        outputStream.flush();
+                        Log.i("ConnectThread", "发送消息：" + msg);
+                        Message message = Message.obtain();
+                        message.what = WifiMsgConstant.SEND_MSG_SUCCSEE;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("MSG", new String(msg));
+                        message.setData(bundle);
+                        handler.sendMessage(message);
+
+                        //onConnecListener.onSuccess(new String(msg));
+
                     } catch (IOException e) {
                         e.printStackTrace();
+                        Message message = Message.obtain();
+                        message.what = WifiMsgConstant.SEND_MSG_ERROR;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("MSG", new String(msg));
+                        message.setData(bundle);
+                        handler.sendMessage(message);
+
+                        //onConnecListener.onFailure(new String(msg));
+
                     }
-                    Log.i("ConnectThread", "发送消息：" + msg);
-                    Message message = Message.obtain();
-                    message.what = DialogPerset.SEND_MSG_SUCCSEE;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("MSG", new String(msg));
-                    message.setData(bundle);
-                    handler.sendMessage(message);
                 }
             }).start();
-
-
         }
+
+        return this;
+
     }
 
 
+    /**
+     * @param file
+     */
     public void sendData(File file) {
         Log.i("ConnectThread", "发送数据:" + (outputStream == null));
         if (outputStream != null) {
@@ -165,7 +169,7 @@ public class ConnectThread extends Thread {
                     }
                     Log.i("ConnectThread", "======== 文件传输成功 ========");
                     Message message = Message.obtain();
-                    message.what = DialogPerset.SEND_MSG_SUCCSEE;
+                    message.what = WifiMsgConstant.SEND_MSG_SUCCSEE;
                     Bundle bundle = new Bundle();
                     bundle.putString("MSG", new String("文件传输成功"));
                     message.setData(bundle);
@@ -174,7 +178,7 @@ public class ConnectThread extends Thread {
             } catch (Exception e) {
                 e.printStackTrace();
                 Message message = Message.obtain();
-                message.what = DialogPerset.SEND_MSG_ERROR;
+                message.what = WifiMsgConstant.SEND_MSG_ERROR;
                 Bundle bundle = new Bundle();
                 bundle.putString("MSG", new String("发送文件失败"));
                 message.setData(bundle);
@@ -187,8 +191,6 @@ public class ConnectThread extends Thread {
     public void close() {
         //this.close();
         try {
-            if (socket != null)
-                socket.close();
             if (inputStream != null)
                 inputStream.close();
             if (outputStream != null)
@@ -197,4 +199,32 @@ public class ConnectThread extends Thread {
             e.printStackTrace();
         }
     }
+
+//    public ConnectThread setOnConnecListener(OnConnecListener onConnecListener) {
+//        this.onConnecListener = onConnecListener;
+//        return this;
+//    }
+//
+//    public interface OnConnecListener {
+//
+//        /**
+//         * 点击确定时回调
+//         */
+//        void onSuccess(String str, String command);
+//
+//        /**
+//         * 点击确定时回调
+//         */
+//        void onSuccess(String str);
+//
+//        /**
+//         * 点击取消时回调
+//         */
+//        void onFailure(String str, String command);
+//
+//        /**
+//         * 点击取消时回调
+//         */
+//        void onFailure(String str);
+//    }
 }

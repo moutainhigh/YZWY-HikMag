@@ -511,46 +511,101 @@ public class CameraManager {
      * @param orientation
      * @param m_iLogID
      */
-    public void startMove(int orientation, int m_iLogID) {
+    public void startMove(int orientation, int m_iLogID, int m_iPlayID, int dwSpeed) {
         if (m_iLogID < 0) {
             return;
         }
         switch (orientation) {
+//            case 9:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.UP_RIGHT, 0);
+//                break;
+//            case 8:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.TILT_UP, 0);
+//                break;
+//            case 7:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.UP_LEFT, 0);
+//                break;
+//            case 6:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.PAN_RIGHT, 0);
+//                break;
+//            case 5:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.PAN_AUTO, 0);
+//                break;
+//            case 4:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.PAN_LEFT, 0);
+//                break;
+//            case 3:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.DOWN_RIGHT, 0);
+//                break;
+//            case 2:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.TILT_DOWN, 0);
+//                break;
+//            case 1:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.DOWN_LEFT, 0);
+//                break;
+//            default:
+//                break;
+
+
+            /**
+             *
+             * BOOL NET_DVR_PTZControlWithSpeed(  LONG     lRealHandle,  DWORD    dwPTZCommand,
+             *   DWORD    dwStop,  DWORD    dwSpeed);
+             *
+             *   lRealHandle
+             * [in] NET_DVR_RealPlay或NET_DVR_RealPlay_V30的返回值
+             * dwPTZCommand
+             * [in] 云台控制命令，见下表：
+             * dwStop
+             * [in] 云台停止动作或开始动作：0－开始；1－停止
+             * dwSpeed
+             * [in] 云台控制的速度，用户按不同解码器的速度控制值设置。取值范围[1,7]
+             * */
+
             case 9:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.UP_RIGHT, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.UP_RIGHT, 0, dwSpeed);
                 break;
             case 8:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.TILT_UP, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.TILT_UP, 0, dwSpeed);
                 break;
             case 7:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.UP_LEFT, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.UP_LEFT, 0, dwSpeed);
                 break;
             case 6:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.PAN_RIGHT, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.PAN_RIGHT, 0, dwSpeed);
                 break;
             case 5:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.PAN_AUTO, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.PAN_AUTO, 0, dwSpeed);
                 break;
             case 4:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.PAN_LEFT, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.PAN_LEFT, 0, dwSpeed);
                 break;
             case 3:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.DOWN_RIGHT, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.DOWN_RIGHT, 0, dwSpeed);
                 break;
             case 2:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.TILT_DOWN, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.TILT_DOWN, 0, dwSpeed);
                 break;
             case 1:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.DOWN_LEFT, 0);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.DOWN_LEFT, 0, dwSpeed);
                 break;
             default:
                 break;
@@ -563,46 +618,84 @@ public class CameraManager {
      *
      * @param orientation 九宫格数字方向
      */
-    public void stopMove(int orientation, int m_iLogID) {
+    public void stopMove(int orientation, int m_iLogID, int m_iPlayID, int dwSpeed) {
         if (m_iLogID < 0) {
             return;
         }
         switch (orientation) {
+//            case 9:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.UP_RIGHT, 1);
+//                break;
+//            case 8:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.TILT_UP, 1);
+//                break;
+//            case 7:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.UP_LEFT, 1);
+//                break;
+//            case 6:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.PAN_RIGHT, 1);
+//                break;
+//            case 5:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.PAN_AUTO, 1);
+//                break;
+//            case 4:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.PAN_LEFT, 1);
+//                break;
+//            case 3:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.DOWN_RIGHT, 1);
+//                break;
+//            case 2:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.TILT_DOWN, 1);
+//                break;
+//            case 1:
+//                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                        PTZCommand.DOWN_LEFT, 1);
+//                break;
+//            default:
+//                break;
+
             case 9:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.UP_RIGHT, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID, PTZCommand.UP_RIGHT, 1, dwSpeed);
                 break;
             case 8:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.TILT_UP, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.TILT_UP, 1, dwSpeed);
                 break;
             case 7:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.UP_LEFT, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.UP_LEFT, 1, dwSpeed);
                 break;
             case 6:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.PAN_RIGHT, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.PAN_RIGHT, 1, dwSpeed);
                 break;
             case 5:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.PAN_AUTO, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.PAN_AUTO, 1, dwSpeed);
                 break;
             case 4:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.PAN_LEFT, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.PAN_LEFT, 1, dwSpeed);
                 break;
             case 3:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.DOWN_RIGHT, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.DOWN_RIGHT, 1, dwSpeed);
                 break;
             case 2:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.TILT_DOWN, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.TILT_DOWN, 1, dwSpeed);
                 break;
             case 1:
-                HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                        PTZCommand.DOWN_LEFT, 1);
+                HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                        PTZCommand.DOWN_LEFT, 1, dwSpeed);
                 break;
             default:
                 break;
@@ -615,16 +708,24 @@ public class CameraManager {
      *
      * @param x -1缩小 1放大
      */
-    public void startZoom(int x, int m_iLogID) {
+    public void startZoom(int x, int m_iLogID, int m_iPlayID, int dwSpeed) {
 //        if (m_iPlayID < 0) {
 //            return;
 //        }
+//        if (x < 0) {
+//            HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                    PTZCommand.ZOOM_OUT, 0);
+//        } else {
+//            HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
+//                    PTZCommand.ZOOM_IN, 0);
+//        }
         if (x < 0) {
-            HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                    PTZCommand.ZOOM_OUT, 0);
+            HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                    PTZCommand.ZOOM_OUT, 0, dwSpeed);
+
         } else {
-            HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                    PTZCommand.ZOOM_IN, 0);
+            HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iPlayID,
+                    PTZCommand.ZOOM_IN, 0, dwSpeed);
         }
     }
 
@@ -634,16 +735,16 @@ public class CameraManager {
      *
      * @param x -1缩小 1放大
      */
-    public void stopZoom(int x, int m_iLogID) {
+    public void stopZoom(int x, int m_iLogID, int m_iPlayID, int dwSpeed) {
         if (m_iLogID < 0) {
             return;
         }
         if (x < 0) {
-            HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                    PTZCommand.ZOOM_OUT, 1);
+            HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iLogID,
+                    PTZCommand.ZOOM_OUT, 1, dwSpeed);
         } else {
-            HCNetSDK.getInstance().NET_DVR_PTZControl_Other(m_iLogID, 1,
-                    PTZCommand.ZOOM_IN, 1);
+            HCNetSDK.getInstance().NET_DVR_PTZControlWithSpeed(m_iLogID,
+                    PTZCommand.ZOOM_IN, 1, dwSpeed);
 
         }
     }

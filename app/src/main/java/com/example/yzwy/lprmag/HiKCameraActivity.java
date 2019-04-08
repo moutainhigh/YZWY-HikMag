@@ -9,14 +9,16 @@
  */
 package com.example.yzwy.lprmag;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -27,41 +29,60 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
-import com.example.yzwy.lprmag.application.MyApp;
-import com.example.yzwy.lprmag.dialog.DialogPerset;
+import com.example.yzwy.lprmag.bean.HiKEventBus;
+import com.example.yzwy.lprmag.dialog.PresetDialog;
 import com.example.yzwy.lprmag.dialog.LprDialog;
+import com.example.yzwy.lprmag.dialog.MessageDialog;
+import com.example.yzwy.lprmag.dialog.PriorityDialog;
 import com.example.yzwy.lprmag.hik.model.CameraManager;
-import com.example.yzwy.lprmag.hik.util.CrashUtil;
 import com.example.yzwy.lprmag.hik.util.NotNull;
-import com.example.yzwy.lprmag.myConstant.CarRectLintScreen;
 import com.example.yzwy.lprmag.myConstant.ConfigDataConstant;
+import com.example.yzwy.lprmag.myConstant.HiKEventBusConstant;
+import com.example.yzwy.lprmag.myConstant.HiKLineWHRectLintScreen;
+import com.example.yzwy.lprmag.util.ConvertUtil;
+import com.example.yzwy.lprmag.util.ExitApplication;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
+import com.example.yzwy.lprmag.view.LoadingDialog;
 import com.hikvision.netsdk.ExceptionCallBack;
 import com.hikvision.netsdk.HCNetSDK;
 import com.hikvision.netsdk.NET_DVR_DEVICEINFO_V30;
 import com.hikvision.netsdk.NET_DVR_PREVIEWINFO;
-import com.hikvision.netsdk.PTZCommand;
 import com.hikvision.netsdk.RealPlayCallBack;
 
 import org.MediaPlayer.PlayM4.Player;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
- * <pre>
- *  ClassName  DemoActivity Class
- * </pre>
- *
- * @author zhuzhenlei
- * @version V1.0
+ * #################################################################################################
+ * Copyright: Copyright (c) 2018
+ * Created on 2019-04-03
+ * Author: 仲超(zhongchao)
+ * Version 1.0
+ * Describe: 海康摄像头预览和控制面板
+ * #################################################################################################
  */
-public class HiKCameraActivity extends Activity implements Callback, OnTouchListener {
+public class HiKCameraActivity extends AppCompatActivity implements Callback, OnTouchListener {
 
+    /**
+     * 退出事件的时间
+     */
     private long exitTime;
 
     /**
@@ -88,11 +109,15 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
     private int m_iPort = -1; // play port //播放端口
     private int m_iStartChan = 0; // start channel no //开始频道编号
     private int m_iChanNum = 0; // channel number //通道号
-    private final String TAG = "CameraActivity";
+    private final String TAG = "HiKCameraActivity  ";
     private boolean m_bNeedDecode = true;
     private boolean m_bStopPlayback = false;
-    private Thread thread;
+    private Thread startSinglePreviewThread;
     private boolean isShow = true;
+
+    /**
+     * 摄像头控制按钮 上下左右 拉近，放大
+     */
     private Button btnUp;
     private Button btnDown;
     private Button btnLeft;
@@ -101,10 +126,13 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
     private Button btnZoomOut;
 
 
-    private Button btn_setConfig_hik;
-
-
-    private Button btn_setPreset_hik;//打开设置预置点的界面
+    /**
+     * 地磁管理按钮事件
+     */
+    private Button btn_geomagneticMag_hik;
+    /**
+     * 车牌识别按钮事件
+     */
     private Button btn_carnum_hik;//打开设置预置点的界面
 
     /**
@@ -113,16 +141,91 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
     private CameraManager h1;
 
     /**
-     *
-     * */
-
+     * 海康摄像头IP地址
+     */
     private String ADDRESS = "192.168.1.64";//摄像头IP地址
+    /**
+     * 海康摄像头端口号
+     */
     private int PORT = 8000;//摄像头端口号
+    /**
+     * 海康摄像头登录用户名
+     */
     private String USER = "admin";//摄像头用户名
+    /**
+     * 海康摄像头登录密码
+     */
     private String PSD = "admin123";//摄像头密码
 
-
+    /**
+     * 海康摄像头需要识别车牌要裁剪的区域
+     */
     private View rectLine;
+
+    /**
+     * 海康摄像头登录线程
+     */
+    private LoginHiKThread loginHiKThread;
+
+    /**
+     * 操作层CMD 面板
+     */
+    private LinearLayout li_magPage_hik;
+
+    /**
+     * 进度框
+     */
+    private TextView tv_Loading;
+
+    /**
+     * 速度条
+     */
+    private SeekBar skb_speed_hik;
+    /**
+     * 显示速度条
+     */
+    private TextView tv_speed_hik;
+    /**
+     * 速度值
+     */
+    private int speed_hik = 0;
+    /**
+     * 速度条控制面板
+     */
+    private RelativeLayout rltv_cmd_hik;
+    private SeekBar skb_scwidth_hik;
+    private TextView tv_scwidth_hik;
+    private SeekBar skb_scheight_hik;
+    private TextView tv_scheight_hik;
+
+    /**
+     * 获取默认的识别区域宽高
+     */
+    private double RectLineWidth = HiKLineWHRectLintScreen.RectLineWidth;
+    private double RectLineHeight = HiKLineWHRectLintScreen.RectLineHeight;
+
+    /**
+     * 识别区域的宽高比列
+     */
+    private double scwidth_hik = HiKLineWHRectLintScreen.WidthProportion;
+    private double scheight_hik = HiKLineWHRectLintScreen.HeightProportion;
+
+    /**
+     * 屏幕的宽高
+     */
+    private int screenWidth = 0;
+    private int screenHeight = 0;
+    private Button btn_priority_hik;
+    private ImageView img_loading_hik;
+    private Animation LoadingAnimation;
+    private LinearLayout li_loading_hik;
+    private LinearLayout li_cmdtop_hik;
+    private boolean li_cmdtop_hikBool = false;
+
+    /**
+     * 退出按钮
+     */
+    private ImageButton imgbtn_back_hik;
 
 
     /**
@@ -132,120 +235,116 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
     public void onCreate(Bundle savedInstanceState) {
 
         //去掉标题栏
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
+
 
         /**
          * 加载布局
          * */
         setContentView(R.layout.ly_hik);
 
-        /**
-         * 摄像机错误工具类
-         * */
-        CrashUtil crashUtil = CrashUtil.getInstance();
-        crashUtil.init(this);
+
+        //==========================================================================================
+        ExitApplication.getInstance().addActivity(this);
+
+        //注册 EventBus 事件
+        EventBus.getDefault().register(HiKCameraActivity.this);
+
+        //获取屏幕的宽高
+        GetscreenWidthHeight();
+
+        ///**
+        // * 摄像机错误工具类 暂时未使用
+        // * */
+        //CrashUtil crashUtil = CrashUtil.getInstance();
+        //crashUtil.init(this);
 
         initHiKConnectConfig();
 
-        /**
-         * 加载海康SDK 加载失败退出活动页面
-         * */
-        if (!initeSdk()) {
-            this.finish();
-            //return;
-        }
+        //==========================================================================================
 
-        if (!initeActivity()) {
-            this.finish();
-            //return;
-        }
+        //加载海康SDK
+        initHiKSdk();
 
-        /**
-         *获取登录设备ID
-         * */
-        // login on the device
-        m_iLogID = loginDevice();
-        /**
-         * 提示是否登录设备成功
-         * */
-        if (m_iLogID < 0) {
-            Log.e(TAG, "This device logins failed!");
-            //return;
-        } else {
-            //打印设备登录ID
-            System.out.println("m_iLogID=" + m_iLogID);
-        }
+        //加载海康需要用到的组件
+        initHiKActivity();
+
+        //------------------------------------------------------------------------------------------
+        // 登录海康  开始20次登录  延时通过线程的方式
+        loginHiKThread = new LoginHiKThread();
+        //开启线程
+        loginHiKThread.start();
+
+        //获取异常回调实例并设置
+        initHiKExceptionCallBack();
+
+        //事件监听
+        initOnClick();
 
 
-        /**
-         * 获取异常回调实例并设置
-         * */
-        // get instance of exception callback and set
+        System.out.println(Double.parseDouble("3.14159265984269") + "，执行结束！=======================");
+
+    }
+
+    /**
+     * =============================================================================================
+     * 获取屏幕的宽高
+     */
+    private void GetscreenWidthHeight() {
+        screenWidth = getResources().getDisplayMetrics().widthPixels;
+        screenHeight = getResources().getDisplayMetrics().heightPixels;
+
+        //1812===1080
+        LogUtil.showLog("HiKCameraActivity --->", screenWidth + "===" + screenHeight);
+    }
+
+
+    /**
+     * =============================================================================================
+     * 获取异常回调实例并设置
+     */
+    private void initHiKExceptionCallBack() {
+        //------------------------------------------------------------------------------------------
+        //获取异常回调实例并设置  get instance of exception callback and set
         ExceptionCallBack oexceptionCbf = getExceptiongCbf();
         if (oexceptionCbf == null) {
+            //exceptioncallback对象失败！
             Log.e(TAG, "ExceptionCallBack object is failed!");
-            //return;
         }
         if (!HCNetSDK.getInstance().NET_DVR_SetExceptionCallBack(oexceptionCbf)) {
+            //net_dvr_setexceptioncallback失败！
             Log.e(TAG, "NET_DVR_SetExceptionCallBack is failed!");
-            //return;
         }
+        //==========================================================================================
+    }
 
-        //预览
-        final NET_DVR_PREVIEWINFO ClientInfo = new NET_DVR_PREVIEWINFO();
-        ClientInfo.lChannel = 0;
-        ClientInfo.dwStreamType = 0; // substream
-        ClientInfo.bBlocked = 1;
-
-        //设置默认点
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!Thread.currentThread().isInterrupted()) {
-
-                    SystemClock.sleep(1000);//睡眠一秒
-
-                    /**
-                     * 更新UI
-                     * */
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isShow)
-                                //开始单个预览
-                                startSinglePreview();
-                        }
-                    });
-                }
-            }
-        });
-        thread.start();
-
+    /**
+     * =============================================================================================
+     * 事件监听
+     */
+    private void initOnClick() {
 
         /**
          * 设置预置点
          * */
-        btn_setPreset_hik.setOnClickListener(new OnClickListener() {
+        btn_geomagneticMag_hik.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Tools.Toast(HiKCameraActivity.this, "点击了设置预置点页面");
-                Tools.IntentDataBack(HiKCameraActivity.this, DialogPerset.class, "m_iPlayID", m_iPlayID + "");
+                //Tools.Toast(HiKCameraActivity.this, "点击了设置预置点页面");
+                //Tools.IntentDataBack(HiKCameraActivity.this, PresetDialog.class, "m_iPlayID", m_iPlayID + "");
                 //SetPresetOnclick();
-            }
-        });
 
 
-        /**
-         * 配置信息设置
-         * */
-        btn_setConfig_hik.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Tools.Toast(HiKCameraActivity.this, "点击了配置页面");
-                Tools.IntentBack(HiKCameraActivity.this, ConfigSetActivity.class);
+                Intent in = new Intent(HiKCameraActivity.this, PresetDialog.class);
+                in.putExtra("scwidth_hik", String.valueOf(scwidth_hik));
+                in.putExtra("scheight_hik", String.valueOf(scheight_hik));
+                in.putExtra("m_iPlayID", String.valueOf(m_iPlayID));
+                HiKCameraActivity.this.startActivity(in);
+
+
             }
         });
 
@@ -257,13 +356,217 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
             @Override
             public void onClick(View view) {
 
-                Tools.Toast(HiKCameraActivity.this, "点击了开始识别车牌");
-                Tools.IntentBack(HiKCameraActivity.this, LprDialog.class);
+                //Tools.Toast(HiKCameraActivity.this, "点击了开始识别车牌");
+                //Tools.IntentBack(HiKCameraActivity.this, LprDialog.class);
+
+                Intent in = new Intent(HiKCameraActivity.this, LprDialog.class);
+                in.putExtra("scwidth_hik", String.valueOf(scwidth_hik));
+                in.putExtra("scheight_hik", String.valueOf(scheight_hik));
+                HiKCameraActivity.this.startActivity(in);
+
+            }
+        });
+        /**
+         * 设置优先级
+         * */
+        btn_priority_hik.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Tools.Toast(HiKCameraActivity.this, "点击了开始识别车牌");
+                Tools.IntentBack(HiKCameraActivity.this, PriorityDialog.class);
+
+//                Intent in = new Intent(HiKCameraActivity.this, LprDialog.class);
+//                in.putExtra("scwidth_hik", String.valueOf(scwidth_hik));
+//                in.putExtra("scheight_hik", String.valueOf(scheight_hik));
+//                HiKCameraActivity.this.startActivity(in);
 
             }
         });
 
 
+        /**
+         * 设置优先级
+         * */
+        m_osurfaceView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!li_cmdtop_hikBool) {
+                    li_cmdtop_hik.setVisibility(View.VISIBLE);
+                    li_cmdtop_hikBool = true;
+                    li_cmdtop_hik.bringToFront();
+                    li_magPage_hik.setVisibility(View.GONE);
+
+                } else {
+                    li_cmdtop_hik.setVisibility(View.GONE);
+                    li_cmdtop_hikBool = false;
+                    li_magPage_hik.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+        });
+        /**
+         * 设置优先级
+         * */
+        imgbtn_back_hik.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                exit();
+
+
+            }
+        });
+
+    }
+
+    /**
+     * =============================================================================================
+     * 海康初次登录发消息
+     *
+     * @param handler
+     * @param what
+     * @param Key
+     * @param Val
+     */
+    private void HanderhiKMsgSend(Handler handler, int what, String Key, String Val) {
+        Message messageHiK_111 = new Message();
+        messageHiK_111.what = what;
+        Bundle bundle = new Bundle();
+        bundle.putString(Key, Val);
+        messageHiK_111.setData(bundle);
+        handler.sendMessage(messageHiK_111);
+    }
+
+
+    /**
+     * =============================================================================================
+     * 海康登录UI更新和Log打印和m_iLogID设置
+     */
+    @SuppressLint("HandlerLeak")
+    private Handler handlerHiK = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            String HiKMsg = msg.getData().getString("HiKMsg");
+
+            switch (msg.what) {
+
+                case 111:
+
+
+                    LogUtil.showLog(TAG, HiKMsg);
+                    PREVIEWINFO();
+                    try {
+                        Thread.sleep(1000 * 3);
+                        /**
+                         * 显示面板
+                         * */
+                        ShowCmdPage();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+                case 101:
+                    LogUtil.showLog(TAG, HiKMsg);
+                    break;
+
+                case 102:
+                    LogUtil.showLog(TAG, HiKMsg);
+                    break;
+
+                //海康设备登录失败
+                case 404:
+                    tv_Loading.setVisibility(View.GONE);
+                    li_loading_hik.setVisibility(View.GONE);
+                    LoadingAnimation.cancel();
+                    LogUtil.showLog(TAG, HiKMsg);
+                    try {
+                        new MessageDialog(HiKCameraActivity.this)
+                                .setTitle("提示")
+                                .setMessage("设备登陆失败请重新进入")
+                                .setCancel("")
+                                .setConfirm("返回")
+                                .setAutoDismiss(false)
+                                .setCancelable(true)
+                                .setListener(new MessageDialog.OnListener() {
+                                    @Override
+                                    public void onConfirm(Dialog dialog) {
+                                        //关闭弹出框
+                                        dialog.dismiss();
+
+                                        CloseHiKActivity();
+                                    }
+
+                                    @Override
+                                    public void onCancel(Dialog dialog) {
+                                    }
+                                })
+                                .show();
+                    } catch (Exception e) {
+
+                    }
+
+
+                    break;
+
+                default:
+                    break;
+
+            }
+
+        }
+
+
+    };
+
+    /**
+     * =============================================================================================
+     * 登录成功后需要显示的内容
+     */
+    private void ShowCmdPage() {
+        li_magPage_hik.setVisibility(View.VISIBLE);
+        rectLine.setVisibility(View.VISIBLE);
+        rltv_cmd_hik.setVisibility(View.VISIBLE);
+        tv_Loading.setVisibility(View.GONE);
+
+        li_loading_hik.setVisibility(View.GONE);
+        LoadingAnimation.cancel();
+
+        m_osurfaceView.setEnabled(true);
+
+    }
+
+    /**
+     * =============================================================================================
+     * 开始预览
+     */
+    private void PREVIEWINFO() {
+        //预览
+        final NET_DVR_PREVIEWINFO ClientInfo = new NET_DVR_PREVIEWINFO();
+        ClientInfo.lChannel = 0;
+        ClientInfo.dwStreamType = 0; // substream
+        ClientInfo.bBlocked = 1;
+        startSinglePreviewThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!Thread.currentThread().isInterrupted()) {
+                    SystemClock.sleep(500);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isShow)
+                                startSinglePreview();
+                        }
+                    });
+                }
+            }
+        });
+        startSinglePreviewThread.start();
     }
 
     /**
@@ -335,13 +638,16 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
      * =============================================================================================
      * 注意
      * 1、如果是用户自动按下返回键，或程序调用finish()退出程序，是不会触发onSaveInstanceState()和onRestoreInstanceState()的。
-     * 2、每次用户旋转屏幕时，您的Activity将被破坏并重新创建。当屏幕改变方向时，系统会破坏并重新创建前台Activity，因为屏幕配置已更改，您的Activity可能需要加载替代资源（例如布局）。即会执行onSaveInstanceState()和onRestoreInstanceState()的。
+     * 2、每次用户旋转屏幕时，您的Activity将被破坏并重新创建。当屏幕改变方向时，系统会破坏并重新创建前台Activity，
+     * 因为屏幕配置已更改，您的Activity可能需要加载替代资源（例如布局）。
+     * 即会执行onSaveInstanceState()和onRestoreInstanceState()的。
      * =============================================================================================
      * */
 
     /**
      * 保存你的Activity状态
-     * 当您的Activity开始停止时，系统会调用，onSaveInstanceState()以便您的Activity可以使用一组键值对来保存状态信息。此方法的默认实现保存有关Activity视图层次结构状态的信息，例如EditText小部件中的文本或ListView的滚动位置。
+     * 当您的Activity开始停止时，系统会调用，onSaveInstanceState()以便您的Activity可以使用一组键值对来保存状态信息。
+     * 此方法的默认实现保存有关Activity视图层次结构状态的信息，例如EditText小部件中的文本或ListView的滚动位置。
      * 为了保存Activity的附加状态信息，您必须实现onSaveInstanceState()并向对象添加键值对Bundle
      */
     @Override
@@ -367,11 +673,11 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
      * 加载摄像头海康SDK
      *
      * @return true - success;false - fail
-     * @fn initeSdk
+     * @fn initHiKSdk
      * @author zhuzhenlei
      * @brief SDK init
      */
-    private boolean initeSdk() {
+    private boolean initHiKSdk() {
         // init net sdk
         if (!HCNetSDK.getInstance().NET_DVR_Init()) {
             //加载海康SDK失败
@@ -396,11 +702,11 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
      *
      * @return
      */
-    private boolean initeActivity() {
+    private void initHiKActivity() {
         findViews();
         //添加
-        m_osurfaceView.getHolder().addCallback(this);
-        return true;
+        //m_osurfaceView.getHolder().addCallback(this);
+        //return true;
     }
 
     /**
@@ -416,17 +722,31 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         this.btnDown = (Button) findViewById(R.id.btn_Down);
         this.btnUp = (Button) findViewById(R.id.btn_Up);
 
-        this.btn_setPreset_hik = (Button) findViewById(R.id.btn_setPreset_hik);
-        this.btn_setConfig_hik = (Button) findViewById(R.id.btn_setConfig_hik);
+        this.btn_geomagneticMag_hik = (Button) findViewById(R.id.btn_geomagneticMag_hik);
         this.btn_carnum_hik = (Button) findViewById(R.id.btn_carnum_hik);
+        this.btn_priority_hik = (Button) findViewById(R.id.btn_priority_hik);
+        this.imgbtn_back_hik = (ImageButton) findViewById(R.id.imgbtn_back_hik);
+        this.li_magPage_hik = (LinearLayout) findViewById(R.id.li_magPage_hik);
+        this.tv_Loading = (TextView) findViewById(R.id.tv_Loading);
 
-        btnUp.setOnTouchListener(this);
-        btnDown.setOnTouchListener(this);
-        btnLeft.setOnTouchListener(this);
-        btnRight.setOnTouchListener(this);
-        btnZoomIn.setOnTouchListener(this);
-        btnZoomOut.setOnTouchListener(this);
+
+        this.skb_speed_hik = (SeekBar) findViewById(R.id.skb_speed_hik);
+        this.tv_speed_hik = (TextView) findViewById(R.id.tv_speed_hik);
+
+        this.skb_scwidth_hik = (SeekBar) findViewById(R.id.skb_scwidth_hik);
+        this.tv_scwidth_hik = (TextView) findViewById(R.id.tv_scwidth_hik);
+
+        this.skb_scheight_hik = (SeekBar) findViewById(R.id.skb_scheight_hik);
+        this.tv_scheight_hik = (TextView) findViewById(R.id.tv_scheight_hik);
+
         this.m_osurfaceView = (SurfaceView) findViewById(R.id.sf_VideoMonitor);
+
+
+        this.rltv_cmd_hik = (RelativeLayout) findViewById(R.id.rltv_cmdSpeed_hik);
+        this.li_loading_hik = (LinearLayout) findViewById(R.id.li_loading_hik);
+        this.li_cmdtop_hik = (LinearLayout) findViewById(R.id.li_cmdtop_hik);
+        li_cmdtop_hik.setVisibility(View.GONE);
+        m_osurfaceView.setEnabled(false);
 
 
         /**
@@ -434,7 +754,151 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
          * */
         rectLine = (View) findViewById(R.id.rectLine);
 
+        /**
+         * 设置SeekBar的最大值 并且减1
+         * */
+        skb_scwidth_hik.setMax(screenWidth - 1);
+        skb_scheight_hik.setMax(screenHeight - 1);
+        skb_scwidth_hik.setProgress(250);
+        skb_scheight_hik.setProgress(120);
+
+
+        //btn_geomagneticMag_hik.setVisibility(View.GONE);
+        //btn_carnum_hik.setVisibility(View.GONE);
+        li_magPage_hik.setVisibility(View.GONE);
+        rectLine.setVisibility(View.GONE);
+        rltv_cmd_hik.setVisibility(View.GONE);
+
+
+        btnUp.setOnTouchListener(this);
+        btnDown.setOnTouchListener(this);
+        btnLeft.setOnTouchListener(this);
+        btnRight.setOnTouchListener(this);
+        btnZoomIn.setOnTouchListener(this);
+        btnZoomOut.setOnTouchListener(this);
+
+
+        //SeekBarChangeListener
+        SkbSetOnSeekBarChangeListener();
+
         initRectLineWH();
+
+        //LoadingDialog loadingDialog = new LoadingDialog(this, "正在登录...", R.mipmap.ic_dialog_loading);
+        //loadingDialog.show();
+
+        /**
+         * 加载图片
+         * */
+        img_loading_hik = (ImageView) findViewById(R.id.img_loading_hik);
+        img_loading_hik.setImageResource(R.drawable.ic_dialog_loading);
+        LoadingAnimation = AnimationUtils.loadAnimation(HiKCameraActivity.this, R.anim.loading);
+        LoadingAnimation.setInterpolator(new LinearInterpolator());
+        img_loading_hik.startAnimation(LoadingAnimation);
+
+    }
+
+    /**
+     * =============================================================================================
+     * SeekBarChangeListener
+     */
+    private void SkbSetOnSeekBarChangeListener() {
+
+        /**
+         * -----------------------------------------------------------------------------------------
+         * 云台速度
+         * */
+        skb_speed_hik.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // 当拖动条的滑块位置发生改变时触发该方法,在这里直接使用参数progress，即当前滑块代表的进度值
+                tv_speed_hik.setText("速度:" + Integer.toString(progress + 1));
+                speed_hik = progress + 1;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Log.e("------------", "开始滑动！");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.e("------------", "停止滑动！");
+            }
+        });
+
+        /**
+         * -----------------------------------------------------------------------------------------
+         * 识别区域宽度
+         * */
+        skb_scwidth_hik.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // 当拖动条的滑块位置发生改变时触发该方法,在这里直接使用参数progress，即当前滑块代表的进度值
+                int progress_1 = progress + 1;
+                //scwidth_hik = screenWidth / progress_1;
+                scwidth_hik = Tools.divisorScale(screenWidth, progress_1, 100);
+                LogUtil.showLog("HiKCameraActivity --->", "scwidth_hik: " + scwidth_hik + " = " + screenWidth + "/" + progress_1);
+                tv_scwidth_hik.setText("宽度比:" + Double.toString(scwidth_hik));
+                /**
+                 * 动态识别区域高度宽度设置比例值和显示RectLine
+                 * */
+                ScRectLine();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Log.e("------------", "开始滑动！");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.e("------------", "停止滑动！");
+            }
+        });
+
+
+        /**
+         * -----------------------------------------------------------------------------------------
+         * 识别区域高度
+         * */
+        skb_scheight_hik.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // 当拖动条的滑块位置发生改变时触发该方法,在这里直接使用参数progress，即当前滑块代表的进度值
+                int progress_1 = progress + 1;
+                //scheight_hik = screenHeight / progress_1;
+                scheight_hik = Tools.divisorScale(screenHeight, progress_1, 100);
+                tv_scheight_hik.setText("高度比:" + Double.toString(scheight_hik));
+                LogUtil.showLog("HiKCameraActivity --->", "scheight_hik: " + scheight_hik + " = " + screenHeight + "/" + progress_1);
+
+                /**
+                 * 动态识别区域高度宽度设置比例值和显示RectLine
+                 * */
+                ScRectLine();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Log.e("------------", "开始滑动！");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.e("------------", "停止滑动！");
+            }
+        });
+    }
+
+    /**
+     * =============================================================================================
+     * 动态识别区域高度设置比例值和显示RectLine
+     */
+    private void ScRectLine() {
+
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rectLine.getLayoutParams();
+        params.width = (int) (screenWidth / scwidth_hik);
+        params.height = (int) (screenHeight / scheight_hik);
+        rectLine.setLayoutParams(params);
 
     }
 
@@ -447,16 +911,6 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         int HikSurfaceViewWidth = m_osurfaceView.getWidth();
         int HikSurfaceViewHeight = m_osurfaceView.getHeight();
         //设置固定大小
-
-
-//        FrameLayout.LayoutParams params=(FrameLayout.LayoutParams) rectLine.getLayoutParams();
-//params.width=500;
-//params.height=500;
-//// params.setMargins(dip2px(MyMainActivity.this, 1), 0, 0, 0); // 可以实现设置位置信息，如居左距离，其它类推  
-//// params.leftMargin = dip2px(MyMainActivity.this, 1);  
-//        rectLine.setLayoutParams(params);
-
-
         /**
          * 注册一个ViewTreeObserver的监听回调，这个监听回调，就是专门监听绘图的，既然是监听绘图，
          * 那么我们自然可以获取测量值了，同时，我们在每次监听前remove前一次的监听，避免重复监听。
@@ -466,37 +920,20 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
             @Override
             public void onGlobalLayout() {
 
-                /**
-                 * 获取屏幕高宽度
-                 * */
-                int WinScreenWidth = MyApp.getInstance().getScreenWidth();//1920
-                int WinScreenHeight = MyApp.getInstance().getScreenHeight();//1080
-
-                //
-                int WSc = (int) ((int) MyApp.getInstance().getScreenWidth() / CarRectLintScreen.WidthProportion);//125
-                int HSc = (int) ((int) MyApp.getInstance().getScreenHeight() / CarRectLintScreen.HeightProportion);//125
-
-
                 m_osurfaceView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 int HikSurfaceViewHeight = m_osurfaceView.getHeight();
                 int HikSurfaceViewWidth = m_osurfaceView.getWidth();
 
-                //父级比列宽度和高度
-                int ParentWidth_S = WinScreenWidth;//1920
-                int ParentHeight_S = WinScreenHeight;//1080
-
-                //父级比列设置宽度和高度
-                int ParentWidth_s = WSc;//250
-                int ParentHeight_s = HSc;//120
-
-                //父级宽度和高度
-                int ParentWidthView = HikSurfaceViewWidth;
-                int ParentHeightView = HikSurfaceViewHeight;
-
                 FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rectLine.getLayoutParams();
-                params.width = (int) (ParentWidthView * ParentWidth_s) / ParentWidth_S;
-                params.height = (int) (ParentHeightView * ParentHeight_s) / ParentHeight_S;
+                params.width = (int) (HikSurfaceViewWidth / HiKLineWHRectLintScreen.WidthProportion);
+                params.height = (int) (HikSurfaceViewHeight / HiKLineWHRectLintScreen.HeightProportion);
                 rectLine.setLayoutParams(params);
+
+                /**
+                 * 初始化识别区域显示值
+                 * */
+                tv_scheight_hik.setText(String.valueOf(HiKLineWHRectLintScreen.WidthProportion));
+                tv_scwidth_hik.setText(String.valueOf(HiKLineWHRectLintScreen.HeightProportion));
 
             }
         });
@@ -526,10 +963,10 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
                      * */
                     case R.id.btn_Up:
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            h1.startMove(8, m_iLogID);
+                            h1.startMove(8, m_iLogID, m_iPlayID, speed_hik);
                         }
                         if (event.getAction() == MotionEvent.ACTION_UP) {
-                            h1.stopMove(8, m_iLogID);
+                            h1.stopMove(8, m_iLogID, m_iPlayID, speed_hik);
                         }
                         break;
                     /**
@@ -537,10 +974,10 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
                      * */
                     case R.id.btn_Left:
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            h1.startMove(4, m_iLogID);
+                            h1.startMove(4, m_iLogID, m_iPlayID, speed_hik);
                         }
                         if (event.getAction() == MotionEvent.ACTION_UP) {
-                            h1.stopMove(4, m_iLogID);
+                            h1.stopMove(4, m_iLogID, m_iPlayID, speed_hik);
                         }
                         break;
                     /**
@@ -548,10 +985,10 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
                      * */
                     case R.id.btn_Right:
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            h1.startMove(6, m_iLogID);
+                            h1.startMove(6, m_iLogID, m_iPlayID, speed_hik);
                         }
                         if (event.getAction() == MotionEvent.ACTION_UP) {
-                            h1.stopMove(6, m_iLogID);
+                            h1.stopMove(6, m_iLogID, m_iPlayID, speed_hik);
                         }
                         break;
                     /**
@@ -559,32 +996,32 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
                      * */
                     case R.id.btn_Down:
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            h1.startMove(2, m_iLogID);
+                            h1.startMove(2, m_iLogID, m_iPlayID, speed_hik);
                         }
                         if (event.getAction() == MotionEvent.ACTION_UP) {
-                            h1.stopMove(2, m_iLogID);
+                            h1.stopMove(2, m_iLogID, m_iPlayID, speed_hik);
                         }
                         break;
                     /**
-                     * 向上移动
+                     * 大
                      * */
                     case R.id.btn_ZoomIn:
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            h1.startZoom(1, m_iLogID);
+                            h1.startZoom(1, m_iLogID, m_iPlayID, speed_hik);
                         }
                         if (event.getAction() == MotionEvent.ACTION_UP) {
-                            h1.stopZoom(1, m_iLogID);
+                            h1.stopZoom(1, m_iLogID, m_iPlayID, speed_hik);
                         }
                         break;
                     /**
-                     * 向上移动
+                     * 小
                      * */
                     case R.id.btn_ZoomOut:
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            h1.startZoom(-1, m_iLogID);
+                            h1.startZoom(-1, m_iLogID, m_iPlayID, speed_hik);
                         }
                         if (event.getAction() == MotionEvent.ACTION_UP) {
-                            h1.stopZoom(-1, m_iLogID);
+                            h1.stopZoom(-1, m_iLogID, m_iPlayID, speed_hik);
                         }
                         break;
                     default:
@@ -595,47 +1032,12 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         return false;
     }
 
-
-    private AlertDialog getDialongView(View view) {
-        final AlertDialog.Builder builder6 = new AlertDialog.Builder(HiKCameraActivity.this);
-        builder6.setView(view);
-        builder6.create();
-        AlertDialog dialog = builder6.show();
-        //设置背景半透明
-        dialog.getWindow().setBackgroundDrawableResource(R.color.translucent);
-        Window window = dialog.getWindow();
-        //全屏设置
-        WindowManager.LayoutParams lp = window.getAttributes();
-        //lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        //lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.gravity = Gravity.CENTER;//弹出框居中显示
-        window.setAttributes(lp);
-
-
-        return dialog;
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
         LogUtil.showLog("HicActivity", "准备关闭 DES");
 
-        //释放资源 播放资源和SDK资源
-        Cleanup();
-        m_iLogID = -1;
-        //注销当前用户
-        // whether we have logout
-        if (!HCNetSDK.getInstance().NET_DVR_Logout_V30(m_iLogID)) {
-            Log.e(TAG, " NET_DVR_Logout is failed!");
-            //return;
-        }
-        //停止单个预览
-        stopSinglePreview();
-        System.exit(0);//直接结束程序
-
-
+        CloseHiKActivity();
     }
 
     /**
@@ -658,23 +1060,40 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
 
             LogUtil.showLog("HicActivity", "准备关闭");
 
-            //停止单个预览
-            stopSinglePreview();
+            //解绑EventBus事件
+            EventBus.getDefault().unregister(HiKCameraActivity.this);
 
-            //注销当前用户
-            // whether we have logout
-            if (!HCNetSDK.getInstance().NET_DVR_Logout_V30(m_iLogID)) {
-                Log.e(TAG, " NET_DVR_Logout is failed!");
-                //return;
-            }
-            m_iLogID = -1;
-
-            //释放资源 播放资源和SDK资源
-            Cleanup();
-
-            System.exit(0);//直接结束程序
+            CloseHiKActivity();
 
         }
+    }
+
+    private void CloseHiKActivity() {
+        //关闭海康登录线程
+        if (loginHiKThread != null) {
+            loginHiKThread.interrupt();
+        }
+
+
+        if (startSinglePreviewThread != null) {
+            startSinglePreviewThread.interrupt();
+        }
+
+        //停止单个预览
+        stopSinglePreview();
+
+        //注销当前用户
+        // whether we have logout
+        if (!HCNetSDK.getInstance().NET_DVR_Logout_V30(m_iLogID)) {
+            Log.e(TAG, " NET_DVR_Logout is failed!");
+            //return;
+        }
+        m_iLogID = -1;
+
+        //释放资源 播放资源和SDK资源
+        Cleanup();
+
+        finish();
     }
 
 
@@ -706,18 +1125,11 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
             return;
         }
         isShow = false;
-        if (NotNull.isNotNull(thread)) {
-            thread.interrupt();
+        if (NotNull.isNotNull(startSinglePreviewThread)) {
+            startSinglePreviewThread.interrupt();
         }
         h1 = new CameraManager();
         h1.setLoginId(m_iLogID);
-
-        //设置预置点
-        Intent intent = getIntent();
-        if (NotNull.isNotNull(intent) && intent.getIntExtra("INDEX", -1) != -1) {
-            int point = SharePreferencesUtil.getIntValue(this, "POINT", 0);
-            boolean b = HCNetSDK.getInstance().NET_DVR_PTZPreset(m_iPlayID, PTZCommand.GOTO_PRESET, point);
-        }
     }
 
     /**
@@ -788,8 +1200,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
             return -1;
         }
         // call NET_DVR_Login_v30 to login on, port 8000 as default
-        int iLogID = HCNetSDK.getInstance().NET_DVR_Login_V30(ADDRESS, PORT,
-                USER, PSD, m_oNetDvrDeviceInfoV30);
+        int iLogID = HCNetSDK.getInstance().NET_DVR_Login_V30(ADDRESS, PORT, USER, PSD, m_oNetDvrDeviceInfoV30);
         if (iLogID < 0) {
             Log.e(TAG, "NET_DVR_Login is failed!Err:" + HCNetSDK.getInstance().NET_DVR_GetLastError());
             return -1;
@@ -804,6 +1215,7 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         }
         Log.i(TAG, "NET_DVR_Login is Successful!");
         return iLogID;
+//        return -1;
     }
 
     /**
@@ -953,5 +1365,75 @@ public class HiKCameraActivity extends Activity implements Callback, OnTouchList
         // release net SDK resource
         //必须执行的释放IPC_SDK
         HCNetSDK.getInstance().NET_DVR_Cleanup();
+    }
+
+
+    /**
+     * =============================================================================================
+     * 释放资源 播放资源和SDK资源
+     */
+    private class LoginHiKThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+
+
+            if (m_iLogID < 0) {
+                Log.e(TAG, "尝试重新登入");
+                HanderhiKMsgSend(handlerHiK, 101, "HiKMsg", "开始登录海康");
+                int count = 0;
+                //判断进程是否在运行，更安全的结束进程
+                while (!this.isInterrupted() && count < 5) {
+                    //while (count < 10) {
+                    HanderhiKMsgSend(handlerHiK, 102, "HiKMsg", "正在第" + (count + 1) + "次重新登入");
+                    m_iLogID = loginDevice();
+                    if (m_iLogID < 0) {
+                        count++;
+                        //SystemClock.sleep(1000 * 2);
+                        try {
+                            Thread.sleep(1000 * 2);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        //发消息开始预览
+                        HanderhiKMsgSend(handlerHiK, 111, "HiKMsg", "第" + (count + 1) + "次登入成功m_iLogID=" + m_iLogID);
+                        break;
+                    }
+                }
+
+
+                //通过延迟发送消息，每隔一秒发送一条消息
+                if (m_iLogID < 0) {
+                    HanderhiKMsgSend(handlerHiK, 404, "HiKMsg", "尝试登入" + count + "次均失败！");
+                } else {
+                    //System.out.println("m_iLogID=" + m_iLogID);
+                    //发消息开始预览
+                    HanderhiKMsgSend(handlerHiK, 111, "HiKMsg", "登陆成功m_iLogID=" + m_iLogID);
+
+                }
+            }
+
+        }
+    }
+
+
+    /**
+     * =============================================================================================
+     * Event 事件的消息处理
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void msgInHiK(HiKEventBus hiKEventBus) {
+
+        switch (hiKEventBus.getEventCode()) {
+
+            case HiKEventBusConstant.Change_Scale:
+                this.scwidth_hik = ConvertUtil.convertToDouble(hiKEventBus.getScaleWidth(), 1);
+                this.scheight_hik = ConvertUtil.convertToDouble(hiKEventBus.getScaleHeight(), 1);
+                ScRectLine();
+                break;
+
+        }
+
     }
 }

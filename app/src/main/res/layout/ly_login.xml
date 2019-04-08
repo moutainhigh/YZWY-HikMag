@@ -11,8 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/transparent"
         android:layout_marginTop="20dp"
+        android:background="@color/transparent"
         android:gravity="right">
 
         <Button
@@ -76,12 +76,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@null"
+                    android:digits="@string/filter_vcode"
                     android:hint="请输入您的账号"
-                    android:inputType="phone"
-                    android:maxLength="11"
+                    android:maxLength="50"
+                    android:maxLines="1"
                     android:paddingLeft="8dp"
                     android:paddingRight="15dp"
-                    android:textSize="16sp"/>
+                    android:singleLine="true"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <TextView
@@ -115,21 +117,22 @@
                     android:hint="请输入您的密码"
                     android:inputType="textPassword"
                     android:maxLength="16"
+                    android:maxLines="1"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:singleLine="true"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btn_forget_lgn"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent"
                     android:gravity="center"
                     android:text="忘记密码?"
-                    android:layout_marginRight="15dp"
                     android:textColor="@color/gray_8"
-                    android:textSize="16sp"
-                    android:background="@color/transparent"/>
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
