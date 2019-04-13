@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yzwy.lprmag.adapter.GuideViewPagerAdapter;
-import com.example.yzwy.lprmag.util.ExitApplication;
+import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 
@@ -62,7 +62,7 @@ public class MyGuideActivity extends AppCompatActivity implements View.OnClickLi
 
         setContentView(R.layout.ly_guide);
 
-        ExitApplication.getInstance().addActivity(this);
+        ActivityStackManager.getInstance().addActivity(this);
 
         initView();
         initData();

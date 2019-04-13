@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yzwy.lprmag.R;
-import com.example.yzwy.lprmag.util.ExitApplication;
+import com.example.yzwy.lprmag.util.ActivityStackManager;
 
 /**
  * 　　　　　　　　┏┓　　　┏┓
@@ -47,7 +47,7 @@ public class MessageFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         //==========================================================================================
-        ExitApplication.getInstance().addActivity(getActivity());
+        ActivityStackManager.getInstance().addActivity(getActivity());
 
     }
 }

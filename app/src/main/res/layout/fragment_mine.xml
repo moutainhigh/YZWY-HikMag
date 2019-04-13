@@ -74,13 +74,71 @@
                 android:layout_height="1dp"
                 android:background="@color/v_setting_bar_line" />
             <!--//=============================================================================//-->
+            <!--使用教程-->
+            <LinearLayout
+                android:id="@+id/li_useCourse_mine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/press_white_style"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="使用教程"
+                    android:textColor="@color/balck_0"
+                    android:textSize="15sp" />
+
+                <include layout="@layout/arrow_right_setpage" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/v_setting_bar_line" />
+            <!--//=============================================================================//-->
+
+            <!--客服中心-->
+            <LinearLayout
+                android:id="@+id/li_customService_mine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/press_white_style"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="客服中心"
+                    android:textColor="@color/balck_0"
+                    android:textSize="15sp" />
+
+                <include layout="@layout/arrow_right_setpage" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/v_setting_bar_line" />
+            <!--//=============================================================================//-->
             <!--关于我们-->
             <LinearLayout
                 android:id="@+id/li_aboutus_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@color/white"
+                android:background="@drawable/press_white_style"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
@@ -108,7 +166,7 @@
                 android:id="@+id/li_privacyProtocol_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/press_white_style"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
@@ -138,7 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@color/white"
+                android:background="@drawable/press_white_style"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
@@ -155,6 +213,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_verionnum_mine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"

@@ -6,52 +6,33 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.example.yzwy.lprmag.ConfigSetActivity;
 import com.example.yzwy.lprmag.HiKCameraActivity;
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.WifiHotMagActivity;
-import com.example.yzwy.lprmag.util.ExitApplication;
+import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.Tools;
 
 /**
- * 　　　　┏┓　　　┏┓
- * 　　　┏┛┻━━━┛┻┓
- * 　　┃　　　　　　　┃
- * 　 　┃　　　━　　　┃
- * 　　 ████━████     ┃
- * 　　┃　　　　　　　┃
- * 　　┃　　　┻　　　┃
- * 　　┃　　　　　　　┃
- * 　　┗━┓　　　┏━┛
- * 　　　　┃　　　┃
- * 　　　　┃　　　┃
- * 　　　　　┃　　　┃
- * 　 　　┃　　　┃
- * 　　　 ┃　　　┃
- * 　　 　┃　　　┃
- * 　　 　┃　 　 ┗━━━┓
- * 　　　 ┃ 神兽保佑　　 ┣┓
- * 　　　 ┃ 代码无BUG   ┏┛
- * 　  　┗┓┓┏━┳┓┏┛
- * 　　 　┃┫┫　┃┫┫
- * 　　 　┗┻┛　┗┻┛
+ *
  * Created by 仲超(zhongchao) on 2019/03/26.
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private View view;
-    private ImageView img_hik_frgmthome;
-    private TextView tv_hik_frgmthome;
-    private ImageView img_config_frgmthome;
-    private TextView tv_config_frgmthome;
-    private ImageView img_other_frgmthome;
-    private TextView tv_other_frgmthome;
-    private ImageView img_hotConfig_frgmthome;
-    private TextView tv_hotConfig_frgmthome;
+//    private ImageView img_hik_frgmthome;
+//    private TextView tv_hik_frgmthome;
+//    private ImageView img_config_frgmthome;
+//    private TextView tv_config_frgmthome;
+//    private ImageView img_other_frgmthome;
+//    private TextView tv_other_frgmthome;
+//    private ImageView img_hotConfig_frgmthome;
+//    private TextView tv_hotConfig_frgmthome;
+    private LinearLayout li_hik_frgmthome;
+    private LinearLayout li_config_frgmthome;
+    private LinearLayout li_hotConfig_frgmthome;
 
     @Nullable
     @Override
@@ -65,7 +46,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ExitApplication.getInstance().addActivity(getActivity());
+        ActivityStackManager.getInstance().addActivity(getActivity());
 
         //初始化组件
         initView();
@@ -77,13 +58,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * 初始化组件
      */
     private void initView() {
-        img_hik_frgmthome = (ImageView) view.findViewById(R.id.img_hik_frgmthome);
-        tv_hik_frgmthome = (TextView) view.findViewById(R.id.tv_hik_frgmthome);
-        img_config_frgmthome = (ImageView) view.findViewById(R.id.img_config_frgmthome);
-        tv_config_frgmthome = (TextView) view.findViewById(R.id.tv_config_frgmthome);
+//        img_hik_frgmthome = (ImageView) view.findViewById(R.id.img_hik_frgmthome);
+//        tv_hik_frgmthome = (TextView) view.findViewById(R.id.tv_hik_frgmthome);
+//        img_config_frgmthome = (ImageView) view.findViewById(R.id.img_config_frgmthome);
+//        tv_config_frgmthome = (TextView) view.findViewById(R.id.tv_config_frgmthome);
+//
+//        img_hotConfig_frgmthome = (ImageView) view.findViewById(R.id.img_hotConfig_frgmthome);
+//        tv_hotConfig_frgmthome = (TextView) view.findViewById(R.id.tv_hotConfig_frgmthome);
 
-        img_hotConfig_frgmthome = (ImageView) view.findViewById(R.id.img_hotConfig_frgmthome);
-        tv_hotConfig_frgmthome = (TextView) view.findViewById(R.id.tv_hotConfig_frgmthome);
+
+        li_hik_frgmthome = (LinearLayout) view.findViewById(R.id.li_hik_frgmthome);
+        li_config_frgmthome = (LinearLayout) view.findViewById(R.id.li_config_frgmthome);
+        li_hotConfig_frgmthome = (LinearLayout) view.findViewById(R.id.li_hotConfig_frgmthome);
 
 //        img_other_frgmthome = (ImageButton) view.findViewById(R.id.img_other_frgmthome);
 //        tv_other_frgmthome = (TextView) view.findViewById(R.id.tv_other_frgmthome);
@@ -100,12 +86,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * 事件监听
      */
     private void initOnClick() {
-        img_hik_frgmthome.setOnClickListener(this);
-        tv_hik_frgmthome.setOnClickListener(this);
-        img_config_frgmthome.setOnClickListener(this);
-        tv_config_frgmthome.setOnClickListener(this);
-        img_hotConfig_frgmthome.setOnClickListener(this);
-        tv_hotConfig_frgmthome.setOnClickListener(this);
+//        img_hik_frgmthome.setOnClickListener(this);
+//        tv_hik_frgmthome.setOnClickListener(this);
+//        img_config_frgmthome.setOnClickListener(this);
+//        tv_config_frgmthome.setOnClickListener(this);
+//        img_hotConfig_frgmthome.setOnClickListener(this);
+//        tv_hotConfig_frgmthome.setOnClickListener(this);
+
+
+        li_hik_frgmthome.setOnClickListener(this);
+        li_config_frgmthome.setOnClickListener(this);
+        li_hotConfig_frgmthome.setOnClickListener(this);
 
 //        img_other_frgmthome.setOnClickListener(this);
 //        tv_other_frgmthome.setOnClickListener(this);
@@ -115,30 +106,50 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
 
+//            //======================================================================================
+//            //海康设备管理和预览
+//            case R.id.img_hik_frgmthome:
+//                BtnHiKOnClick();
+//                break;
+//            case R.id.tv_hik_frgmthome:
+//                BtnHiKOnClick();
+//                break;
+//
+//            //======================================================================================
+//            //配置管理
+//            case R.id.img_config_frgmthome:
+//                BtnConfigOnClick();
+//                break;
+//            case R.id.tv_config_frgmthome:
+//                BtnConfigOnClick();
+//                break;
+//
+//            //======================================================================================
+//            //热点管理
+//            case R.id.img_hotConfig_frgmthome:
+//                WifiHotMagOnClick();
+//                break;
+//            case R.id.tv_hotConfig_frgmthome:
+//                WifiHotMagOnClick();
+//                break;
+
+
+
             //======================================================================================
             //海康设备管理和预览
-            case R.id.img_hik_frgmthome:
-                BtnHiKOnClick();
-                break;
-            case R.id.tv_hik_frgmthome:
+            case R.id.li_hik_frgmthome:
                 BtnHiKOnClick();
                 break;
 
             //======================================================================================
             //配置管理
-            case R.id.img_config_frgmthome:
-                BtnConfigOnClick();
-                break;
-            case R.id.tv_config_frgmthome:
+            case R.id.li_config_frgmthome:
                 BtnConfigOnClick();
                 break;
 
             //======================================================================================
             //热点管理
-            case R.id.img_hotConfig_frgmthome:
-                WifiHotMagOnClick();
-                break;
-            case R.id.tv_hotConfig_frgmthome:
+            case R.id.li_hotConfig_frgmthome:
                 WifiHotMagOnClick();
                 break;
 

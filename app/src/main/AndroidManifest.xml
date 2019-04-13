@@ -25,14 +25,16 @@
     <application
         android:name=".application.MyApp"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name_chinese"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        android:fullBackupContent="@xml/backup_descriptor"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".WelcomeActivity">
+        <activity
+            android:name=".WelcomeActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,32 +47,64 @@
         <!--Dialog 预置点-->
         <activity
             android:name=".dialog.PresetDialog"
-            android:theme="@style/MyDialogStyle_Perset"/>
+            android:launchMode="singleTop"
+            android:theme="@style/MyDialogStyle_Perset" />
         <!--Dialog 优先级-->
         <activity
             android:name=".dialog.PriorityDialog"
-            android:theme="@style/MyDialogStyle_Perset"/>
+            android:launchMode="singleTop"
+            android:theme="@style/MyDialogStyle_Perset" />
         <!--Dialog 车牌识别-->
         <activity
             android:name=".dialog.LprDialog"
+            android:launchMode="singleTop"
             android:theme="@style/MyDialogStyle_Lpr" />
         <activity android:name=".guide.animation.guide.GuideActivity2" />
 
 
         <!--主界面-->
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop" />
 
         <!--海康界面-->
         <activity
             android:name=".HiKCameraActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape" />
         <!--引导页界面-->
-        <activity android:name=".guide.animation.guide.GuideActivity" />
+        <activity
+            android:name=".guide.animation.guide.GuideActivity"
+            android:launchMode="singleTop" />
         <!--登录界面-->
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:launchMode="singleTop" />
 
         <!--终端热点热点管理界面-->
-        <activity android:name=".WifiHotMagActivity" />
+        <activity
+            android:name=".WifiHotMagActivity"
+            android:launchMode="singleTop" />
+        <!--关于我们界面-->
+        <activity
+            android:name=".AboutUsActivity"
+            android:launchMode="singleTop" />
+        <!--营私协议界面-->
+        <activity
+            android:name=".PrivacyAgreementActivity"
+            android:launchMode="singleTop" />
+        <!--使用教程列表页界面-->
+        <activity
+            android:name=".UseCourseListActivity"
+            android:launchMode="singleTop" />
+        <!--使用教程详情页界面-->
+        <activity
+            android:name=".UseCourseDetailsActivity"
+            android:launchMode="singleTop" />
+        <!--客服中心界面-->
+        <activity
+            android:name=".CustomServiceActivity"
+            android:launchMode="singleTop" />
 
 
     </application>

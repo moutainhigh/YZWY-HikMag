@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
+import com.example.yzwy.lprmag.util.InetAddressUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.wifimess.model.SendOrder;
@@ -236,9 +237,11 @@ public class LprDialog extends Activity {
         //        System.out.println("DHCP info netmask----->" + Formatter.formatIpAddress(dhcpInfo.netmask));
         //DhcpInfo中的ipAddress是一个int型的变量，通过Formatter将其转化为字符串IP地址
         String routeIp = Formatter.formatIpAddress(dhcpInfo.gateway);
-        Log.i("route ip", "wifi route ip：" + routeIp);
+        Log.i("wifiIP route ip", "wifi route ip：" + routeIp);
+        //Log.i("wifiIP address ip", "wifi route ip：" + InetAddressUtil.getIP());
 
         return routeIp;
+        //return InetAddressUtil.getIP();
     }
 
     @SuppressLint("HandlerLeak")

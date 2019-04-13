@@ -28,18 +28,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp">
 
                 <!--设备预览-->
                 <LinearLayout
+                    android:id="@+id/li_hik_frgmthome"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/press_white_style"
                     android:baselineAligned="false"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
                     <ImageView
                         android:id="@+id/img_hik_frgmthome"
@@ -63,11 +68,14 @@
 
                 <!--摄像头设备连接-->
                 <LinearLayout
+                    android:id="@+id/li_config_frgmthome"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/press_white_style"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
                     <ImageView
                         android:id="@+id/img_config_frgmthome"
@@ -88,12 +96,16 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
+                <!--热点管理-->
                 <LinearLayout
+                    android:id="@+id/li_hotConfig_frgmthome"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/press_white_style"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
                     <ImageView
                         android:id="@+id/img_hotConfig_frgmthome"

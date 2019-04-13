@@ -279,6 +279,7 @@ public class PriorityDialog extends Activity {
                 final String edtPriorityStr = edt_priority_dialogPriority.getText().toString();
                 if (edtPriorityStr.equals("")) {
                     Tools.Toast(PriorityDialog.this, "优先级不能为空");
+                    return;
                 }
 //                else if (edtPriorityStr.length() != 8) {
 //                    Tools.Toast(PresetDialog.this, "优先级必须输入8位长度");

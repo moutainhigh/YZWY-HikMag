@@ -15,7 +15,7 @@
             android:id="@+id/imgbtn_back_cfgset"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:background="@null"
+            android:background="@drawable/press_head_transparent_style"
             android:paddingTop="11dp"
             android:paddingBottom="11dp"
             android:scaleType="centerInside"

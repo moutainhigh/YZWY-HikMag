@@ -12,18 +12,14 @@ import android.view.KeyEvent;
 
 import com.example.yzwy.lprmag.adapter.TabFragmentAdapter;
 import com.example.yzwy.lprmag.fragment.MineFragment;
-import com.example.yzwy.lprmag.util.ExitApplication;
-import com.example.yzwy.lprmag.util.InetAddressUtil;
+import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.Tools;
+import com.example.yzwy.lprmag.util.crypto.AesUtil;
 import com.example.yzwy.lprmag.view.TabContainerView;
 import com.example.yzwy.lprmag.fragment.HomeFragment;
-import com.example.yzwy.lprmag.wifimess.util.SocketUtil;
-
-import java.util.Map;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
-import static com.example.yzwy.lprmag.util.Tools.getWifiRouteIPAddress;
 
 /**
  * #################################################################################################
@@ -83,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
      */
     private final int[] TAB_COLORS = new int[]
             {
-            R.color.main_bottom_tab_textcolor_normal,
-            R.color.main_bottom_tab_textcolor_selected
+                    R.color.main_bottom_tab_textcolor_normal,
+                    R.color.main_bottom_tab_textcolor_selected
             };
 
     /**
@@ -106,13 +102,61 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
 
         //==========================================================================================
-        ExitApplication.getInstance().addActivity(this);
+        ActivityStackManager.getInstance().addActivity(this);
 
         //初始化组件
         initViews();
 
+        try {
+
+            String Key = "A1zFlux77a99X1be";
+            String src = "admin";
+            String Base64Str = AesUtil.encryptBase64("A1zFlux77a99X1be", "admin", AesUtil.TRANSFORM_ECB_PKCS5PADDING);
+            String HexStr = AesUtil.encryptHexStr("A1zFlux77a99X1be", "admin", AesUtil.TRANSFORM_ECB_PKCS5PADDING);
 
 
+            System.out.println("mainactivity --->AES加密结果是 Base64 ：" + Base64Str);
+            System.out.println("mainactivity --->AES加密结果是 HexStr ：" + AesUtil.encryptHexStr(Key, src, AesUtil.TRANSFORM_ECB_PKCS5PADDING));
+
+            System.out.println("mainactivity --->AES解密结果是 Str ：" + AesUtil.decryptStr(Key, HexStr, AesUtil.TRANSFORM_ECB_PKCS5PADDING));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        System.out.println("mainactivity --->" + AESUtilTest.des("admin", "A1zFlux77a99X1be", Cipher.ENCRYPT_MODE));
+//        System.out.println("mainactivity --->" + AESUtilTest.des("admin", "A1zFlux77a99X1be", Cipher.ENCRYPT_MODE));
+//        System.out.println("mainactivity --->" + AESUtilTest.des(AESUtilTest.des("admin", "A1zFlux77a99X1be", Cipher.ENCRYPT_MODE) + "", "123", Cipher.DECRYPT_MODE));
+//
+//
+//        try {
+//            System.out.println("mainactivity --->"+AesUtil.encryptECBBase64("A1zFlux77a99X1be", "admin", AesUtil.TRANSFORM_ECB_PKCS5PADDING));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeyException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            System.out.println("mainactivity Str--->"+AesUtil.encryptECB_HexStr("A1zFlux77a99X1be", "admin", "AES/ECB/PKCS5Padding"));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeyException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -187,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             Tools.Toast(MainActivity.this, "再按一次退出程序");
             exitTime = System.currentTimeMillis();
         } else {
-            ExitApplication.getInstance().exit();//完全退出所有Activity 活动
+            ActivityStackManager.getInstance().exitSystem();//完全退出所有Activity 活动
             System.exit(0);
         }
     }

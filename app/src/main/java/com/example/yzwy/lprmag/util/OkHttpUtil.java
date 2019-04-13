@@ -30,19 +30,19 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class OkHttpUtils {
+public class OkHttpUtil {
 
-    private String TAG = "OkHttpUtils";
+    private String TAG = "OkHttpUtil";
 
     public final static int READ_TIMEOUT = 100;
     public final static int CONNECT_TIMEOUT = 60;
     public final static int WRITE_TIMEOUT = 60;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final byte[] LOCKER = new byte[0];
-    private static OkHttpUtils mInstance;
+    private static OkHttpUtil mInstance;
     private OkHttpClient mOkHttpClient;
 
-    private OkHttpUtils() {
+    private OkHttpUtil() {
         okhttp3.OkHttpClient.Builder ClientBuilder = new okhttp3.OkHttpClient.Builder();
         ClientBuilder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);//读取超时
         ClientBuilder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);//连接超时
@@ -63,11 +63,11 @@ public class OkHttpUtils {
      *
      * @return
      */
-    public static OkHttpUtils getInstance() {
+    public static OkHttpUtil getInstance() {
         if (mInstance == null) {
             synchronized (LOCKER) {
                 if (mInstance == null) {
-                    mInstance = new OkHttpUtils();
+                    mInstance = new OkHttpUtil();
                 }
             }
         }
@@ -306,7 +306,6 @@ public class OkHttpUtils {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 myNetCall.success(call, response);
-
             }
         });
     }

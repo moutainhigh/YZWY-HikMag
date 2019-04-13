@@ -1,21 +1,29 @@
 package com.example.yzwy.lprmag;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.example.yzwy.lprmag.guide.animation.guide.GuideActivity;
 import com.example.yzwy.lprmag.myConstant.HttpUrl;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.util.ExitApplication;
+import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
-import com.example.yzwy.lprmag.util.OkHttpUtils;
+import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import com.example.yzwy.lprmag.util.Tools;
 
@@ -56,11 +64,16 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
         //==========================================================================================
-        ExitApplication.getInstance().addActivity(this);
+        ActivityStackManager.getInstance().addActivity(this);
 
         //Tools.Intent(WelcomeActivity.this, GuideActivity.class);
 
-        WelcomeDB();
+        /**
+         * 先申请权限
+         * */
+        PerMissionDynamic();
+
+
     }
 
     private void WelcomeDB() {
@@ -96,7 +109,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                 Map<String, String> LoginStringMap = new HashMap<>();
                                 LoginStringMap.put("userName", userName);
                                 LoginStringMap.put("passWord", passWord);
-                                OkHttpUtils.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtils.MyNetCall() {
+                                OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
                                     @Override
                                     public void success(Call call, Response response) throws IOException {
                                         String rs = response.body().string();
@@ -131,7 +144,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
                     } else {
                         //去登录界面
-                        Tools.Intent(WelcomeActivity.this, WelcomeActivity.class);
+                        Tools.Intent(WelcomeActivity.this, LoginActivity.class);
                     }
 
 
@@ -171,45 +184,52 @@ public class WelcomeActivity extends AppCompatActivity {
             super.handleMessage(msg);
 
             String data = msg.getData().getString("data");
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                String errcode = jsonObject.getString("errcode");
-                //String errmsg = jsonObject.getString("errmsg");
-                String message = jsonObject.getString("message");
 
-                switch (msg.what) {
+            switch (msg.what) {
 
-                    case 100:
+                case 100:
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(data);
+                        String errcode = jsonObject.getString("errcode");
+                        String errmsg = jsonObject.getString("errmsg");
+
+
                         if (errcode.equals("0")) {
                             //登陆成功
                             //Tools.Toast(WelcomeActivity.this, "登陆成功");
                             Tools.Intent(WelcomeActivity.this, MainActivity.class);
                         } else {
                             //登陆失败
-                            Tools.Toast(WelcomeActivity.this, message);
+                            Tools.Toast(WelcomeActivity.this, errmsg);
                             resrtlogin();
                         }
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        LogUtil.showLog("LoginActivity JSON failed --->", e.toString());
+                        Tools.Toast(WelcomeActivity.this, "数据解析异常");
+                        //Tools.Toast(WelcomeActivity.this, "数据解析异常，异常Log：\n" + data);
+                        //去登录界面
+                        Tools.Intent(WelcomeActivity.this, LoginActivity.class);
+                        //resrtlogin();
+                    }
+                    break;
 
-                        break;
+                case 101:
+                    Tools.Toast(WelcomeActivity.this, "网络异常，请检查网络");
+                    //Tools.Toast(WelcomeActivity.this, "登陆失败，异常Log：\n" + data);
+                    //resrtlogin();
+                    //去登录界面
+                    Tools.Intent(WelcomeActivity.this, LoginActivity.class);
+                    break;
 
-                    case 101:
-                        Tools.Toast(WelcomeActivity.this, "登陆失败，异常Log：\n" + data);
-                        resrtlogin();
-                        break;
 
+                default:
+                    break;
 
-                    default:
-                        break;
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                LogUtil.showLog("LoginActivity JSON failed --->", e.toString());
-                Tools.Toast(WelcomeActivity.this, "失败，JSON解析异常，异常Log：\n" + data);
-
-                resrtlogin();
             }
+
 
         }
 
@@ -228,5 +248,153 @@ public class WelcomeActivity extends AppCompatActivity {
         //去登录界面
         Tools.Intent(WelcomeActivity.this, LoginActivity.class);
 
+    }
+
+
+    private static final int MY_PERMISSION_REQUEST_CODE = 10000;
+
+    private void PerMissionDynamic() {
+        /**
+         * 第 1 步: 检查是否有相应的权限
+         */
+        boolean isAllGranted = checkPermissionAllGranted(
+                new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                }
+        );
+        // 如果这3个权限全都拥有, 则直接执行备份代码
+        if (isAllGranted) {
+            initLocation();
+            return;
+        }
+
+        /**
+         * 第 2 步: 请求权限
+         */
+        // 一次请求多个权限, 如果其他有权限是已经授予的将会自动忽略掉
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{
+//
+//                        //位置
+//                        Manifest.permission.ACCESS_FINE_LOCATION,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION,
+
+                        //存储
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+
+//                        //联系人（读，写，获取）
+//                        Manifest.permission.WRITE_CONTACTS,
+//                        Manifest.permission.GET_ACCOUNTS,
+//                        Manifest.permission.READ_CONTACTS,
+//
+//                        //电话
+//                        Manifest.permission.READ_CALL_LOG,
+//                        Manifest.permission.READ_PHONE_STATE,
+//                        Manifest.permission.CALL_PHONE,
+//                        Manifest.permission.WRITE_CALL_LOG,
+//                        Manifest.permission.USE_SIP,
+//                        Manifest.permission.PROCESS_OUTGOING_CALLS,
+//                        Manifest.permission.ADD_VOICEMAIL,
+//
+//                        //日历
+//                        Manifest.permission.READ_CALENDAR,
+//                        Manifest.permission.WRITE_CALENDAR,
+//
+//                        //相机
+//                        Manifest.permission.CAMERA,
+//
+//                        //麦克风
+//                        Manifest.permission.RECORD_AUDIO,
+//
+//                        //SMS
+//                        Manifest.permission.READ_SMS,
+//                        Manifest.permission.RECEIVE_WAP_PUSH,
+//                        Manifest.permission.RECEIVE_MMS,
+//                        Manifest.permission.WRITE_CALL_LOG,
+//                        Manifest.permission.RECEIVE_SMS,
+//                        Manifest.permission.SEND_SMS,
+
+                },
+                MY_PERMISSION_REQUEST_CODE
+        );
+
+    }
+
+    /**
+     * =============================================================================================
+     * 所有权限都已经开启
+     */
+    private void initLocation() {
+        WelcomeDB();
+    }
+
+    /**
+     * 检查是否拥有指定的所有权限
+     */
+    private boolean checkPermissionAllGranted(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                // 只要有一个权限没有被授予, 则直接返回 false
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 第 3 步: 申请权限结果返回处理
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == MY_PERMISSION_REQUEST_CODE) {
+            boolean isAllGranted = true;
+
+            // 判断是否所有的权限都已经授予了
+            for (int grant : grantResults) {
+                if (grant != PackageManager.PERMISSION_GRANTED) {
+                    isAllGranted = false;
+                    break;
+                }
+            }
+
+            if (isAllGranted) {
+                // 如果所有的权限都授予了, 则执行备份代码
+                initLocation();
+
+            } else {
+                // 弹出对话框告诉用户需要权限的原因, 并引导用户去应用权限管理中手动打开权限按钮
+                openAppDetails();
+            }
+        }
+    }
+
+    /**
+     * 打开 APP 的详情设置
+     */
+    private void openAppDetails() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("使用此应用需要开启权限授权，请到 “应用信息 -> 权限” 中授予！");
+        builder.setPositiveButton("去手动授权", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.show();
     }
 }

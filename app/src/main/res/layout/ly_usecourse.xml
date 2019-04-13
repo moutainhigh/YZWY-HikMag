@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/green_logo"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/imgbtn_back_usecourse"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/press_head_transparent_style"
+            android:paddingTop="11dp"
+            android:paddingBottom="11dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_title_bar_back_btn_white" />
+
+        <TextView
+            android:id="@+id/rb_abcomp_usecourse"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="使用教程"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btn_f5data_usecourse"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recv_item_usecourse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

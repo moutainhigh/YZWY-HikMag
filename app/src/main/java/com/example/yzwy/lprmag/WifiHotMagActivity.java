@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.yzwy.lprmag.myConstant.OrderConstant;
 import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
-import com.example.yzwy.lprmag.util.ExitApplication;
+import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.InetAddressUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.NetUtils;
@@ -85,7 +85,7 @@ public class WifiHotMagActivity extends AppCompatActivity {
 
 
         //==========================================================================================
-        ExitApplication.getInstance().addActivity(this);
+        ActivityStackManager.getInstance().addActivity(this);
 
         /**
          * 加载View

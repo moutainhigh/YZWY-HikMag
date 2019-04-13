@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 默认圆角按钮样式 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--&lt;!&ndash;&lt;!&ndash; 禁用状态 &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<item android:state_enabled="false">&ndash;&gt;-->
+        <!--&lt;!&ndash;<shape android:shape="rectangle">&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<corners android:radius="@dimen/button_round_size" />&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;<solid android:color="@color/colorButtonDisable" />&ndash;&gt;-->
+        <!--&lt;!&ndash;</shape>&ndash;&gt;-->
+    <!--&lt;!&ndash;</item>&ndash;&gt;-->
+
+    <!--&lt;!&ndash; 按压状态 &ndash;&gt;-->
+    <!--<item android:state_pressed="true">-->
+        <!--<shape android:shape="rectangle">-->
+            <!--&lt;!&ndash;<corners android:radius="@dimen/button_round_size" />&ndash;&gt;-->
+            <!--<solid android:color="@color/white_d" />-->
+        <!--</shape>-->
+    <!--</item>-->
+
+    <!--&lt;!&ndash; 焦点状态 &ndash;&gt;-->
+    <!--<item android:state_focused="true">-->
+        <!--<shape android:shape="rectangle">-->
+            <!--&lt;!&ndash;<corners android:radius="@dimen/button_round_size" />&ndash;&gt;-->
+            <!--<solid android:color="@color/white_d" />-->
+        <!--</shape>-->
+    <!--</item>-->
+
+    <!--&lt;!&ndash; 默认状态 &ndash;&gt;-->
+    <!--<item>-->
+        <!--<shape android:shape="rectangle">-->
+            <!--&lt;!&ndash;<corners android:radius="@dimen/button_round_size" />&ndash;&gt;-->
+            <!--<solid android:color="@color/white" />-->
+        <!--</shape>-->
+    <!--</item>-->
+
+    <item android:drawable="@color/black5" android:state_pressed="true" />
+    <item android:drawable="@color/black5" android:state_selected="true" />
+    <item android:drawable="@color/black5" android:state_focused="true" />
+    <item android:drawable="@color/white" />
+
+</selector>

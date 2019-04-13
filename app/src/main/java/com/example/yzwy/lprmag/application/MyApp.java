@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.example.yzwy.lprmag.model.myCrash.CrashHandler;
 import com.example.yzwy.lprmag.myConstant.HiKLineWHRectLintScreen;
 import com.example.yzwy.lprmag.util.LogUtilUtil;
 
@@ -85,6 +86,11 @@ public class MyApp extends Application {
         //Intent startAppServiceIntent = new Intent(this, AppService.class);
         //startService(startAppServiceIntent);
 
+
+
+        //收集异常信息
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
 
     }
 

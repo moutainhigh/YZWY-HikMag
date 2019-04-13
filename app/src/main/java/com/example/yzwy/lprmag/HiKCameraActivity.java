@@ -53,11 +53,10 @@ import com.example.yzwy.lprmag.myConstant.ConfigDataConstant;
 import com.example.yzwy.lprmag.myConstant.HiKEventBusConstant;
 import com.example.yzwy.lprmag.myConstant.HiKLineWHRectLintScreen;
 import com.example.yzwy.lprmag.util.ConvertUtil;
-import com.example.yzwy.lprmag.util.ExitApplication;
+import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
-import com.example.yzwy.lprmag.view.LoadingDialog;
 import com.hikvision.netsdk.ExceptionCallBack;
 import com.hikvision.netsdk.HCNetSDK;
 import com.hikvision.netsdk.NET_DVR_DEVICEINFO_V30;
@@ -248,7 +247,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
 
 
         //==========================================================================================
-        ExitApplication.getInstance().addActivity(this);
+        ActivityStackManager.getInstance().addActivity(this);
 
         //注册 EventBus 事件
         EventBus.getDefault().register(HiKCameraActivity.this);

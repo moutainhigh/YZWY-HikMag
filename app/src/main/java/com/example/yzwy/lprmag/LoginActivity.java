@@ -1,27 +1,23 @@
 package com.example.yzwy.lprmag;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.example.yzwy.lprmag.dialog.MessageDialog;
 import com.example.yzwy.lprmag.myConstant.HttpUrl;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.util.ExitApplication;
+import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
-import com.example.yzwy.lprmag.util.OkHttpUtils;
+import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.view.LoadingDialog;
@@ -64,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         //==========================================================================================
-        ExitApplication.getInstance().addActivity(this);
+        ActivityStackManager.getInstance().addActivity(this);
 
         initView();
 
@@ -141,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Map<String, String> LoginStringMap = new HashMap<>();
                         LoginStringMap.put("userName", edtUsername);
                         LoginStringMap.put("passWord", edtPwd);
-                        OkHttpUtils.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtils.MyNetCall() {
+                        OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
                             @Override
                             public void success(Call call, Response response) throws IOException {
                                 String rs = response.body().string();
@@ -270,19 +266,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             loadingDialog.dismiss();
-
             String data = msg.getData().getString("data");
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                String errcode = jsonObject.getString("errcode");
-                //String errmsg = jsonObject.getString("errmsg");
-                String message = jsonObject.getString("message");
+            switch (msg.what) {
 
-                switch (msg.what) {
+                case 100:
+                    try {
+                        JSONObject jsonObject = new JSONObject(data);
+                        String errcode = jsonObject.getString("errcode");
+                        String errmsg = jsonObject.getString("errmsg");
 
-                    case 100:
                         if (errcode.equals("0")) {
                             //登陆成功
                             Tools.Toast(LoginActivity.this, "登陆成功");
@@ -297,26 +290,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         } else {
                             //登陆成功
-                            Tools.Toast(LoginActivity.this, message);
+                            Tools.Toast(LoginActivity.this, errmsg);
                         }
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        LogUtil.showLog("LoginActivity JSON failed --->", e.toString());
+                        Tools.Toast(LoginActivity.this, "数据解析异常");
+                    }
 
-                        break;
 
-                    case 101:
-                        Tools.Toast(LoginActivity.this, "登陆失败，异常Log：\n" + data);
-                        break;
+                    break;
+
+                case 101:
+                    Tools.Toast(LoginActivity.this, "网络异常，请检查网络");
+                    //Tools.Toast(LoginActivity.this, "登陆失败，异常Log：\n" + data);
+                    break;
 
 
-                    default:
-                        break;
+                default:
+                    break;
 
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                LogUtil.showLog("LoginActivity JSON failed --->", e.toString());
-                Tools.Toast(LoginActivity.this, "失败，JSON解析异常，异常Log：\n" + data);
             }
+
 
         }
 

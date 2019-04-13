@@ -6,18 +6,18 @@ import android.app.Application;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ExitApplication extends Application {
+public class ActivityStackManagerExit extends Application {
 
 	private List<Activity> activityList = new LinkedList<Activity>();
-	private static ExitApplication instance;
+	private static ActivityStackManagerExit instance;
 
-	private ExitApplication() {
+	private ActivityStackManagerExit() {
 	}
 
 	// 单例模式中获取唯一的ExitApplication实例
-	public static ExitApplication getInstance() {
+	public static ActivityStackManagerExit getInstance() {
 		if (null == instance) {
-			instance = new ExitApplication();
+			instance = new ActivityStackManagerExit();
 		}
 		return instance;
 
@@ -26,6 +26,10 @@ public class ExitApplication extends Application {
 	// 添加Activity到容器中
 	public void addActivity(Activity activity) {
 		activityList.add(activity);
+	}
+	// 添加Activity到容器中
+	public void removeActivity(Activity activity) {
+		activityList.remove(activity);
 	}
 
 	// 遍历所有Activity并finish
