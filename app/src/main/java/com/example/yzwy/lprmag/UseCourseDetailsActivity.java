@@ -46,7 +46,7 @@ import okhttp3.Response;
  * Created on 2019-04-09
  * Author: 仲超(zhongchao)
  * Version 1.0
- * Describe: 关于我们界面
+ * Describe: 界面
  * #################################################################################################
  */
 @SuppressLint("Registered")

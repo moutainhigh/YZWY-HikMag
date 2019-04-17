@@ -128,7 +128,6 @@ public class WelcomeActivity extends AppCompatActivity {
                             }
                         }).start();
 
-
 //                        if (userName.equals("admin") && passWord.equals("admin123")) {
 //                            //去登录界面
 //                            Tools.Intent(WelcomeActivity.this, MainActivity.class);
@@ -141,6 +140,7 @@ public class WelcomeActivity extends AppCompatActivity {
 //                            //去登录界面
 //                            Tools.Intent(WelcomeActivity.this, WelcomeActivity.class);
 //                        }
+
 
                     } else {
                         //去登录界面
@@ -262,7 +262,8 @@ public class WelcomeActivity extends AppCompatActivity {
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CALL_PHONE
                 }
         );
         // 如果这3个权限全都拥有, 则直接执行备份代码

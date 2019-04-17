@@ -281,7 +281,7 @@ public class ConfigSetActivity extends AppCompatActivity {
 
                     break;
                 case 101:
-                    Tools.Toast(ConfigSetActivity.this, "失败Log" + "\n" + dataMsg);
+                    Tools.Toast(ConfigSetActivity.this, "终端连接异常，请检查~");
                     LogUtil.showLog("ResSocket >>>", dataMsg);
                     break;
             }

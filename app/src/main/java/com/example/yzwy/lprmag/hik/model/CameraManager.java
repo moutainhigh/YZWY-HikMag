@@ -126,6 +126,7 @@ public class CameraManager {
         m_iLogID = HCNetSDK.getInstance().NET_DVR_Login_V30(ip, port, username,
                 password, deviceInfo_V30);
 
+
         System.out.println("下面是设备信息************************");
         System.out.println("userId=" + m_iLogID);
         System.out.println("通道开始=" + deviceInfo_V30.byStartChan);
@@ -841,16 +842,16 @@ public class CameraManager {
      * 登出设备
      */
     public void logoutDevice() {
+
+
+
         stopPlay();
         if (HCNetSDK.getInstance().NET_DVR_Logout_V30(m_iLogID)) {
             m_iLogID = -1;
             Log.i(TAG, "登出设备成功！");
         } else {
             m_iLogID = 0;
-            Log.e(TAG,
-                    "登出设备失败！"
-                            + getErrorMsg(HCNetSDK.getInstance()
-                            .NET_DVR_GetLastError()));
+            Log.e(TAG, "登出设备失败！" + getErrorMsg(HCNetSDK.getInstance().NET_DVR_GetLastError()));
         }
     }
 
@@ -877,7 +878,6 @@ public class CameraManager {
     public void setPoint(int point, int m_iPlayID) {
         switch (point) {
             case 8://设置预置点
-
                 break;
             case 9://清楚预置点
                 break;

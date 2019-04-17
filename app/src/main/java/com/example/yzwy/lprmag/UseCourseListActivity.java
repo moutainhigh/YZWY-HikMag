@@ -3,6 +3,8 @@ package com.example.yzwy.lprmag;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yzwy.lprmag.bean.UseCourseBean;
+import com.example.yzwy.lprmag.broadcast.NetWorkChangReceiver;
 import com.example.yzwy.lprmag.myConstant.HttpUrl;
+import com.example.yzwy.lprmag.myinterface.NetBroadcastListener;
 import com.example.yzwy.lprmag.util.HanderMsg;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
@@ -46,7 +50,7 @@ import okhttp3.Response;
  * Describe: 使用教程列表页
  * #################################################################################################
  */
-public class UseCourseListActivity extends Activity {
+public class UseCourseListActivity extends Activity implements NetBroadcastListener {
 
 
     /**
@@ -63,6 +67,12 @@ public class UseCourseListActivity extends Activity {
      * 关闭页面
      */
     private ImageButton imgbtn_back_usecourse;
+
+
+    /**
+     * 网络实时监听
+     */
+    private NetWorkChangReceiver netWorkStateReceiver;
 
 
     /**
@@ -92,7 +102,36 @@ public class UseCourseListActivity extends Activity {
          * */
         GetAllUseCourseListRequest();
 
+    }
 
+    @Override
+    public void netBroadcastReceiver(int netStatus, int netMobile, boolean isAvailable) {
+        Tools.Toast(UseCourseListActivity.this, "网络状态:" + netStatus + "  网络类型:" + netMobile + "  网络是否可用:" + isAvailable);
+        LogUtil.showLog("NetBroadcast --->", "网络状态:" + netStatus + "  网络类型:" + netMobile + "  网络是否可用:" + isAvailable);
+    }
+
+
+    //在onResume()方法注册
+    @Override
+    protected void onResume() {
+
+        if (netWorkStateReceiver == null) {
+            netWorkStateReceiver = new NetWorkChangReceiver(this);
+        }
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkStateReceiver, filter);
+        System.out.println("实时监测网络注册");
+        super.onResume();
+    }
+
+    //onPause()方法注销
+    @Override
+    protected void onPause() {
+        unregisterReceiver(netWorkStateReceiver);
+        System.out.println("实时监测网络注销");
+        super.onPause();
     }
 
     /**
@@ -262,6 +301,11 @@ public class UseCourseListActivity extends Activity {
         //结束当前活动
         finish();
     }
+
+//    @Override
+//    public void onPointerCaptureChanged(boolean hasCapture) {
+//
+//    }
 
 
     /**

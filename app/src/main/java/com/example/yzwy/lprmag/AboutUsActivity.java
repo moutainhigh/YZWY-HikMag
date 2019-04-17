@@ -71,6 +71,10 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
 
 
         initOnClick();
+
+
+
+
     }
 
     /**

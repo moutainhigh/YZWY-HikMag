@@ -4,6 +4,8 @@ package com.example.yzwy.lprmag;
 import android.app.Activity;
 import android.content.Intent;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,8 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
 import com.example.yzwy.lprmag.adapter.TabFragmentAdapter;
+import com.example.yzwy.lprmag.broadcast.NetWorkChangReceiver;
 import com.example.yzwy.lprmag.fragment.MineFragment;
+import com.example.yzwy.lprmag.myinterface.NetBroadcastListener;
 import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.crypto.AesUtil;
 import com.example.yzwy.lprmag.view.TabContainerView;
@@ -30,10 +35,12 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
  * Describe: 主界面
  * #################################################################################################
  */
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements
+        ViewPager.OnPageChangeListener, NetBroadcastListener {
 
 
     private long exitTime;
+    private NetWorkChangReceiver netWorkStateReceiver;
 
 
     /**
@@ -122,41 +129,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        System.out.println("mainactivity --->" + AESUtilTest.des("admin", "A1zFlux77a99X1be", Cipher.ENCRYPT_MODE));
-//        System.out.println("mainactivity --->" + AESUtilTest.des("admin", "A1zFlux77a99X1be", Cipher.ENCRYPT_MODE));
-//        System.out.println("mainactivity --->" + AESUtilTest.des(AESUtilTest.des("admin", "A1zFlux77a99X1be", Cipher.ENCRYPT_MODE) + "", "123", Cipher.DECRYPT_MODE));
-//
-//
-//        try {
-//            System.out.println("mainactivity --->"+AesUtil.encryptECBBase64("A1zFlux77a99X1be", "admin", AesUtil.TRANSFORM_ECB_PKCS5PADDING));
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchPaddingException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        } catch (BadPaddingException e) {
-//            e.printStackTrace();
-//        } catch (IllegalBlockSizeException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            System.out.println("mainactivity Str--->"+AesUtil.encryptECB_HexStr("A1zFlux77a99X1be", "admin", "AES/ECB/PKCS5Padding"));
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchPaddingException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        } catch (BadPaddingException e) {
-//            e.printStackTrace();
-//        } catch (IllegalBlockSizeException e) {
-//            e.printStackTrace();
-//        }
+
+
     }
 
 
@@ -214,6 +188,30 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
 
+    //在onResume()方法注册
+    @Override
+    protected void onResume() {
+
+        if (netWorkStateReceiver == null) {
+            netWorkStateReceiver = new NetWorkChangReceiver(this);
+        }
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkStateReceiver, filter);
+        System.out.println("实时监测网络注册");
+        super.onResume();
+    }
+
+    //onPause()方法注销
+    @Override
+    protected void onPause() {
+        unregisterReceiver(netWorkStateReceiver);
+        System.out.println("实时监测网络注销");
+        super.onPause();
+    }
+
+
     /**
      * =============================================================================================
      * 双击退出程序
@@ -234,6 +232,18 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             ActivityStackManager.getInstance().exitSystem();//完全退出所有Activity 活动
             System.exit(0);
         }
+    }
+
+
+    @Override
+    public void netBroadcastReceiver(int netStatus, int netMobile, boolean isAvailable) {
+
+        if (netStatus != 200) {
+            Tools.Toast(MainActivity.this, "网络状态不可用，请检查网络");
+        }
+
+        //Tools.Toast(MainActivity.this, "网络状态:" + netStatus + "  网络类型:" + netMobile);
+        LogUtil.showLog("MainNet --->", "网络状态:" + netStatus + "  网络类型:" + netMobile);
     }
 }
 

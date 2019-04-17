@@ -186,8 +186,8 @@ public class WifiHotMagActivity extends AppCompatActivity {
                 } else {
                     //关闭状态下不可点击开启状态，因为无法开启终端热点
                     Tools.Toast(WifiHotMagActivity.this, "打开热点请重启终端");
-                    CloseWifiHotBlo = false;
-                    tv_wifihotstatus_wifihotmag.setText("关闭中");
+                    //CloseWifiHotBlo = false;
+                    //tv_wifihotstatus_wifihotmag.setText("关闭中");
                 }
             }
         });
@@ -390,6 +390,8 @@ public class WifiHotMagActivity extends AppCompatActivity {
                                 String wifiPwd = jsonObject.getString("wifiPwd");
                                 edt_hikusername_wifihotmag.setText(wifiName);
                                 edt_hikpwd_wifihotmag.setText(wifiPwd);
+
+
                                 break;
 
                             //设置终端wifi热点
@@ -414,12 +416,21 @@ public class WifiHotMagActivity extends AppCompatActivity {
                         e.printStackTrace();
                         edt_hikusername_wifihotmag.setText("~~~异常~~~");
                         edt_hikpwd_wifihotmag.setText("~~~异常~~~");
+
+
+                        CloseWifiHotBlo = false;
+                        tv_wifihotstatus_wifihotmag.setText("异常");
+
                     }
                     break;
 
                 case 101:
-                    Tools.Toast(WifiHotMagActivity.this, "失败Log" + "\n" + dataMsg);
+                    Tools.Toast(WifiHotMagActivity.this, "终端连接异常，请检查~");
                     LogUtil.showLog("ResSocket >>>", dataMsg);
+
+                    CloseWifiHotBlo = false;
+                    tv_wifihotstatus_wifihotmag.setText("异常");
+                    
                     break;
             }
 

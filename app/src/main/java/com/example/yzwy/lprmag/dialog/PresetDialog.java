@@ -421,7 +421,6 @@ public class PresetDialog extends Activity {
 
                         Tools.Toast(PresetDialog.this, "预置点转到失败");
                     }
-
                     break;
             }
         }

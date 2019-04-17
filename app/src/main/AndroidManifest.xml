@@ -19,6 +19,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <!-- 屏幕常量 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -41,8 +48,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ConfigSetActivity" />
 
         <!--Dialog 预置点-->
         <activity
@@ -105,6 +110,9 @@
         <activity
             android:name=".CustomServiceActivity"
             android:launchMode="singleTop" />
+
+        <!--配置界面-->
+        <activity android:name=".ConfigSetActivity" />
 
 
     </application>

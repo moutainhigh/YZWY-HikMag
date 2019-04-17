@@ -1369,7 +1369,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
 
     /**
      * =============================================================================================
-     * 释放资源 播放资源和SDK资源
+     * 海康登录线程
      */
     private class LoginHiKThread extends Thread {
         @Override

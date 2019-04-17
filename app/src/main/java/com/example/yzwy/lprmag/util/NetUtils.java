@@ -10,12 +10,12 @@ import android.telephony.TelephonyManager;
  * 获取网络状态工具类
  */
 public class NetUtils {
-    public static final int NETWORK_NONE = 0; // 没有网络连接
-    public static final int NETWORK_WIFI = 1; // wifi连接
-    public static final int NETWORK_2G = 2; // 2G
-    public static final int NETWORK_3G = 3; // 3G
-    public static final int NETWORK_4G = 4; // 4G
-    public static final int NETWORK_MOBILE = 5; // 手机流量
+    private static final int NETWORK_NONE = 0; // 没有网络连接
+    private static final int NETWORK_WIFI = 1; // wifi连接
+    private static final int NETWORK_2G = 2; // 2G
+    private static final int NETWORK_3G = 3; // 3G
+    private static final int NETWORK_4G = 4; // 4G
+    private static final int NETWORK_MOBILE = 5; // 手机流量
 
     /**
      * 获取运营商名字
