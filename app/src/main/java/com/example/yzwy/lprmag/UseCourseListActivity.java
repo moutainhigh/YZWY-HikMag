@@ -302,11 +302,6 @@ public class UseCourseListActivity extends Activity implements NetBroadcastListe
         finish();
     }
 
-//    @Override
-//    public void onPointerCaptureChanged(boolean hasCapture) {
-//
-//    }
-
 
     /**
      * =============================================================================================

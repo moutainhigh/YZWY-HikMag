@@ -11,8 +11,13 @@ package com.example.yzwy.lprmag;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -198,12 +203,6 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
     private TextView tv_scheight_hik;
 
     /**
-     * 获取默认的识别区域宽高
-     */
-    private double RectLineWidth = HiKLineWHRectLintScreen.RectLineWidth;
-    private double RectLineHeight = HiKLineWHRectLintScreen.RectLineHeight;
-
-    /**
      * 识别区域的宽高比列
      */
     private double scwidth_hik = HiKLineWHRectLintScreen.WidthProportion;
@@ -225,6 +224,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      * 退出按钮
      */
     private ImageButton imgbtn_back_hik;
+    private TextView tv_wifiStrength_hik;
 
 
     /**
@@ -285,7 +285,72 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
 
 
         System.out.println(Double.parseDouble("3.14159265984269") + "，执行结束！=======================");
+    }
 
+    //在onResume()方法注册
+    @Override
+    protected void onResume() {
+        //注册广播：
+        registerReceiver(rssiReceiver, new IntentFilter(WifiManager.RSSI_CHANGED_ACTION));
+        super.onResume();
+    }
+
+    //onPause()方法注销
+    @Override
+    protected void onPause() {
+        unregisterReceiver(rssiReceiver);
+        System.out.println("实时监测网络注销");
+        super.onPause();
+    }
+
+    //广播接收信号强度变化的处理：
+    public BroadcastReceiver rssiReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int s = obtainWifiInfo();
+            tv_wifiStrength_hik.setText(String.valueOf(s));
+        }
+    };
+
+    /**
+     * 先来了解下Android如何获取wifi的信息：
+     * WifiManager wifi_service = (WifiManager)getSystemService(WIFI_SERVICE);
+     * WifiInfo wifiInfo = wifi_service.getConnectionInfo();
+     * <p>
+     * 其中wifiInfo有以下的方法：
+     * wifiinfo.getBSSID()；
+     * wifiinfo.getSSID()；
+     * wifiinfo.getIpAddress()；获取IP地址。
+     * wifiinfo.getMacAddress()；获取MAC地址。
+     * wifiinfo.getNetworkId()；获取网络ID。
+     * wifiinfo.getLinkSpeed()；获取连接速度，可以让用户获知这一信息。
+     * wifiinfo.getRssi()；获取RSSI，RSSI就是接受信号强度指示。
+     * 这里得到信号强度就靠wifiinfo.getRssi()这个方法。得到的值是一个0到-100的区间值，是一个int型数据，其中0到-50表示信号最好，-50到-70表示信号偏差，小于-70表示最差，有可能连接不上或者掉线，一般Wifi已断则值为-200。
+     * ---------------------
+     * 作者：筱丶新
+     * 来源：CSDN
+     * 原文：https://blog.csdn.net/qq_26981913/article/details/52276732/
+     * 版权声明：本文为博主原创文章，转载请附上博文链接！
+     */
+    //获取wifi信号强度：
+    private int obtainWifiInfo() {
+        // Wifi的连接速度及信号强度：
+        int strength = 0;
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        // WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        WifiInfo info = wifiManager.getConnectionInfo();
+        if (info.getBSSID() != null) {
+            // 链接信号强度，5为获取的信号强度值在5以内
+            strength = WifiManager.calculateSignalLevel(info.getRssi(), 100);
+            // 链接速度
+            int speed = info.getLinkSpeed();
+            // 链接速度单位
+            String units = WifiInfo.LINK_SPEED_UNITS;
+            // Wifi源名称
+            String ssid = info.getSSID();
+        }
+//        return info.toString();
+        return strength;
     }
 
     /**
@@ -651,9 +716,10 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("m_iPort", m_iPort);
         super.onSaveInstanceState(outState);
-        Log.i(TAG, "onSaveInstanceState");
+
+        outState.putInt("m_iPort", m_iPort);
+        LogUtil.showLog(TAG, "onSaveInstanceState" + m_iPort);
     }
 
     /**
@@ -663,8 +729,9 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        m_iPort = savedInstanceState.getInt("m_iPort");
         super.onRestoreInstanceState(savedInstanceState);
+        m_iPort = savedInstanceState.getInt("m_iPort");
+        LogUtil.showLog(TAG, "onRestoreInstanceState" + m_iPort);
     }
 
     /**
@@ -701,11 +768,11 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      *
      * @return
      */
-    private void initHiKActivity() {
+    private boolean initHiKActivity() {
         findViews();
         //添加
-        //m_osurfaceView.getHolder().addCallback(this);
-        //return true;
+        m_osurfaceView.getHolder().addCallback(this);
+        return true;
     }
 
     /**
@@ -727,6 +794,9 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         this.imgbtn_back_hik = (ImageButton) findViewById(R.id.imgbtn_back_hik);
         this.li_magPage_hik = (LinearLayout) findViewById(R.id.li_magPage_hik);
         this.tv_Loading = (TextView) findViewById(R.id.tv_Loading);
+
+
+        this.tv_wifiStrength_hik = (TextView) findViewById(R.id.tv_wifiStrength_hik);
 
 
         this.skb_speed_hik = (SeekBar) findViewById(R.id.skb_speed_hik);
@@ -1034,9 +1104,6 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtil.showLog("HicActivity", "准备关闭 DES");
-
-        CloseHiKActivity();
     }
 
     /**
@@ -1256,12 +1323,10 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      */
     private RealPlayCallBack getRealPlayerCbf() {
         RealPlayCallBack cbf = new RealPlayCallBack() {
-            public void fRealDataCallBack(int iRealHandle, int iDataType,
-                                          byte[] pDataBuffer, int iDataSize) {
+            public void fRealDataCallBack(int iRealHandle, int iDataType, byte[] pDataBuffer, int iDataSize) {
                 //播放器频道1
                 // player channel 1
-                HiKCameraActivity.this.processRealData(iDataType, pDataBuffer,
-                        iDataSize, Player.STREAM_REALTIME);
+                HiKCameraActivity.this.processRealData(iDataType, pDataBuffer, iDataSize, Player.STREAM_REALTIME);
             }
         };
         return cbf;
@@ -1279,8 +1344,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      */
     public void processRealData(int iDataType, byte[] pDataBuffer, int iDataSize, int iStreamMode) {
         if (!m_bNeedDecode) {
-            // Log.i(TAG, "iPlayViewNo:" + iPlayViewNo + ",iDataType:" +
-            // iDataType + ",iDataSize:" + iDataSize);
+            Log.i(TAG, ",iDataType:" + iDataType + ",iDataSize:" + iDataSize);
         } else {
             if (HCNetSDK.NET_DVR_SYSHEAD == iDataType) {
                 if (m_iPort >= 0) {
@@ -1288,52 +1352,43 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
                 }
                 m_iPort = Player.getInstance().getPort();
                 if (m_iPort == -1) {
-                    Log.e(TAG, "getPort is failed with: "
-                            + Player.getInstance().getLastError(m_iPort));
+                    Log.e(TAG, "getPort is failed with: " + Player.getInstance().getLastError(m_iPort));
                     return;
                 }
                 Log.i(TAG, "getPort succ with: " + m_iPort);
                 if (iDataSize > 0) {
-                    if (!Player.getInstance().setStreamOpenMode(m_iPort,
-                            iStreamMode)) // set stream mode
+                    if (!Player.getInstance().setStreamOpenMode(m_iPort, iStreamMode)) // set stream mode
                     {
                         Log.e(TAG, "setStreamOpenMode failed");
                         return;
                     }
-                    if (!Player.getInstance().openStream(m_iPort, pDataBuffer,
-                            iDataSize, 2 * 1024 * 1024)) // open stream
+                    if (!Player.getInstance().openStream(m_iPort, pDataBuffer, iDataSize, 2 * 1024 * 1024)) // open stream
                     {
                         Log.e(TAG, "openStream failed");
                         return;
                     }
-                    if (!Player.getInstance().play(m_iPort,
-                            m_osurfaceView.getHolder())) {
+                    if (!Player.getInstance().play(m_iPort, m_osurfaceView.getHolder())) {
                         Log.e(TAG, "play failed");
                         return;
                     }
                     if (!Player.getInstance().playSound(m_iPort)) {
-                        Log.e(TAG, "playSound failed with error code:"
-                                + Player.getInstance().getLastError(m_iPort));
+                        Log.e(TAG, "playSound failed with error code:" + Player.getInstance().getLastError(m_iPort));
                         return;
                     }
                 }
             } else {
-                if (!Player.getInstance().inputData(m_iPort, pDataBuffer,
-                        iDataSize)) {
+                if (!Player.getInstance().inputData(m_iPort, pDataBuffer, iDataSize)) {
                     // Log.e(TAG, "inputData failed with: " +
                     // Player.getInstance().getLastError(m_iPort));
                     for (int i = 0; i < 4000 && m_iPlaybackID >= 0
                             && !m_bStopPlayback; i++) {
-                        if (Player.getInstance().inputData(m_iPort,
-                                pDataBuffer, iDataSize)) {
+                        if (Player.getInstance().inputData(m_iPort, pDataBuffer, iDataSize)) {
                             break;
 
                         }
 
                         if (i % 100 == 0) {
-                            Log.e(TAG, "inputData failed with: "
-                                    + Player.getInstance()
-                                    .getLastError(m_iPort) + ", i:" + i);
+                            Log.e(TAG, "inputData failed with: " + Player.getInstance().getLastError(m_iPort) + ", i:" + i);
                         }
                         try {
                             Thread.sleep(10);

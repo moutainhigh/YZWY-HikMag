@@ -102,44 +102,44 @@ public class WelcomeActivity extends AppCompatActivity {
                         final String userName = SharePreferencesUtil.getStringValue(WelcomeActivity.this, UserInfoConstant.userName, "0");
                         final String passWord = SharePreferencesUtil.getStringValue(WelcomeActivity.this, UserInfoConstant.passWord, "0");
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                Map<String, String> LoginStringMap = new HashMap<>();
-                                LoginStringMap.put("userName", userName);
-                                LoginStringMap.put("passWord", passWord);
-                                OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
-                                    @Override
-                                    public void success(Call call, Response response) throws IOException {
-                                        String rs = response.body().string();
-                                        HanderMsgSend(handler, 100, rs);
-                                        LogUtil.showLog("LoginActivity success --->", rs);
-                                    }
-
-                                    @Override
-                                    public void failed(Call call, IOException e) {
-                                        HanderMsgSend(handler, 101, e.toString());
-                                        LogUtil.showLog("LoginActivity failed --->", e.toString());
-                                    }
-                                });
-
-
-                            }
-                        }).start();
-
-//                        if (userName.equals("admin") && passWord.equals("admin123")) {
-//                            //去登录界面
-//                            Tools.Intent(WelcomeActivity.this, MainActivity.class);
-//                        } else {
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
 //
-//                            SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.userName, "0");
-//                            SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.passWord, "0");
-//                            SharePreferencesUtil.putBooleanValue(WelcomeActivity.this, UserInfoConstant.Flag, false);
+//                                Map<String, String> LoginStringMap = new HashMap<>();
+//                                LoginStringMap.put("userName", userName);
+//                                LoginStringMap.put("passWord", passWord);
+//                                OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
+//                                    @Override
+//                                    public void success(Call call, Response response) throws IOException {
+//                                        String rs = response.body().string();
+//                                        HanderMsgSend(handler, 100, rs);
+//                                        LogUtil.showLog("LoginActivity success --->", rs);
+//                                    }
 //
-//                            //去登录界面
-//                            Tools.Intent(WelcomeActivity.this, WelcomeActivity.class);
-//                        }
+//                                    @Override
+//                                    public void failed(Call call, IOException e) {
+//                                        HanderMsgSend(handler, 101, e.toString());
+//                                        LogUtil.showLog("LoginActivity failed --->", e.toString());
+//                                    }
+//                                });
+//
+//
+//                            }
+//                        }).start();
+
+                        if (userName.equals("admin") && passWord.equals("123")) {
+                            //去登录界面
+                            Tools.Intent(WelcomeActivity.this, MainActivity.class);
+                        } else {
+
+                            SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.userName, "0");
+                            SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.passWord, "0");
+                            SharePreferencesUtil.putBooleanValue(WelcomeActivity.this, UserInfoConstant.Flag, false);
+
+                            //去登录界面
+                            Tools.Intent(WelcomeActivity.this, WelcomeActivity.class);
+                        }
 
 
                     } else {

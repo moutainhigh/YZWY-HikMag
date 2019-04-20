@@ -20,10 +20,14 @@
     <title>html</title>
 </head>
 <body>
-<div id="viewAndroid"></div>
+<div id="viewAndroid">我是0001</div>
 <script type="text/javascript">
 
     function do_view(str){
+        document.getElementById("viewAndroid").innerHTML=str;
+    }
+
+    function do_android(funcdo,str){
         document.getElementById("viewAndroid").innerHTML=str;
     }
 

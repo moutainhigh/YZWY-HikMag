@@ -188,7 +188,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             //======================================================================================
             //我的信息
             case R.id.li_mineinfo_mine:
-                //AboutUsOnClick();
+                //MineInfoOnClick();
                 break;
 
             //======================================================================================
@@ -231,6 +231,14 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
 
         }
+    }
+
+    /**
+     * =============================================================================================
+     * 我的详细信息
+     */
+    private void MineInfoOnClick() {
+        Tools.IntentBack(getActivity(), UseCourseListActivity.class);
     }
 
     /**

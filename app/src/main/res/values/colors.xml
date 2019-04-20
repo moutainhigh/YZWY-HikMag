@@ -101,6 +101,11 @@
     <!--关于我们分割线-->
     <color name="v_setting_bar_line">#ececec</color>
 
+    <!--思念色-->
+    <color name="silian">#FAFBFB</color>
+    <!--烟白色-->
+    <color name="yanbai">#F5F5F5</color>
+
 
     <!--微信首页-->
     <color name="main_bottom_tab_textcolor_normal">#999999</color>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_bg"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_about_banner"
+        android:maxHeight="200dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recv_item_homefrgmt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+    <!-- 九宫格开始 -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_f"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp">
+
+                <!--设备预览-->
+                <LinearLayout
+                    android:id="@+id/li_hik_frgmthome"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/press_white_style"
+                    android:baselineAligned="false"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_hik_frgmthome"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:contentDescription="设备调试"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_camer" />
+
+                    <TextView
+                        android:id="@+id/tv_hik_frgmthome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="设备调试"
+                        android:textColor="@color/balck_0"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!--摄像头设备连接-->
+                <LinearLayout
+                    android:id="@+id/li_config_frgmthome"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/press_white_style"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_config_frgmthome"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_config_app" />
+
+                    <TextView
+                        android:id="@+id/tv_config_frgmthome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="设备连接配置"
+                        android:textColor="@color/balck_0"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!--热点管理-->
+                <LinearLayout
+                    android:id="@+id/li_hotConfig_frgmthome"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/press_white_style"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_hotConfig_frgmthome"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:padding="5dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_hot_block" />
+
+                    <TextView
+                        android:id="@+id/tv_hotConfig_frgmthome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="热点管理"
+                        android:textColor="@color/balck_0"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
+        <!--</LinearLayout>-->
+
+    </ScrollView>
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/imgbtn_hik_frgmthome"-->
+    <!--android:layout_width="80dp"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:background="@drawable/ic_camer"-->
+    <!--android:contentDescription="设备连接" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_hik_frgmthome"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:paddingTop="5dp"-->
+    <!--android:paddingBottom="5dp"-->
+    <!--android:gravity="center"-->
+    <!--android:text="设备连接"-->
+    <!--android:textColor="@color/balck_0"-->
+    <!--android:textSize="14sp" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/imgbtn_config_frgmthome"-->
+    <!--android:layout_width="80dp"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:background="@drawable/ic_config_app" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_config_frgmthome"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:paddingTop="5dp"-->
+    <!--android:paddingBottom="5dp"-->
+    <!--android:text="配置管理"-->
+    <!--android:textColor="@color/balck_0"-->
+    <!--android:textSize="14sp" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical"-->
+    <!--android:visibility="gone">-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/imgbtn_other_frgmthome"-->
+    <!--android:layout_width="80dp"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:background="@drawable/ic_more" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_other_frgmthome"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:paddingTop="5dp"-->
+    <!--android:paddingBottom="5dp"-->
+    <!--android:text="更多服务"-->
+    <!--android:textColor="@color/balck_0"-->
+    <!--android:textSize="14sp" />-->
+    <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+    <!-- 九宫格结束 -->
+
+</LinearLayout>

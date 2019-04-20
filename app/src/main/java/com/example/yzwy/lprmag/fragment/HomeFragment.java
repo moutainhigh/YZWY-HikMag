@@ -3,17 +3,25 @@ package com.example.yzwy.lprmag.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.yzwy.lprmag.ConfigSetActivity;
 import com.example.yzwy.lprmag.HiKCameraActivity;
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.WifiHotMagActivity;
+import com.example.yzwy.lprmag.bean.CustomServiceDataBean;
 import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.Tools;
+import com.example.yzwy.lprmag.view.XCRoundRectImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -33,6 +41,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private LinearLayout li_hik_frgmthome;
     private LinearLayout li_config_frgmthome;
     private LinearLayout li_hotConfig_frgmthome;
+
+
+
+
+
+    /**
+     * 定义适配器
+     */
+    private CustomServiceAdapter adapter;
+
+
+    /**
+     * 定义Bean类型的数组
+     */
+    private List<CustomServiceDataBean> adapterBeanList = new ArrayList<CustomServiceDataBean>();
+
+
 
     @Nullable
     @Override
@@ -199,4 +224,114 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void BtnOtherOnClick() {
         Tools.Toast(getActivity(), "亲亲，攻城狮正在全力开发中~");
     }
+
+
+    /**
+     * =============================================================================================
+     * 加载RecyclerView适配器
+     */
+    public void initAdapter() {
+
+        /**
+         * -----------------------------------------------------------------------------------------
+         * 获取预置点列表
+         * */
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recv_item_homefrgmt);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new CustomServiceAdapter(adapterBeanList);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    /**
+     * =============================================================================================
+     * 适配器 列表
+     */
+    private class CustomServiceAdapter extends RecyclerView.Adapter<CustomServiceAdapter.ViewHolder> {
+
+        private List<CustomServiceDataBean> dataBeanList;
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            private View mAdapterView;
+            private TextView tv_id_cusservice;
+            private TextView tv_customerServiceType_cusservice;
+            private TextView tv_customerService_cusservice;
+            private XCRoundRectImageView xcrimg_bg_cusservice;
+
+            ViewHolder(View view) {
+                super(view);
+                mAdapterView = view;
+                tv_id_cusservice = (TextView) view.findViewById(R.id.tv_id_cusservice);
+                tv_customerServiceType_cusservice = (TextView) view.findViewById(R.id.tv_customerServiceType_cusservice);
+                tv_customerService_cusservice = (TextView) view.findViewById(R.id.tv_customerService_cusservice);
+                xcrimg_bg_cusservice = (XCRoundRectImageView) view.findViewById(R.id.xcrimg_bg_cusservice);
+            }
+        }
+
+
+        CustomServiceAdapter(List<CustomServiceDataBean> dataBeans) {
+            this.dataBeanList = dataBeans;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cusservice, parent, false);
+            final ViewHolder holder = new ViewHolder(view);
+            holder.tv_customerService_cusservice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getAdapterPosition();
+                    CustomServiceDataBean customServiceDataBean = dataBeanList.get(position);
+                }
+            });
+
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            CustomServiceDataBean dataBean = dataBeanList.get(position);
+
+
+            holder.tv_id_cusservice.setText(dataBean.getID());
+            holder.tv_customerServiceType_cusservice.setText(dataBean.getKey());
+            holder.tv_customerService_cusservice.setText(dataBean.getVal());
+
+            if (dataBean.getBgUrl().length() > 0) {
+
+            }
+
+
+        }
+
+
+        /**
+         * =========================================================
+         * 返回多少个布局
+         */
+        @Override
+        public int getItemCount() {
+            return dataBeanList.size();
+        }
+
+        /**
+         * =========================================================
+         * 返回具体item 的 item ID 号
+         */
+        @Override
+        public long getItemId(int id) {
+
+            return id;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return (position % 2);
+        }
+
+    }
+
+
+
 }
