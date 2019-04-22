@@ -35,13 +35,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -58,7 +54,7 @@ import com.example.yzwy.lprmag.myConstant.ConfigDataConstant;
 import com.example.yzwy.lprmag.myConstant.HiKEventBusConstant;
 import com.example.yzwy.lprmag.myConstant.HiKLineWHRectLintScreen;
 import com.example.yzwy.lprmag.util.ConvertUtil;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
@@ -214,8 +210,8 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
     private int screenWidth = 0;
     private int screenHeight = 0;
     private Button btn_priority_hik;
-    private ImageView img_loading_hik;
-    private Animation LoadingAnimation;
+//    private ImageView img_loading_hik;
+//    private Animation LoadingAnimation;
     private LinearLayout li_loading_hik;
     private LinearLayout li_cmdtop_hik;
     private boolean li_cmdtop_hikBool = false;
@@ -283,8 +279,6 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         //事件监听
         initOnClick();
 
-
-        System.out.println(Double.parseDouble("3.14159265984269") + "，执行结束！=======================");
     }
 
     //在onResume()方法注册
@@ -547,7 +541,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
                 case 404:
                     tv_Loading.setVisibility(View.GONE);
                     li_loading_hik.setVisibility(View.GONE);
-                    LoadingAnimation.cancel();
+                    //LoadingAnimation.cancel();
                     LogUtil.showLog(TAG, HiKMsg);
                     try {
                         new MessageDialog(HiKCameraActivity.this)
@@ -599,7 +593,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         tv_Loading.setVisibility(View.GONE);
 
         li_loading_hik.setVisibility(View.GONE);
-        LoadingAnimation.cancel();
+        //LoadingAnimation.cancel();
 
         m_osurfaceView.setEnabled(true);
 
@@ -855,14 +849,14 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         //LoadingDialog loadingDialog = new LoadingDialog(this, "正在登录...", R.mipmap.ic_dialog_loading);
         //loadingDialog.show();
 
-        /**
-         * 加载图片
-         * */
-        img_loading_hik = (ImageView) findViewById(R.id.img_loading_hik);
-        img_loading_hik.setImageResource(R.drawable.ic_dialog_loading);
-        LoadingAnimation = AnimationUtils.loadAnimation(HiKCameraActivity.this, R.anim.loading);
-        LoadingAnimation.setInterpolator(new LinearInterpolator());
-        img_loading_hik.startAnimation(LoadingAnimation);
+//        /**
+//         * 加载图片
+//         * */
+//        img_loading_hik = (ImageView) findViewById(R.id.img_loading_hik);
+//        img_loading_hik.setImageResource(R.drawable.ic_dialog_loading);
+//        LoadingAnimation = AnimationUtils.loadAnimation(HiKCameraActivity.this, R.anim.loading);
+//        LoadingAnimation.setInterpolator(new LinearInterpolator());
+//        img_loading_hik.startAnimation(LoadingAnimation);
 
     }
 

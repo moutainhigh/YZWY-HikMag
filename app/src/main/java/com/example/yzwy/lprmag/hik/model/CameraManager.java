@@ -123,17 +123,15 @@ public class CameraManager {
      */
     public void loginDevice() {
         deviceInfo_V30 = new NET_DVR_DEVICEINFO_V30();
-        m_iLogID = HCNetSDK.getInstance().NET_DVR_Login_V30(ip, port, username,
-                password, deviceInfo_V30);
-
-
+        m_iLogID = HCNetSDK.getInstance().NET_DVR_Login_V30(ip, port, username, password, deviceInfo_V30);
         System.out.println("下面是设备信息************************");
         System.out.println("userId=" + m_iLogID);
         System.out.println("通道开始=" + deviceInfo_V30.byStartChan);
         System.out.println("通道个数=" + deviceInfo_V30.byChanNum);
         System.out.println("设备类型=" + deviceInfo_V30.byDVRType);
         System.out.println("ip通道个数=" + deviceInfo_V30.byIPChanNum);
-
+        System.out.println("设备序列号=" + deviceInfo_V30.sSerialNumber);
+        System.out.println("====" + deviceInfo_V30.wDevType);
         if (m_iLogID < 0) {
             int errorCode = HCNetSDK.getInstance().NET_DVR_GetLastError();
             Log.e(TAG,
@@ -842,7 +840,6 @@ public class CameraManager {
      * 登出设备
      */
     public void logoutDevice() {
-
 
 
         stopPlay();

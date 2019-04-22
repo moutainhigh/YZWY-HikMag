@@ -19,25 +19,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.yzwy.lprmag.guide.animation.guide.GuideActivity;
-import com.example.yzwy.lprmag.myConstant.HttpUrl;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
-import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import com.example.yzwy.lprmag.util.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import okhttp3.Call;
-import okhttp3.Response;
 
 /**
  * #################################################################################################

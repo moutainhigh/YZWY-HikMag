@@ -16,7 +16,7 @@ import com.example.yzwy.lprmag.HiKCameraActivity;
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.WifiHotMagActivity;
 import com.example.yzwy.lprmag.bean.CustomServiceDataBean;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.view.XCRoundRectImageView;
 

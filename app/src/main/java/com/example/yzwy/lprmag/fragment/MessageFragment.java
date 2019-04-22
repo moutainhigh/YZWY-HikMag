@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yzwy.lprmag.R;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 
 /**
  * 　　　　　　　　┏┓　　　┏┓

@@ -6,7 +6,7 @@ import android.content.res.Configuration;
 
 import com.example.yzwy.lprmag.model.myCrash.CrashHandler;
 import com.example.yzwy.lprmag.myConstant.HiKLineWHRectLintScreen;
-import com.example.yzwy.lprmag.util.LogUtilUtil;
+import com.example.yzwy.lprmag.util.LogUtil;
 
 
 /**
@@ -65,7 +65,7 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        LogUtilUtil.showLog(TAG, "程序创建的时候执行");
+        LogUtil.showLog(TAG, "程序创建的时候执行");
 
         //获取context
         mContext = getApplicationContext();
@@ -104,7 +104,7 @@ public class MyApp extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        LogUtilUtil.showLog(TAG, "程序被终止");
+        LogUtil.showLog(TAG, "程序被终止");
         /**
          * 关闭服务
          * */
@@ -123,7 +123,7 @@ public class MyApp extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        LogUtilUtil.showLog(TAG, "低内存的时候执行");
+        LogUtil.showLog(TAG, "低内存的时候执行");
     }
 
 
@@ -134,7 +134,7 @@ public class MyApp extends Application {
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        LogUtilUtil.showLog(TAG, "程序在进行内存清理时执行");
+        LogUtil.showLog(TAG, "程序在进行内存清理时执行");
         /**
          * 关闭服务
          * */
@@ -150,7 +150,7 @@ public class MyApp extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        LogUtilUtil.showLog(TAG, "配置改变时触发这个方法");
+        LogUtil.showLog(TAG, "配置改变时触发这个方法");
     }
 
 

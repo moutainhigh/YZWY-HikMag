@@ -16,7 +16,7 @@ import com.example.yzwy.lprmag.adapter.TabFragmentAdapter;
 import com.example.yzwy.lprmag.broadcast.NetWorkChangReceiver;
 import com.example.yzwy.lprmag.fragment.MineFragment;
 import com.example.yzwy.lprmag.myinterface.NetBroadcastListener;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.crypto.AesUtil;
@@ -35,8 +35,7 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
  * Describe: 主界面
  * #################################################################################################
  */
-public class MainActivity extends AppCompatActivity implements
-        ViewPager.OnPageChangeListener, NetBroadcastListener {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, NetBroadcastListener {
 
 
     private long exitTime;

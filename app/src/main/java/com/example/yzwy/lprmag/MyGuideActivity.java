@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yzwy.lprmag.adapter.GuideViewPagerAdapter;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 

@@ -5,9 +5,15 @@ import android.content.Intent;
 
 import com.example.yzwy.lprmag.Service.killSelfService;
 
+
 /**
- * 此工具类用来重启APP，只是单纯的重启，不做任何处理。
- * Created by 13itch on 2016/8/5.
+ * #################################################################################################
+ * Copyright: Copyright (c) 2018
+ * Created on 2019-04-03
+ * Author: 仲超(zhongchao)
+ * Version 1.0
+ * Describe: 此工具类用来重启APP，只是单纯的重启，不做任何处理。
+ * #################################################################################################
  */
 public class RestartAPPTool {
 

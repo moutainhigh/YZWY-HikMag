@@ -29,15 +29,15 @@ import com.example.yzwy.lprmag.LoginActivity;
 import com.example.yzwy.lprmag.PrivacyAgreementActivity;
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.UseCourseListActivity;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.myConstant.HttpUrl;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.myConstant.VersionNumber;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.HanderMsg;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import com.example.yzwy.lprmag.util.Tools;
+import com.example.yzwy.lprmag.util.UpdateManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +61,7 @@ import okhttp3.Response;
  */
 public class MineFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = "MineFragment";
     private View view;
 
     private LinearLayout li_aboutus_mine;
@@ -82,6 +84,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView tv_verionnum_mine;
     private LinearLayout li_useCourse_mine;
     private LinearLayout li_customService_mine;
+    private int version = 0;
+    private String versionName = null;
 
     @Nullable
     @Override
@@ -111,6 +115,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
      */
     private void initData() {
 
+        version = UpdateManager.getInstance().getVersion(getActivity());
+        versionName = UpdateManager.getInstance().getVersionName(getActivity());
+
+        Tools.Toast(getActivity(), "版本号：" + String.valueOf(version) + "  版本名称：" + versionName);
+        LogUtil.showLog(TAG, "版本号：" + String.valueOf(version) + "  版本名称：" + versionName);
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -129,6 +140,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void failed(Call call, IOException e) {
                         HanderMsg.HanderMsgSend(handler, 101101, e.toString());
+                        if(e.getCause().equals(SocketTimeoutException.class))
+                            Tools.Toast(getActivity(),"连接超时");
+
                         LogUtil.showLog("NetAPi failed --->", e.toString());
                     }
                 });
@@ -338,6 +352,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
      */
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
+        @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -370,13 +385,18 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
                     case 100100:
                         if (errcode.equals("0")) {
-                            //String VersionNumber = jsonObject.getString("VersionNumber");
-                            String StrVersionNumber = "0.0.1";
-                            if ((VersionNumber.versionNum).equals(StrVersionNumber)) {
-                                tv_verionnum_mine.setText("版本号 v" + StrVersionNumber + " " + "最新版");
+                            String VersionNumber = jsonObject.getString("VersionNumber");
+                            //String StrVersionNumber = "0.0.1";
+                            if (VersionNumber != null && !VersionNumber.equals("") && !VersionNumber.equals("null")) {
+                                if (VersionNumber.equals(versionName)) {
+                                    tv_verionnum_mine.setText("版本号 v" + versionName + " " + "最新版");
+                                } else {
+                                    tv_verionnum_mine.setText("可更新至 " + "版本号 v" + VersionNumber);
+                                }
                             } else {
-                                tv_verionnum_mine.setText("可更新至 " + "版本号 v" + StrVersionNumber);
+                                tv_verionnum_mine.setText("版本号 v" + versionName + " " + "最新版");
                             }
+
 
                         } else {
                             Tools.Toast(getActivity(), errmsg);
@@ -384,8 +404,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                         break;
 
                     case 101101:
-                        tv_verionnum_mine.setText("版本号 获取失败");
-                        Tools.Toast(getActivity(), "失败，异常Log：\n" + data);
+                        //tv_verionnum_mine.setText("版本号 获取失败");
+                        Tools.Toast(getActivity(), "网络异常，请检查");
+                        LogUtil.showLog(TAG, "失败，异常Log：\n" + data);
                         break;
 
                     default:
@@ -395,7 +416,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
                 LogUtil.showLog(" JSON failed --->", e.toString());
-                Tools.Toast(getActivity(), "失败，JSON解析异常，异常Log：\n" + data);
+                Tools.Toast(getActivity(), "失败，数据解析异常，异常Log：\n" + data);
             }
 
         }

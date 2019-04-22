@@ -1,10 +1,10 @@
-package com.example.yzwy.lprmag.control;
+package com.example.yzwy.lprmag.control.activityStackExtends.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 
 public class BaseActivity extends Activity {
 

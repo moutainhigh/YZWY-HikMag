@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -25,19 +26,29 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * #################################################################################################
+ * Copyright: Copyright (c) 2018
+ * Created on 2019-04-03
+ * Author: 仲超(zhongchao)
+ * Version 1.0
+ * Describe: OKHTTP工具类
+ * #################################################################################################
+ */
 public class OkHttpUtil {
 
     private String TAG = "OkHttpUtil";
 
-    public final static int READ_TIMEOUT = 100;
-    public final static int CONNECT_TIMEOUT = 60;
-    public final static int WRITE_TIMEOUT = 60;
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private final static int READ_TIMEOUT = 100;
+    private final static int CONNECT_TIMEOUT = 60;
+    private final static int WRITE_TIMEOUT = 60;
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final byte[] LOCKER = new byte[0];
     private static OkHttpUtil mInstance;
     private OkHttpClient mOkHttpClient;
@@ -289,6 +300,12 @@ public class OkHttpUtil {
         }
     }
 
+    /**
+     * @param url
+     * @param json
+     * @param myNetCall
+     * @throws IOException
+     */
     public void postJsonAsyn(String url, String json, final MyNetCall myNetCall) throws IOException {
         RequestBody body = RequestBody.create(JSON, json);
         //2 构造Request
@@ -374,5 +391,55 @@ public class OkHttpUtil {
 //        }
 //
 //    }
+
+
+    /**
+     * @param URL
+     * @param file
+     * @param fileType
+     * @param fileName
+     * @param myNetCall
+     */
+    public static void postUploadFile(String URL, File file, String fileType, String fileName, final MyNetCall myNetCall) {
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        //创建MultipartBody，给MultipartBody进行设置
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(fileType, fileName, fileBody)
+                .build();
+        /**
+         * GET上传的数据一般是很小的并且安全性能不高的数据，
+         * 而POST上传的数据适用于数据量大，数据类型复杂，数据安全性能要求高的地方
+         */
+        //创建okhttp对象
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .build();
+        //创建Request对象
+        Request request = new Request.Builder()
+                .url(URL)
+                .post(multipartBody)
+                .build();
+        //上传完图片，得到服务器反馈数据
+        Call call = okHttpClient.newCall(request);
+        //4 执行Call
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                myNetCall.failed(call, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                myNetCall.success(call, response);
+
+            }
+        });
+
+    }
+
 
 }

@@ -1,35 +1,16 @@
 package com.example.yzwy.lprmag;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.yzwy.lprmag.guide.animation.guide.GuideActivity;
-import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
-import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import com.example.yzwy.lprmag.util.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * #################################################################################################

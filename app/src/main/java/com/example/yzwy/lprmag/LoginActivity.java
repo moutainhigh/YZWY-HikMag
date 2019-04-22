@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.example.yzwy.lprmag.myConstant.HttpUrl;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.util.ActivityStackManager;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
@@ -98,7 +98,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
              * 关闭页面
              * */
             case R.id.btn_clode_lgn:
-                loadingDialog.dismiss();
+                if (loadingDialog != null) {
+                    loadingDialog.dismiss();
+                }
                 this.finish();
                 break;
 

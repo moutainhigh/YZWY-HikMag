@@ -187,7 +187,7 @@ public class PresetDialog extends Activity {
         if (!wifiManager.isWifiEnabled())
             wifiManager.setWifiEnabled(true);
 
-        LogUtil.showLog("PresetDialog --->","已连接到：" + wifiManager.getConnectionInfo().getSSID() + "\nIP:" + getIp() + "\n路由：" + getWifiRouteIPAddress(PresetDialog.this));
+        LogUtil.showLog("PresetDialog --->", "已连接到：" + wifiManager.getConnectionInfo().getSSID() + "\nIP:" + getIp() + "\n路由：" + getWifiRouteIPAddress(PresetDialog.this));
 
         status_init_dialogPreset.setText("已连接到：" + wifiManager.getConnectionInfo().getSSID() + "\nIP:" + getIp() + "\n路由：" + getWifiRouteIPAddress(PresetDialog.this));
 
@@ -209,12 +209,14 @@ public class PresetDialog extends Activity {
         String ip = intToIp(ipAdd);
         return ip;
     }
+
     private String intToIp(int i) {
         return (i & 0xFF) + "." +
                 ((i >> 8) & 0xFF) + "." +
                 ((i >> 16) & 0xFF) + "." +
                 (i >> 24 & 0xFF);
     }
+
     private String intToRouterIp(int i) {
         return (i & 0xFF) + "." +
                 ((i >> 8) & 0xFF) + "." +

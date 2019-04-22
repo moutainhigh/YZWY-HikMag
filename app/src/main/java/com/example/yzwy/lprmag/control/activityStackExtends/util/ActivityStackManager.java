@@ -1,4 +1,4 @@
-package com.example.yzwy.lprmag.util;
+package com.example.yzwy.lprmag.control.activityStackExtends.util;
 
 import android.app.Activity;
 import android.app.Application;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class ActivityStackManager extends Application {
+public class ActivityStackManager {
 
     private static ActivityStackManager mInstance;
     private static Stack<Activity> mActivityStack;
@@ -26,6 +26,7 @@ public class ActivityStackManager extends Application {
     }
 
     /**
+     * =============================================================================================
      * 入栈
      *
      * @param activity
@@ -35,6 +36,7 @@ public class ActivityStackManager extends Application {
     }
 
     /**
+     * =============================================================================================
      * 出栈
      *
      * @param activity
@@ -44,6 +46,7 @@ public class ActivityStackManager extends Application {
     }
 
     /**
+     * =============================================================================================
      * 彻底退出
      */
     public void finishAllActivity() {
@@ -57,6 +60,7 @@ public class ActivityStackManager extends Application {
     }
 
     /**
+     * =============================================================================================
      * 结束指定类名的Activity
      *
      * @param cls
@@ -70,6 +74,7 @@ public class ActivityStackManager extends Application {
     }
 
     /**
+     * =============================================================================================
      * 查找栈中是否存在指定的activity
      *
      * @param cls
@@ -85,6 +90,7 @@ public class ActivityStackManager extends Application {
     }
 
     /**
+     * =============================================================================================
      * 结束指定的Activity
      *
      * @param activity
@@ -98,6 +104,7 @@ public class ActivityStackManager extends Application {
     }
 
     /**
+     * =============================================================================================
      * finish指定的activity之上所有的activity
      *
      * @param actCls
