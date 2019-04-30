@@ -13,9 +13,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
+import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
@@ -143,13 +144,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void success(Call call, Response response) throws IOException {
                                 String rs = response.body().string();
-                                HanderMsgSend(handler, 100, rs);
+                                HanderUtil.HanderMsgSend(handler, 100, rs);
                                 LogUtil.showLog("LoginActivity success --->", rs);
                             }
 
                             @Override
                             public void failed(Call call, IOException e) {
-                                HanderMsgSend(handler, 101, e.toString());
+                                HanderUtil.HanderMsgSend(handler, 101, e.toString());
                                 LogUtil.showLog("LoginActivity failed --->", e.toString());
                             }
                         });
@@ -189,22 +190,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    /**
-     * =============================================================================================
-     * 发消息
-     *
-     * @param handler
-     * @param what
-     * @param Val
-     */
-    private void HanderMsgSend(Handler handler, int what, String Val) {
-        Message message_Login_Success = new Message();
-        message_Login_Success.what = what;
-        Bundle bundle = new Bundle();
-        bundle.putString("data", Val);
-        message_Login_Success.setData(bundle);
-        handler.sendMessage(message_Login_Success);
-    }
+//    /**
+//     * =============================================================================================
+//     * 发消息
+//     *
+//     * @param handler
+//     * @param what
+//     * @param Val
+//     */
+//    private void HanderMsgSend(Handler handler, int what, String Val) {
+//        Message message_Login_Success = new Message();
+//        message_Login_Success.what = what;
+//        Bundle bundle = new Bundle();
+//        bundle.putString("data", Val);
+//        message_Login_Success.setData(bundle);
+//        handler.sendMessage(message_Login_Success);
+//    }
 
 
     /**

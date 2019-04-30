@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
-import com.example.yzwy.lprmag.util.HanderMsg;
+import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.Tools;
@@ -114,13 +114,13 @@ public class UseCourseDetailsActivity extends AppCompatActivity implements View.
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();
-                        HanderMsg.HanderMsgSend(handler, 100, rs);
+                        HanderUtil.HanderMsgSend(handler, 100, rs);
                         LogUtil.showLog("UseCourseDetailsActivity success --->", rs);
                     }
 
                     @Override
                     public void failed(Call call, IOException e) {
-                        HanderMsg.HanderMsgSend(handler, 101, e.toString());
+                        HanderUtil.HanderMsgSend(handler, 101, e.toString());
                         LogUtil.showLog("UseCourseDetailsActivity failed --->", e.toString());
                     }
                 });

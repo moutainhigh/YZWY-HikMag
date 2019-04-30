@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.yzwy.lprmag.ConfigSetActivity;
 import com.example.yzwy.lprmag.HiKCameraActivity;
 import com.example.yzwy.lprmag.R;
+import com.example.yzwy.lprmag.TerminalDataManageActivity;
 import com.example.yzwy.lprmag.WifiHotMagActivity;
 import com.example.yzwy.lprmag.bean.CustomServiceDataBean;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
@@ -24,13 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * Created by 仲超(zhongchao) on 2019/03/26.
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private View view;
-//    private ImageView img_hik_frgmthome;
+    //    private ImageView img_hik_frgmthome;
 //    private TextView tv_hik_frgmthome;
 //    private ImageView img_config_frgmthome;
 //    private TextView tv_config_frgmthome;
@@ -41,9 +41,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private LinearLayout li_hik_frgmthome;
     private LinearLayout li_config_frgmthome;
     private LinearLayout li_hotConfig_frgmthome;
-
-
-
+    private LinearLayout li_termdatamag_frgmthome;
 
 
     /**
@@ -56,7 +54,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * 定义Bean类型的数组
      */
     private List<CustomServiceDataBean> adapterBeanList = new ArrayList<CustomServiceDataBean>();
-
 
 
     @Nullable
@@ -95,6 +92,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         li_hik_frgmthome = (LinearLayout) view.findViewById(R.id.li_hik_frgmthome);
         li_config_frgmthome = (LinearLayout) view.findViewById(R.id.li_config_frgmthome);
         li_hotConfig_frgmthome = (LinearLayout) view.findViewById(R.id.li_hotConfig_frgmthome);
+        li_termdatamag_frgmthome = (LinearLayout) view.findViewById(R.id.li_termdatamag_frgmthome);
 
 //        img_other_frgmthome = (ImageButton) view.findViewById(R.id.img_other_frgmthome);
 //        tv_other_frgmthome = (TextView) view.findViewById(R.id.tv_other_frgmthome);
@@ -122,6 +120,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         li_hik_frgmthome.setOnClickListener(this);
         li_config_frgmthome.setOnClickListener(this);
         li_hotConfig_frgmthome.setOnClickListener(this);
+        li_termdatamag_frgmthome.setOnClickListener(this);
 
 //        img_other_frgmthome.setOnClickListener(this);
 //        tv_other_frgmthome.setOnClickListener(this);
@@ -159,7 +158,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //                break;
 
 
-
             //======================================================================================
             //海康设备管理和预览
             case R.id.li_hik_frgmthome:
@@ -178,6 +176,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 WifiHotMagOnClick();
                 break;
 
+
+            //======================================================================================
+            //终端数据管理
+            case R.id.li_termdatamag_frgmthome:
+                TermDataMagOnClick();
+                break;
+
 //            //======================================================================================
 //            //其它
 //            case R.id.img_other_frgmthome:
@@ -193,10 +198,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
+    /**
+     * =============================================================================================
+     * 终端数据管理
+     */
+    private void TermDataMagOnClick() {
+        Tools.IntentBack(getActivity(), TerminalDataManageActivity.class);
+    }
+
     /**
      * =============================================================================================
      * 终端热点管理
-     * */
+     */
     private void WifiHotMagOnClick() {
         Tools.IntentBack(getActivity(), WifiHotMagActivity.class);
     }
@@ -331,7 +345,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
 
     }
-
 
 
 }

@@ -228,4 +228,43 @@ public class SendOrder {
         System.out.println("发送命令 设置终端上优先级>>>>>" + json);
         return json;
     }
+
+
+    /**
+     * =============================================================================================
+     * 获取终端数据信息
+     */
+    public static String Get_TermDataInfo() {
+        JSONObject jo1 = new JSONObject();
+        try {
+            jo1.put("Order", String.valueOf(OrderConstant.ORDER_GET_TermDataMag));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String json = jo1.toString();
+        System.out.println("发送命令 获取终端数据信息>>>>>" + json);
+        return json;
+    }
+
+    /**
+     * =============================================================================================
+     * 获取终端数据信息
+     *
+     * @param termpriority 设备终端优先级
+     * @param termaddress  设备终端地址
+     * @return
+     */
+    public static String Set_TermDataInfo(String termpriority, String termaddress) {
+        JSONObject jo1 = new JSONObject();
+        try {
+            jo1.put("Order", String.valueOf(OrderConstant.ORDER_SET_Update_TermDataMag));
+            jo1.put("termpriority", termpriority);
+            jo1.put("termaddress", termaddress);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String json = jo1.toString();
+        System.out.println("发送命令 获取终端数据信息>>>>>" + json);
+        return json;
+    }
 }

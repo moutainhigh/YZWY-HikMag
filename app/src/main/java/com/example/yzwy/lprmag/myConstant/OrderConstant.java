@@ -74,4 +74,14 @@ public class OrderConstant {
      */
     public final static int ORDER_Update_Preset = 23;
 
+
+    /**
+     * 获取终端上的数据
+     */
+    public final static int ORDER_GET_TermDataMag = 24;
+    /**
+     * 设置终端上的数据
+     */
+    public final static int ORDER_SET_Update_TermDataMag = 25;
+
 }

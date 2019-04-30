@@ -32,7 +32,7 @@ import com.example.yzwy.lprmag.UseCourseListActivity;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.util.HanderMsg;
+import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
@@ -132,13 +132,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();
-                        HanderMsg.HanderMsgSend(handler, 100100, rs);
+                        HanderUtil.HanderMsgSend(handler, 100100, rs);
                         LogUtil.showLog("NetAPi success --->", rs);
                     }
 
                     @Override
                     public void failed(Call call, IOException e) {
-                        HanderMsg.HanderMsgSend(handler, 101101, e.toString());
+                        HanderUtil.HanderMsgSend(handler, 101101, e.toString());
 //                        if(e.getCause().equals(SocketTimeoutException.class))
 //                            Tools.Toast(getActivity(),"连接超时");
                         LogUtil.showLog("NetAPi failed --->", e.toString());
@@ -329,13 +329,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();
-                        HanderMsg.HanderMsgSend(handler, 100, rs);
+                        HanderUtil.HanderMsgSend(handler, 100, rs);
                         LogUtil.showLog("LoginActivity success --->", rs);
                     }
 
                     @Override
                     public void failed(Call call, IOException e) {
-                        HanderMsg.HanderMsgSend(handler, 101, e.toString());
+                        HanderUtil.HanderMsgSend(handler, 101, e.toString());
                         LogUtil.showLog("LoginActivity failed --->", e.toString());
                     }
                 });

@@ -110,6 +110,10 @@
         <activity
             android:name=".CustomServiceActivity"
             android:launchMode="singleTop" />
+        <!--终端数据管理界面-->
+        <activity
+            android:name=".TerminalDataManageActivity"
+            android:launchMode="singleTop" />
 
         <!--配置界面-->
         <activity android:name=".ConfigSetActivity" />
