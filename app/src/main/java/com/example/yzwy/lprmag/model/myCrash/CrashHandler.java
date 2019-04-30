@@ -11,9 +11,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.yzwy.lprmag.myConstant.HttpUrl;
+import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.util.HanderMsg;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
@@ -239,7 +238,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 Map<String, String> LoginStringMap = new HashMap<>();
 //                LoginStringMap.put("userName", edtUsername);
 //                LoginStringMap.put("passWord", edtPwd);
-                OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();

@@ -1,5 +1,8 @@
 package com.example.yzwy.lprmag.myConstant;
 
+/**
+ * 自定义服务界面数据源源默认字符串
+ */
 public class CustomServiceConstant {
 
     /**

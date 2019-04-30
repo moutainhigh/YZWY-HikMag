@@ -50,7 +50,7 @@ import com.example.yzwy.lprmag.dialog.MessageDialog;
 import com.example.yzwy.lprmag.dialog.PriorityDialog;
 import com.example.yzwy.lprmag.hik.model.CameraManager;
 import com.example.yzwy.lprmag.hik.util.NotNull;
-import com.example.yzwy.lprmag.myConstant.ConfigDataConstant;
+import com.example.yzwy.lprmag.myConstant.HiKConfigDataConstant;
 import com.example.yzwy.lprmag.myConstant.HiKEventBusConstant;
 import com.example.yzwy.lprmag.myConstant.HiKLineWHRectLintScreen;
 import com.example.yzwy.lprmag.util.ConvertUtil;
@@ -210,7 +210,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
     private int screenWidth = 0;
     private int screenHeight = 0;
     private Button btn_priority_hik;
-//    private ImageView img_loading_hik;
+    //    private ImageView img_loading_hik;
 //    private Animation LoadingAnimation;
     private LinearLayout li_loading_hik;
     private LinearLayout li_cmdtop_hik;
@@ -395,6 +395,13 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
                 //Tools.IntentDataBack(HiKCameraActivity.this, PresetDialog.class, "m_iPlayID", m_iPlayID + "");
                 //SetPresetOnclick();
 
+                /**
+                 * 如果小于零就什么也拍不到
+                 * */
+                if (scwidth_hik == 0 || scheight_hik == 0 || String.valueOf(scwidth_hik).equals("0") || String.valueOf(scheight_hik).equals("0")) {
+                    Tools.Toast(HiKCameraActivity.this, "识别区域的宽高比必须大于0");
+                    return;
+                }
 
                 Intent in = new Intent(HiKCameraActivity.this, PresetDialog.class);
                 in.putExtra("scwidth_hik", String.valueOf(scwidth_hik));
@@ -416,6 +423,14 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
 
                 //Tools.Toast(HiKCameraActivity.this, "点击了开始识别车牌");
                 //Tools.IntentBack(HiKCameraActivity.this, LprDialog.class);
+
+                /**
+                 * 如果小于零就什么也拍不到
+                 * */
+                if (scwidth_hik == 0 || scheight_hik == 0 || String.valueOf(scwidth_hik).equals("0") || String.valueOf(scheight_hik).equals("0")) {
+                    Tools.Toast(HiKCameraActivity.this, "识别区域的宽高比必须大于0");
+                    return;
+                }
 
                 Intent in = new Intent(HiKCameraActivity.this, LprDialog.class);
                 in.putExtra("scwidth_hik", String.valueOf(scwidth_hik));
@@ -633,10 +648,10 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      */
     private void initHiKConnectConfig() {
 
-        ADDRESS = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, ConfigDataConstant.hkIp_cfgset_str, ConfigDataConstant.hkIp_cfgset_str_default);
-        PORT = Integer.valueOf(SharePreferencesUtil.getStringValue(HiKCameraActivity.this, ConfigDataConstant.hkport_cfgset_str, ConfigDataConstant.hkport_cfgset_str_default));
-        USER = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, ConfigDataConstant.hikusername_cfgset_str, ConfigDataConstant.hikusername_cfgset_str_default);
-        PSD = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, ConfigDataConstant.hikpwd_cfgset_str, ConfigDataConstant.hikpwd_cfgset_str_default);
+        ADDRESS = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, HiKConfigDataConstant.hkIp_cfgset_str, HiKConfigDataConstant.hkIp_cfgset_str_default);
+        PORT = Integer.valueOf(SharePreferencesUtil.getStringValue(HiKCameraActivity.this, HiKConfigDataConstant.hkport_cfgset_str, HiKConfigDataConstant.hkport_cfgset_str_default));
+        USER = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, HiKConfigDataConstant.hikusername_cfgset_str, HiKConfigDataConstant.hikusername_cfgset_str_default);
+        PSD = SharePreferencesUtil.getStringValue(HiKCameraActivity.this, HiKConfigDataConstant.hikpwd_cfgset_str, HiKConfigDataConstant.hikpwd_cfgset_str_default);
 
     }
 

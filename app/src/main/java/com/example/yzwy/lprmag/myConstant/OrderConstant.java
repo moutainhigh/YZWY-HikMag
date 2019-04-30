@@ -1,5 +1,8 @@
 package com.example.yzwy.lprmag.myConstant;
 
+/**
+ * wifi通信常量
+ */
 public class OrderConstant {
 
 //    public static String SELECT_PERSET_ALL = "Order0";

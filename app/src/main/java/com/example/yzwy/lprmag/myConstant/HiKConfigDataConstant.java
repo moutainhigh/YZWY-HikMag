@@ -1,6 +1,6 @@
 package com.example.yzwy.lprmag.myConstant;
 
-public class ConfigDataConstant {
+public class HiKConfigDataConstant {
 
 
 //    /**

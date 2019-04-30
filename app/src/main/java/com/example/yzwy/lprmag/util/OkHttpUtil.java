@@ -6,7 +6,9 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -163,7 +165,7 @@ public class OkHttpUtil {
      * @param myNetCall
      * @return
      */
-    public void getDataAsyn(String url , Map<String, String> params, final MyNetCall myNetCall) {
+    public void getDataAsyn(String url, Map<String, String> params, final MyNetCall myNetCall) {
 
 
         if (params == null) {
@@ -194,7 +196,8 @@ public class OkHttpUtil {
 
     /**
      * 拼接url和请求参数
-     * @param url 请求地址
+     *
+     * @param url    请求地址
      * @param params Map值
      * @return
      */
@@ -356,7 +359,6 @@ public class OkHttpUtil {
     }
 
 
-
 //    public static void post3(String address, okhttp3.Callback callback, Map<String,String> map)
 //    {
 //        OkHttpClient client = new OkHttpClient();
@@ -394,6 +396,9 @@ public class OkHttpUtil {
 
 
     /**
+     * =============================================================================================
+     * 上传文件
+     *
      * @param URL
      * @param file
      * @param fileType
@@ -440,6 +445,72 @@ public class OkHttpUtil {
         });
 
     }
+
+//    /**
+//     * 下载文件
+//     *
+//     * @param file               文件保存文件
+//     * @param sdPath             保存路劲
+//     * @param fileName           文件名称
+//     * @param url                下载路径
+//     * @param uiProgressListener
+//     * @param callBack
+//     * @return
+//     */
+//    public boolean download(final File file, final String sdPath, final String fileName, final String url, UIProgressListener uiProgressListener, final FileDownPathCallBack callBack) {
+//
+//        //构造请求
+//        final Request request1 = new Request.Builder()
+//                .addHeader("Accept-Encoding", "identity")
+//                .url(url)
+//                .build();
+//
+//        //包装Response使其支持进度回调
+//        ProgressHelper.addProgressResponseListener(mOkHttpClient, uiProgressListener).newCall(request1).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) {
+//                InputStream is = null;
+//                byte[] buf = new byte[2048];
+//                int len = 0;
+//                FileOutputStream fos = null;
+//                try {
+//                    long total = response.body().contentLength();
+//                    Log.e(TAG, "total------>" + total);
+//                    long current = 0;
+//                    is = response.body().byteStream();
+//                    fos = new FileOutputStream(file);
+//                    while ((len = is.read(buf)) != -1) {
+//                        current += len;
+//                        fos.write(buf, 0, len);
+//                        Log.e(TAG, "current------>" + current);
+//                    }
+//                    fos.flush();
+//                    callBack.path(sdPath + File.separator + fileName);
+//                    Log.e(TAG, e.toString());
+//                } catch (IOException e) {
+//                } finally {
+//                    try {
+//                        if (is != null) {
+//                            is.close();
+//                        }
+//                        if (fos != null) {
+//                            fos.close();
+//                        }
+//                    } catch (IOException e) {
+//                        Log.e(TAG, e.toString());
+//                    }
+//                }
+//
+//            }
+//
+//        });
+//        return false;
+//    }
 
 
 }

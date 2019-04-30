@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.yzwy.lprmag.myConstant.HttpUrl;
+import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Map<String, String> LoginStringMap = new HashMap<>();
                         LoginStringMap.put("userName", edtUsername);
                         LoginStringMap.put("passWord", edtPwd);
-                        OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                        OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                             @Override
                             public void success(Call call, Response response) throws IOException {
                                 String rs = response.body().string();

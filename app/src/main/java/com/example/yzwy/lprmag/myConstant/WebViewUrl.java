@@ -1,5 +1,8 @@
 package com.example.yzwy.lprmag.myConstant;
 
+/**
+ * WebView 地址字符串
+ */
 public class WebViewUrl {
 
     /**

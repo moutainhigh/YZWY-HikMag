@@ -1,5 +1,8 @@
 package com.example.yzwy.lprmag.myConstant;
 
+/**
+ * 海康EventBus常量
+ */
 public class HiKEventBusConstant {
 
 

@@ -1,5 +1,8 @@
 package com.example.yzwy.lprmag.myConstant;
 
+/**
+ * wifi实时通讯状态标识和相关数据
+ */
 public class WifiMsgConstant {
 
     /**
@@ -13,9 +16,6 @@ public class WifiMsgConstant {
 
 
     public static final int PORT_wifi = 54321;
-
-
-
 
 
 }

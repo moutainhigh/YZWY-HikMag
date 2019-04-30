@@ -19,17 +19,25 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.yzwy.lprmag.guide.animation.guide.GuideActivity;
+import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
+import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import com.example.yzwy.lprmag.util.Tools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * #################################################################################################
@@ -94,44 +102,44 @@ public class WelcomeActivity extends AppCompatActivity {
                         final String userName = SharePreferencesUtil.getStringValue(WelcomeActivity.this, UserInfoConstant.userName, "0");
                         final String passWord = SharePreferencesUtil.getStringValue(WelcomeActivity.this, UserInfoConstant.passWord, "0");
 
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//
-//                                Map<String, String> LoginStringMap = new HashMap<>();
-//                                LoginStringMap.put("userName", userName);
-//                                LoginStringMap.put("passWord", passWord);
-//                                OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
-//                                    @Override
-//                                    public void success(Call call, Response response) throws IOException {
-//                                        String rs = response.body().string();
-//                                        HanderMsgSend(handler, 100, rs);
-//                                        LogUtil.showLog("LoginActivity success --->", rs);
-//                                    }
-//
-//                                    @Override
-//                                    public void failed(Call call, IOException e) {
-//                                        HanderMsgSend(handler, 101, e.toString());
-//                                        LogUtil.showLog("LoginActivity failed --->", e.toString());
-//                                    }
-//                                });
-//
-//
-//                            }
-//                        }).start();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                        if (userName.equals("admin") && passWord.equals("123")) {
-                            //去登录界面
-                            Tools.Intent(WelcomeActivity.this, MainActivity.class);
-                        } else {
+                                Map<String, String> LoginStringMap = new HashMap<>();
+                                LoginStringMap.put("userName", userName);
+                                LoginStringMap.put("passWord", passWord);
+                                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                                    @Override
+                                    public void success(Call call, Response response) throws IOException {
+                                        String rs = response.body().string();
+                                        HanderMsgSend(handler, 100, rs);
+                                        LogUtil.showLog("LoginActivity success --->", rs);
+                                    }
 
-                            SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.userName, "0");
-                            SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.passWord, "0");
-                            SharePreferencesUtil.putBooleanValue(WelcomeActivity.this, UserInfoConstant.Flag, false);
+                                    @Override
+                                    public void failed(Call call, IOException e) {
+                                        HanderMsgSend(handler, 101, e.toString());
+                                        LogUtil.showLog("LoginActivity failed --->", e.toString());
+                                    }
+                                });
 
-                            //去登录界面
-                            Tools.Intent(WelcomeActivity.this, WelcomeActivity.class);
-                        }
+
+                            }
+                        }).start();
+
+//                        if (userName.equals("admin") && passWord.equals("123")) {
+//                            //去登录界面
+//                            Tools.Intent(WelcomeActivity.this, MainActivity.class);
+//                        } else {
+//
+//                            SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.userName, "0");
+//                            SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.passWord, "0");
+//                            SharePreferencesUtil.putBooleanValue(WelcomeActivity.this, UserInfoConstant.Flag, false);
+//
+//                            //去登录界面
+//                            Tools.Intent(WelcomeActivity.this, WelcomeActivity.class);
+//                        }
 
 
                     } else {

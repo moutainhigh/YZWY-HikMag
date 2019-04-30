@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.yzwy.lprmag.myConstant.ConfigDataConstant;
+import com.example.yzwy.lprmag.myConstant.HiKConfigDataConstant;
 import com.example.yzwy.lprmag.myConstant.OrderConstant;
 import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
@@ -357,10 +357,10 @@ public class ConfigSetActivity extends AppCompatActivity {
      * 提交数据，保存数据
      */
     private void PutSpHiConfig(String edt_hkIp_cfgset_str, String edt_hkport_cfgset_str, String edt_hikusername_cfgset_str, String edt_hikpwd_cfgset_str) {
-        SharePreferencesUtil.putStringValue(ConfigSetActivity.this, ConfigDataConstant.hkIp_cfgset_str, edt_hkIp_cfgset_str);
-        SharePreferencesUtil.putStringValue(ConfigSetActivity.this, ConfigDataConstant.hkport_cfgset_str, edt_hkport_cfgset_str);
-        SharePreferencesUtil.putStringValue(ConfigSetActivity.this, ConfigDataConstant.hikusername_cfgset_str, edt_hikusername_cfgset_str);
-        SharePreferencesUtil.putStringValue(ConfigSetActivity.this, ConfigDataConstant.hikpwd_cfgset_str, edt_hikpwd_cfgset_str);
+        SharePreferencesUtil.putStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hkIp_cfgset_str, edt_hkIp_cfgset_str);
+        SharePreferencesUtil.putStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hkport_cfgset_str, edt_hkport_cfgset_str);
+        SharePreferencesUtil.putStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hikusername_cfgset_str, edt_hikusername_cfgset_str);
+        SharePreferencesUtil.putStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hikpwd_cfgset_str, edt_hikpwd_cfgset_str);
 
     }
 
@@ -404,10 +404,10 @@ public class ConfigSetActivity extends AppCompatActivity {
         int networkStateType = NetUtils.getNetworkState(ConfigSetActivity.this);
         edt_nettype_cfgset.setText(networkStateTypeArray[networkStateType]);
 
-        String hkIp_cfgset_str = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, ConfigDataConstant.hkIp_cfgset_str, ConfigDataConstant.hkIp_cfgset_str_default);
-        String hkport_cfgset = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, ConfigDataConstant.hkport_cfgset_str, ConfigDataConstant.hkport_cfgset_str_default);
-        String hikusername_cfgset = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, ConfigDataConstant.hikusername_cfgset_str, ConfigDataConstant.hikusername_cfgset_str_default);
-        String hikpwd_cfgset = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, ConfigDataConstant.hikpwd_cfgset_str, ConfigDataConstant.hikpwd_cfgset_str_default);
+        String hkIp_cfgset_str = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hkIp_cfgset_str, HiKConfigDataConstant.hkIp_cfgset_str_default);
+        String hkport_cfgset = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hkport_cfgset_str, HiKConfigDataConstant.hkport_cfgset_str_default);
+        String hikusername_cfgset = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hikusername_cfgset_str, HiKConfigDataConstant.hikusername_cfgset_str_default);
+        String hikpwd_cfgset = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hikpwd_cfgset_str, HiKConfigDataConstant.hikpwd_cfgset_str_default);
 
         edt_hkIp_cfgset.setText(hkIp_cfgset_str);
         edt_hkport_cfgset.setText(hkport_cfgset);

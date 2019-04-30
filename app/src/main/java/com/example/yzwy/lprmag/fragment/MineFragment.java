@@ -30,7 +30,7 @@ import com.example.yzwy.lprmag.PrivacyAgreementActivity;
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.UseCourseListActivity;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
-import com.example.yzwy.lprmag.myConstant.HttpUrl;
+import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
 import com.example.yzwy.lprmag.util.HanderMsg;
 import com.example.yzwy.lprmag.util.LogUtil;
@@ -48,7 +48,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -129,7 +128,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 Map<String, String> LoginStringMap = new HashMap<>();
 //                LoginStringMap.put("userName", userName);
 //                LoginStringMap.put("passWord", passWord);
-                OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();
@@ -140,9 +139,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void failed(Call call, IOException e) {
                         HanderMsg.HanderMsgSend(handler, 101101, e.toString());
-                        if(e.getCause().equals(SocketTimeoutException.class))
-                            Tools.Toast(getActivity(),"连接超时");
-
+//                        if(e.getCause().equals(SocketTimeoutException.class))
+//                            Tools.Toast(getActivity(),"连接超时");
                         LogUtil.showLog("NetAPi failed --->", e.toString());
                     }
                 });
@@ -327,7 +325,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 Map<String, String> LoginStringMap = new HashMap<>();
 //                LoginStringMap.put("userName", userName);
 //                LoginStringMap.put("passWord", passWord);
-                OkHttpUtil.getInstance().postDataAsyn(HttpUrl.LoginUrl, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();
