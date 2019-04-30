@@ -5,32 +5,26 @@ package com.example.yzwy.lprmag.bean;
  */
 public class CustomServiceDataBean {
 
-    private String ID;//
+    private int keyID;//
     private String key;//
     private String val;//
     private String bgUrl;//
+    private int bgUrlID;//
 
-    public CustomServiceDataBean(String ID, String key, String val, String bgUrl) {
-        this.ID = ID;
+    public CustomServiceDataBean(int keyID, String key, String val, String bgUrl, int bgUrlID) {
+        this.keyID = keyID;
         this.key = key;
         this.val = val;
         this.bgUrl = bgUrl;
+        this.bgUrlID = bgUrlID;
     }
 
-    public String getBgUrl() {
-        return bgUrl;
+    public int getKeyID() {
+        return keyID;
     }
 
-    public void setBgUrl(String bgUrl) {
-        this.bgUrl = bgUrl;
-    }
-
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setKeyID(int keyID) {
+        this.keyID = keyID;
     }
 
     public String getKey() {
@@ -49,13 +43,30 @@ public class CustomServiceDataBean {
         this.val = val;
     }
 
+    public String getBgUrl() {
+        return bgUrl;
+    }
+
+    public void setBgUrl(String bgUrl) {
+        this.bgUrl = bgUrl;
+    }
+
+    public int getBgUrlID() {
+        return bgUrlID;
+    }
+
+    public void setBgUrlID(int bgUrlID) {
+        this.bgUrlID = bgUrlID;
+    }
+
     @Override
     public String toString() {
         return "CustomServiceDataBean{" +
-                "ID='" + ID + '\'' +
+                "keyID=" + keyID +
                 ", key='" + key + '\'' +
                 ", val='" + val + '\'' +
                 ", bgUrl='" + bgUrl + '\'' +
+                ", bgUrlID=" + bgUrlID +
                 '}';
     }
 }

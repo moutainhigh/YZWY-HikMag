@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/li_homemenu_item_frgmthome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/press_home_menu_style"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_homemenu_item_frgmthome"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_config_app" />
+
+        <TextView
+            android:id="@+id/tv_homemenu_item_frgmthome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="设备连接配置"
+            android:textColor="@color/balck_0"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_keyid_item_frgmthome"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+    </LinearLayout>
+
+</LinearLayout>

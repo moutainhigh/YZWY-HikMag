@@ -7,9 +7,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.example.yzwy.lprmag.bean.CustomServiceDataBean;
+import com.example.yzwy.lprmag.view.XCRoundRectImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * #################################################################################################
@@ -37,16 +48,16 @@ public class CustomServiceActivity extends AppCompatActivity implements View.OnC
 //    private TextView tv_troubleShootingType_cusservice;
 
 
-//    /**
-//     * 定义适配器
-//     */
-//    private CustomServiceAdapter adapter;
-//
-//
-//    /**
-//     * 定义Bean类型的数组
-//     */
-//    private List<CustomServiceDataBean> adapterBeanList = new ArrayList<CustomServiceDataBean>();
+    /**
+     * 定义适配器
+     */
+    private CustomServiceAdapter adapter;
+
+
+    /**
+     * 定义Bean类型的数组
+     */
+    private List<CustomServiceDataBean> adapterBeanList = new ArrayList<>();
 
     /**
      * @param savedInstanceState
@@ -63,6 +74,27 @@ public class CustomServiceActivity extends AppCompatActivity implements View.OnC
         initView();
 
 
+        //加载Bean数据
+        initBeanData();
+        //加载适配器
+        initAdapter();
+
+
+    }
+
+    /**
+     * =============================================================================================
+     * 加载数据
+     */
+    private void initBeanData() {
+
+        if (adapterBeanList.size() > 0) {
+            adapterBeanList.clear();
+        }
+
+        adapterBeanList.add(new CustomServiceDataBean(1, "客服电话：", "400-022-0029", "", R.drawable.banner0x001));
+        adapterBeanList.add(new CustomServiceDataBean(2, "技术支持：", "18113736268", "", R.drawable.banner0x002));
+        adapterBeanList.add(new CustomServiceDataBean(3, "意见反馈：", "18113736269", "", R.drawable.banner0x003));
     }
 
     /**
@@ -233,111 +265,112 @@ public class CustomServiceActivity extends AppCompatActivity implements View.OnC
     }
 
 
-//    /**
-//     * =============================================================================================
-//     * 加载RecyclerView适配器
-//     */
-//    public void initAdapter() {
-//
-//        /**
-//         * -----------------------------------------------------------------------------------------
-//         * 获取预置点列表
-//         * */
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recv_item_cusservice);
-//        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-//        recyclerView.setLayoutManager(layoutManager);
-//        adapter = new CustomServiceAdapter(adapterBeanList);
-//        recyclerView.setAdapter(adapter);
-//
-//    }
-//
-//    /**
-//     * =============================================================================================
-//     * 适配器 列表
-//     */
-//    private class CustomServiceAdapter extends RecyclerView.Adapter<CustomServiceAdapter.ViewHolder> {
-//
-//        private List<CustomServiceDataBean> dataBeanList;
-//
-//        class ViewHolder extends RecyclerView.ViewHolder {
-//            private View mAdapterView;
-//            private TextView tv_id_cusservice;
-//            private TextView tv_customerServiceType_cusservice;
-//            private TextView tv_customerService_cusservice;
-//            private XCRoundRectImageView xcrimg_bg_cusservice;
-//
-//            ViewHolder(View view) {
-//                super(view);
-//                mAdapterView = view;
-//                tv_id_cusservice = (TextView) view.findViewById(R.id.tv_id_cusservice);
-//                tv_customerServiceType_cusservice = (TextView) view.findViewById(R.id.tv_customerServiceType_cusservice);
-//                tv_customerService_cusservice = (TextView) view.findViewById(R.id.tv_customerService_cusservice);
-//                xcrimg_bg_cusservice = (XCRoundRectImageView) view.findViewById(R.id.xcrimg_bg_cusservice);
-//            }
-//        }
-//
-//
-//        CustomServiceAdapter(List<CustomServiceDataBean> dataBeans) {
-//            this.dataBeanList = dataBeans;
-//        }
-//
-//        @Override
-//        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cusservice, parent, false);
-//            final ViewHolder holder = new ViewHolder(view);
-//            holder.tv_customerService_cusservice.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = holder.getAdapterPosition();
-//                    CustomServiceDataBean customServiceDataBean = dataBeanList.get(position);
-//                    callPhone(customServiceDataBean.getVal().trim());
-//                }
-//            });
-//
-//            return holder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(ViewHolder holder, int position) {
-//            CustomServiceDataBean dataBean = dataBeanList.get(position);
-//
-//
-//            holder.tv_id_cusservice.setText(dataBean.getID());
-//            holder.tv_customerServiceType_cusservice.setText(dataBean.getKey());
-//            holder.tv_customerService_cusservice.setText(dataBean.getVal());
-//
+    /**
+     * =============================================================================================
+     * 加载RecyclerView适配器
+     */
+    public void initAdapter() {
+
+        /**
+         * -----------------------------------------------------------------------------------------
+         * 获取预置点列表
+         * */
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recv_item_cusservice);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new CustomServiceAdapter(adapterBeanList);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    /**
+     * =============================================================================================
+     * 适配器 列表
+     */
+    private class CustomServiceAdapter extends RecyclerView.Adapter<CustomServiceAdapter.ViewHolder> {
+
+        private List<CustomServiceDataBean> dataBeanList;
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            private View mAdapterView;
+            private TextView tv_id_cusservice;
+            private TextView tv_customerServiceType_cusservice;
+            private TextView tv_customerService_cusservice;
+            private XCRoundRectImageView xcrimg_bg_cusservice;
+
+            ViewHolder(View view) {
+                super(view);
+                mAdapterView = view;
+                tv_id_cusservice = (TextView) view.findViewById(R.id.tv_id_cusservice);
+                tv_customerServiceType_cusservice = (TextView) view.findViewById(R.id.tv_customerServiceType_cusservice);
+                tv_customerService_cusservice = (TextView) view.findViewById(R.id.tv_customerService_cusservice);
+                xcrimg_bg_cusservice = (XCRoundRectImageView) view.findViewById(R.id.xcrimg_bg_cusservice);
+            }
+        }
+
+
+        CustomServiceAdapter(List<CustomServiceDataBean> dataBeans) {
+            this.dataBeanList = dataBeans;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cusservice, parent, false);
+            final ViewHolder holder = new ViewHolder(view);
+            holder.tv_customerService_cusservice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getAdapterPosition();
+                    CustomServiceDataBean customServiceDataBean = dataBeanList.get(position);
+                    callPhone(customServiceDataBean.getVal().trim());
+                }
+            });
+
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            CustomServiceDataBean dataBean = dataBeanList.get(position);
+
+
+            holder.tv_id_cusservice.setText(String.valueOf(dataBean.getKeyID()));
+            holder.tv_customerServiceType_cusservice.setText(dataBean.getKey());
+            holder.tv_customerService_cusservice.setText(dataBean.getVal());
+            holder.xcrimg_bg_cusservice.setImageResource(dataBean.getBgUrlID());
+
 //            if (dataBean.getBgUrl().length() > 0) {
 //                new MyAsyXcr(holder.xcrimg_bg_cusservice).execute(dataBean.getBgUrl());
 //            }
-//
-//
-//        }
-//
-//
-//        /**
-//         * =========================================================
-//         * 返回多少个布局
-//         */
-//        @Override
-//        public int getItemCount() {
-//            return dataBeanList.size();
-//        }
-//
-//        /**
-//         * =========================================================
-//         * 返回具体item 的 item ID 号
-//         */
-//        @Override
-//        public long getItemId(int id) {
-//
-//            return id;
-//        }
-//
-//        @Override
-//        public int getItemViewType(int position) {
-//            return (position % 2);
-//        }
-//
-//    }
+
+
+        }
+
+
+        /**
+         * =========================================================
+         * 返回多少个布局
+         */
+        @Override
+        public int getItemCount() {
+            return dataBeanList.size();
+        }
+
+        /**
+         * =========================================================
+         * 返回具体item 的 item ID 号
+         */
+        @Override
+        public long getItemId(int id) {
+
+            return id;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return (position % 2);
+        }
+
+    }
 
 }
