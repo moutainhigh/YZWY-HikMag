@@ -30,7 +30,7 @@
             android:gravity="right"
             android:text="IP地址："
             android:textColor="@color/balck_1"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/edt_locIP_tremconn"
@@ -42,7 +42,8 @@
             android:hint="请输入IP4地址"
             android:maxLength="15"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View
@@ -66,7 +67,7 @@
             android:gravity="right"
             android:text="Internet："
             android:textColor="@color/balck_1"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/edt_wwwnet_tremconn"
@@ -75,7 +76,8 @@
             android:layout_height="wrap_content"
             android:hint="未连接"
             android:inputType="phone"
-            android:maxLength="11" />
+            android:maxLength="11"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View
@@ -99,7 +101,7 @@
             android:gravity="right"
             android:text="网络连接类型："
             android:textColor="@color/balck_1"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/edt_nettype_tremconn"
@@ -109,7 +111,8 @@
             android:layout_weight="1"
             android:hint="无线网"
             android:inputType="phone"
-            android:maxLength="11" />
+            android:maxLength="11"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View
@@ -119,6 +122,7 @@
 
 
     <LinearLayout
+        android:id="@+id/li_conntern_tremconn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -133,7 +137,7 @@
             android:gravity="right"
             android:text="是否连接终端："
             android:textColor="@color/balck_1"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/edt_conntern_tremconn"
@@ -143,10 +147,13 @@
             android:layout_weight="1"
             android:hint="否"
             android:inputType="phone"
-            android:maxLength="11" />
+            android:maxLength="11"
+            android:text="否"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View
+        android:id="@+id/view_conntern_tremconn"
         style="@style/HorizontalLineStyle"
         android:layout_marginLeft="@dimen/space_30"
         android:layout_marginRight="@dimen/space_30" />

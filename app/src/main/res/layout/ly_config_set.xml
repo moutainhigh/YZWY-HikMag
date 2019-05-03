@@ -64,114 +64,125 @@
                     android:background="@color/white"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="left"
-                        android:padding="10dp"
-                        android:text="本机网络配置"
-                        android:textColor="@color/balck_1"
-                        android:textSize="17sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:gravity="right"
-                            android:text="IP地址："
-                            android:textColor="@color/balck_1"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/edt_locIP_cfgset"
-                            style="@style/EditTextStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:digits="@string/filter_ip4"
-                            android:hint="请输入IP4地址"
-                            android:maxLength="15"
-                            android:maxLines="1"
-                            android:singleLine="true" />
-                    </LinearLayout>
-
-                    <View
-                        style="@style/HorizontalLineStyle"
-                        android:layout_marginLeft="@dimen/space_30"
-                        android:layout_marginRight="@dimen/space_30" />
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:gravity="right"
-                            android:text="Internet："
-                            android:textColor="@color/balck_1"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/edt_wwwnet_cfgset"
-                            style="@style/EditTextStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="未连接"
-                            android:inputType="phone"
-                            android:maxLength="11" />
-                    </LinearLayout>
-
-                    <View
-                        style="@style/HorizontalLineStyle"
-                        android:layout_marginLeft="@dimen/space_30"
-                        android:layout_marginRight="@dimen/space_30" />
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:gravity="right"
-                            android:text="网络连接类型："
-                            android:textColor="@color/balck_1"
-                            android:textSize="15sp" />
-
-                        <EditText
-                            android:id="@+id/edt_nettype_cfgset"
-                            style="@style/EditTextStyle"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:hint="无线网"
-                            android:inputType="phone"
-                            android:maxLength="11" />
-                    </LinearLayout>
+                    <include layout="@layout/include_trem_connect" />
 
                 </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="15dp"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:gravity="left"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:text="本机网络配置"-->
+                        <!--android:textColor="@color/balck_1"-->
+                        <!--android:textSize="17sp" />-->
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:focusable="true"-->
+                        <!--android:focusableInTouchMode="true"-->
+                        <!--android:gravity="center_vertical">-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="80dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:layout_marginLeft="5dp"-->
+                            <!--android:gravity="right"-->
+                            <!--android:text="IP地址："-->
+                            <!--android:textColor="@color/balck_1"-->
+                            <!--android:textSize="15sp" />-->
+
+                        <!--<EditText-->
+                            <!--android:id="@+id/edt_locIP_cfgset"-->
+                            <!--style="@style/EditTextStyle"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@null"-->
+                            <!--android:digits="@string/filter_ip4"-->
+                            <!--android:hint="请输入IP4地址"-->
+                            <!--android:maxLength="15"-->
+                            <!--android:maxLines="1"-->
+                            <!--android:singleLine="true" />-->
+                    <!--</LinearLayout>-->
+
+                    <!--<View-->
+                        <!--style="@style/HorizontalLineStyle"-->
+                        <!--android:layout_marginLeft="@dimen/space_30"-->
+                        <!--android:layout_marginRight="@dimen/space_30" />-->
+
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:focusable="true"-->
+                        <!--android:focusableInTouchMode="true"-->
+                        <!--android:gravity="center_vertical">-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="80dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:layout_marginLeft="5dp"-->
+                            <!--android:gravity="right"-->
+                            <!--android:text="Internet："-->
+                            <!--android:textColor="@color/balck_1"-->
+                            <!--android:textSize="15sp" />-->
+
+                        <!--<EditText-->
+                            <!--android:id="@+id/edt_wwwnet_cfgset"-->
+                            <!--style="@style/EditTextStyle"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:hint="未连接"-->
+                            <!--android:inputType="phone"-->
+                            <!--android:maxLength="11" />-->
+                    <!--</LinearLayout>-->
+
+                    <!--<View-->
+                        <!--style="@style/HorizontalLineStyle"-->
+                        <!--android:layout_marginLeft="@dimen/space_30"-->
+                        <!--android:layout_marginRight="@dimen/space_30" />-->
+
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:focusable="true"-->
+                        <!--android:focusableInTouchMode="true"-->
+                        <!--android:gravity="center_vertical">-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="110dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:layout_marginLeft="5dp"-->
+                            <!--android:gravity="right"-->
+                            <!--android:text="网络连接类型："-->
+                            <!--android:textColor="@color/balck_1"-->
+                            <!--android:textSize="15sp" />-->
+
+                        <!--<EditText-->
+                            <!--android:id="@+id/edt_nettype_cfgset"-->
+                            <!--style="@style/EditTextStyle"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="40dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:hint="无线网"-->
+                            <!--android:inputType="phone"-->
+                            <!--android:maxLength="11" />-->
+                    <!--</LinearLayout>-->
+
+                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

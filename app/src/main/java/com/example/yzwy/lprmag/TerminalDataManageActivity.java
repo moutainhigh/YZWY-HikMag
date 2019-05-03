@@ -298,6 +298,7 @@ public class TerminalDataManageActivity extends AppCompatActivity {
                 case 101:
                     Tools.Toast(TerminalDataManageActivity.this, "终端连接异常，请检查~");
                     LogUtil.showLog("ResSocket >>>", dataMsg);
+                    edt_conntern_tremconn.setText("否");
                     break;
             }
 

@@ -1,5 +1,6 @@
 package com.example.yzwy.lprmag.fragment;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,12 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yzwy.lprmag.ConfigSetActivity;
+import com.example.yzwy.lprmag.GeomagneticManageActivity;
 import com.example.yzwy.lprmag.HiKCameraActivity;
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.TerminalDataManageActivity;
 import com.example.yzwy.lprmag.WifiHotMagActivity;
 import com.example.yzwy.lprmag.bean.HomeMenuBean;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
+import com.example.yzwy.lprmag.util.DisplayUtil;
+import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 
 import java.util.ArrayList;
@@ -49,6 +53,7 @@ public class HomeFragment extends Fragment
      * 定义Bean类型的数组
      */
     private List<HomeMenuBean> adapterBeanList = new ArrayList<>();
+    private int spanCount = 3;
 
 
     @Override
@@ -89,6 +94,7 @@ public class HomeFragment extends Fragment
         adapterBeanList.add(new HomeMenuBean(2, R.drawable.ic_config_app, "设备连接配置"));
         adapterBeanList.add(new HomeMenuBean(3, R.drawable.ic_hot_block, "热点管理"));
         adapterBeanList.add(new HomeMenuBean(4, R.drawable.ic_term_data_mag, "终端数据管理"));
+        adapterBeanList.add(new HomeMenuBean(5, R.drawable.ic_geom_rest, "地磁复位管理"));
     }
 
 //    /**
@@ -157,6 +163,13 @@ public class HomeFragment extends Fragment
 
 
     /**
+     * 地磁复位管理
+     */
+    private void GeomRestOnClick() {
+        Tools.IntentBack(getActivity(), GeomagneticManageActivity.class);
+    }
+
+    /**
      * =============================================================================================
      * 终端数据管理
      */
@@ -208,10 +221,15 @@ public class HomeFragment extends Fragment
          * 获取预置点列表
          * */
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recv_item_homefrgmt);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new FgemtHomeServiceAdapter(adapterBeanList);
         recyclerView.setAdapter(adapter);
+
+
+        //设置边距
+        recyclerView.addItemDecoration(new SpaceItemDecoration());
+
 
     }
 
@@ -285,6 +303,13 @@ public class HomeFragment extends Fragment
                         case 4:
                             TermDataMagOnClick();
                             break;
+
+
+                        //======================================================================================
+                        //地磁复位管理
+                        case 5:
+                            GeomRestOnClick();
+                            break;
                         default:
                             break;
 
@@ -328,10 +353,95 @@ public class HomeFragment extends Fragment
 
         @Override
         public int getItemViewType(int position) {
+
+
             return (position % 2);
         }
 
     }
 
+
+    //设置边距
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final int normal = 0;
+        private int margin = DisplayUtil.dip2px(getActivity(), 5);
+        private int RcVPaTop = DisplayUtil.dip2px(getActivity(), 20);
+        private int RcVPaBottom = DisplayUtil.dip2px(getActivity(), 20);
+
+
+//        private int RcVPaTop;
+//        private int RcVPaBottom;
+//        private int RcVPaLeft;
+//        private int RcVPaRight;
+
+
+//        public SpaceItemDecoration(int normal, int margin) {
+//            this.normal = normal;
+//            this.margin = margin;
+//        }
+
+        @Override
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+
+            int itemCount = adapter.getItemCount();
+            int viewPosition = parent.getChildAdapterPosition(view) + 1;
+
+            //LogUtil.showLog("#--->","itemCount:"+itemCount +" === "+"viewPosition:"+parent.getChildAdapterPosition(view));
+
+            outRect.top = margin;
+            outRect.bottom = margin;
+            outRect.left = margin * 2;
+
+
+            //LogUtil.showLog("#--->3", "itemCount % spanCount:" + (viewPosition % spanCount));
+            //LogUtil.showLog("#--->2", "itemCount % spanCount:" + (viewPosition % 2));
+            //LogUtil.showLog("#--->1", "itemCount % spanCount:" + (viewPosition % 1));
+
+            /**
+             * 设置最右边的距离，查询最右边的item
+             * */
+            if (viewPosition % spanCount == 0) {
+                outRect.right = margin * 2;
+            }
+
+//            /**
+//             * 设置最最左边的距离，查询最右边的item
+//             * */
+//            if (spanCount > 1) {
+//                if (viewPosition % spanCount == 1) {
+//                    outRect.right = margin * 2;
+//                }
+//            } else {
+//                if (viewPosition % spanCount == 0) {
+//                    outRect.right = margin * 2;
+//                }
+//            }
+
+            /**
+             * itemCount 从1开始标记
+             * viewPosition 从1开始标记
+             * */
+            if (itemCount > 0) {
+                /**
+                 * 第一行
+                 * */
+                if (viewPosition <= spanCount) {
+                    outRect.top = RcVPaTop;
+                }
+
+                /**
+                 * 最后一行
+                 * */
+                if (viewPosition + spanCount > itemCount) {
+                    outRect.bottom = RcVPaBottom;
+                }
+
+            }
+
+
+        }
+    }
 
 }

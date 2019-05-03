@@ -8,14 +8,13 @@
         android:id="@+id/li_homemenu_item_frgmthome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="8dp"
         android:background="@drawable/press_home_menu_style"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="8dp">
 
         <ImageView
             android:id="@+id/img_homemenu_item_frgmthome"

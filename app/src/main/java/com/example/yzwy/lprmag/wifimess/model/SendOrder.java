@@ -2,6 +2,7 @@ package com.example.yzwy.lprmag.wifimess.model;
 
 import com.example.yzwy.lprmag.myConstant.OrderConstant;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -265,6 +266,42 @@ public class SendOrder {
         }
         String json = jo1.toString();
         System.out.println("发送命令 获取终端数据信息>>>>>" + json);
+        return json;
+    }
+
+
+    /**
+     * =============================================================================================
+     * 获取终端地磁列表
+     */
+    public static String Get_GeomRest() {
+        JSONObject jo1 = new JSONObject();
+        try {
+            jo1.put("Order", String.valueOf(OrderConstant.ORDER_GET_GeomList));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String json = jo1.toString();
+        System.out.println("发送命令 获取终端地磁列表>>>>>" + json);
+        return json;
+    }
+
+    /**
+     * =============================================================================================
+     * 设置终端地磁重置信息
+     *
+     * @return
+     */
+    public static String Set_GeomRest(JSONArray jsonGeom) {
+        JSONObject jo1 = new JSONObject();
+        try {
+            jo1.put("Order", String.valueOf(OrderConstant.ORDER_SET_GeomListRest));
+            jo1.put("data", jsonGeom);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String json = jo1.toString();
+        System.out.println("发送命令 设置终端地磁重置>>>>>" + json);
         return json;
     }
 }

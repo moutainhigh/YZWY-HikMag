@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yzwy.lprmag.myConstant.HiKConfigDataConstant;
@@ -45,15 +46,15 @@ public class ConfigSetActivity extends AppCompatActivity {
     /**
      * 本机IP
      */
-    private EditText edt_locIP_cfgset;
+    private EditText edt_locIP_tremconn;
     /**
      * 本机Internet状态
      */
-    private EditText edt_wwwnet_cfgset;
+    private EditText edt_wwwnet_tremconn;
     /**
      * 本机Internet类型
      */
-    private EditText edt_nettype_cfgset;
+    private EditText edt_nettype_tremconn;
     /**
      * 海康本地地址
      */
@@ -94,6 +95,9 @@ public class ConfigSetActivity extends AppCompatActivity {
      * 海康同步终端按钮
      */
     private ImageButton imgbtn_hikpush_cfgset;
+    private EditText edt_conntern_tremconn;
+    private LinearLayout li_conntern_tremconn;
+    private View view_conntern_tremconn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +118,25 @@ public class ConfigSetActivity extends AppCompatActivity {
      * 加載View
      */
     private void initView() {
-        edt_locIP_cfgset = (EditText) findViewById(R.id.edt_locIP_cfgset);
-        edt_wwwnet_cfgset = (EditText) findViewById(R.id.edt_wwwnet_cfgset);
-        edt_nettype_cfgset = (EditText) findViewById(R.id.edt_nettype_cfgset);
+//        edt_locIP_tremconn = (EditText) findViewById(R.id.edt_locIP_cfgset);
+//        edt_wwwnet_tremconn = (EditText) findViewById(R.id.edt_wwwnet_cfgset);
+//        edt_nettype_tremconn = (EditText) findViewById(R.id.edt_nettype_cfgset);
+
+
+        edt_locIP_tremconn = (EditText) findViewById(R.id.edt_locIP_tremconn);
+        edt_wwwnet_tremconn = (EditText) findViewById(R.id.edt_wwwnet_tremconn);
+        edt_nettype_tremconn = (EditText) findViewById(R.id.edt_nettype_tremconn);
+        edt_conntern_tremconn = (EditText) findViewById(R.id.edt_conntern_tremconn);
+
+        /**
+         * 隐藏
+         * */
+        li_conntern_tremconn = (LinearLayout) findViewById(R.id.li_conntern_tremconn);
+        view_conntern_tremconn = (View) findViewById(R.id.view_conntern_tremconn);
+        li_conntern_tremconn.setVisibility(View.GONE);
+        view_conntern_tremconn.setVisibility(View.GONE);
+
+
         edt_hkIp_cfgset = (EditText) findViewById(R.id.edt_hkIp_cfgset);
         edt_hkport_cfgset = (EditText) findViewById(R.id.edt_hkport_cfgset);
         edt_hikusername_cfgset = (EditText) findViewById(R.id.edt_hikusername_cfgset);
@@ -297,9 +317,9 @@ public class ConfigSetActivity extends AppCompatActivity {
         /**
          * 获取所有的数据框的数据，去除首位空格
          * */
-        //String edt_locIP_cfgset_str = edt_locIP_cfgset.getText().toString().trim();
-        //String edt_wwwnet_cfgset_str = edt_wwwnet_cfgset.getText().toString().trim();
-        //String edt_nettype_cfgset_str = edt_nettype_cfgset.getText().toString().trim();
+        //String edt_locIP_cfgset_str = edt_locIP_tremconn.getText().toString().trim();
+        //String edt_wwwnet_cfgset_str = edt_wwwnet_tremconn.getText().toString().trim();
+        //String edt_nettype_cfgset_str = edt_nettype_tremconn.getText().toString().trim();
 
 //        String edt_hkIp_cfgset_str = edt_hkIp_cfgset.getText().toString().trim();
 //        String edt_hkport_cfgset_str = edt_hkport_cfgset.getText().toString().trim();
@@ -369,9 +389,9 @@ public class ConfigSetActivity extends AppCompatActivity {
      * 设置 EditText 不可编辑
      */
     private void setEnabled() {
-        edt_locIP_cfgset.setEnabled(false);
-        edt_wwwnet_cfgset.setEnabled(false);
-        edt_nettype_cfgset.setEnabled(false);
+        edt_locIP_tremconn.setEnabled(false);
+        edt_wwwnet_tremconn.setEnabled(false);
+        edt_nettype_tremconn.setEnabled(false);
         //edt_hkIp_cfgset.setEnabled(false);
         //edt_hkport_cfgset.setEnabled(false);
         //edt_hikusername_cfgset.setEnabled(false);
@@ -386,23 +406,23 @@ public class ConfigSetActivity extends AppCompatActivity {
 
         String InetAddress = InetAddressUtil.getIP();
         if (InetAddress == null || InetAddress.equals("")) {
-            edt_locIP_cfgset.setText("0.0.0.0");
+            edt_locIP_tremconn.setText("0.0.0.0");
         } else {
-            edt_locIP_cfgset.setText(InetAddressUtil.getIP());
+            edt_locIP_tremconn.setText(InetAddressUtil.getIP());
         }
 
 
         boolean netConnected = NetUtils.isNetConnected(ConfigSetActivity.this);
         if (netConnected) {
-            edt_wwwnet_cfgset.setText("Internet网访问");
+            edt_wwwnet_tremconn.setText("Internet网访问");
         } else {
-            edt_wwwnet_cfgset.setText("网络未连接");
+            edt_wwwnet_tremconn.setText("网络未连接");
         }
 
         //java数组初始化
         String[] networkStateTypeArray = {"没有网络连接", "wifi连接", "2G", "3G", "4G", "手机流量"};
         int networkStateType = NetUtils.getNetworkState(ConfigSetActivity.this);
-        edt_nettype_cfgset.setText(networkStateTypeArray[networkStateType]);
+        edt_nettype_tremconn.setText(networkStateTypeArray[networkStateType]);
 
         String hkIp_cfgset_str = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hkIp_cfgset_str, HiKConfigDataConstant.hkIp_cfgset_str_default);
         String hkport_cfgset = SharePreferencesUtil.getStringValue(ConfigSetActivity.this, HiKConfigDataConstant.hkport_cfgset_str, HiKConfigDataConstant.hkport_cfgset_str_default);

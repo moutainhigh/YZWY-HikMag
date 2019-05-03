@@ -265,7 +265,7 @@ public class PresetDialog extends Activity {
 
                                 JSONArray jsonArrayPrset = jsonObject.getJSONArray("data");
 
-                                String Priority = jsonObject.getString("Priority");
+                                //String Priority = jsonObject.getString("Priority");
 
                                 if (presetBeansList.size() > 0) {
                                     presetBeansList.clear();//清除之前的数据

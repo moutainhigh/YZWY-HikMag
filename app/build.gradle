@@ -72,4 +72,11 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile files('libs/bcprov-jdk16-1.46.jar')
     compile files('libs/examples.jar')
+
+    //第二种方法更加简单，没有类似map操作的步骤，只需要引入相关jar包，就可以调用已有的函数fromObject()，其参数输入list，其返回值就是json。jar包如下：
+    compile files('libs/json-lib-2.2.3-jdk15.jar')
+    compile files('libs/commons-beanutils-1.7.0.jar')
+    compile files('libs/commons-collections-3.2.jar')
+    compile files('libs/commons-lang-2.4.jar')
+    compile files('libs/ezmorph-1.0.3.jar')
 }

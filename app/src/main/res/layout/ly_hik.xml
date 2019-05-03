@@ -39,13 +39,13 @@
         android:orientation="vertical">
 
         <!--<ImageView-->
-            <!--android:id="@+id/img_loading_hik"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginBottom="7dp"-->
-            <!--android:scaleType="centerInside"-->
-            <!--android:src="@drawable/ic_dialog_loading" />-->
+        <!--android:id="@+id/img_loading_hik"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginBottom="7dp"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/ic_dialog_loading" />-->
 
         <TextView
             android:id="@+id/tv_Loading"
@@ -87,81 +87,96 @@
                 android:id="@+id/rltv_cmdSpeed_hik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="35dp"
+                android:background="@color/translucent"
+                android:gravity="center_vertical"
                 android:padding="5dp">
 
-                <SeekBar
-                    android:id="@+id/skb_speed_hik"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:max="6"
-                    android:maxHeight="2dp"
-                    android:minHeight="2dp"
-                    android:progress="0"
-                    android:progressDrawable="@drawable/seekbar_layer_progress"
-                    android:thumb="@drawable/seekbar_shape_circle" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_speed_hik"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/skb_speed_hik"
-                    android:gravity="left"
-                    android:text="速度：1"
-                    android:textColor="#16BC5C"
-                    android:textSize="16dp" />
+                    <SeekBar
+                        android:id="@+id/skb_speed_hik"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:max="6"
+                        android:maxHeight="2dp"
+                        android:minHeight="2dp"
+                        android:progress="2"
+                        android:progressDrawable="@drawable/seekbar_layer_progress"
+                        android:thumb="@drawable/seekbar_shape_circle" />
+
+                    <TextView
+                        android:id="@+id/tv_speed_hik"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/skb_speed_hik"
+                        android:gravity="left"
+                        android:text="速度：3"
+                        android:textColor="@color/gold"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
             </RelativeLayout>
 
 
             <RelativeLayout
                 android:id="@+id/CAMlinear"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/btn_Up"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_toRightOf="@+id/btn_Left"
                     android:background="@mipmap/camera_move_up" />
 
                 <Button
                     android:id="@+id/btn_Down"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_below="@+id/btn_Left"
                     android:layout_toRightOf="@+id/btn_Left"
                     android:background="@mipmap/camera_move_down" />
 
                 <Button
                     android:id="@+id/btn_Left"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_below="@id/btn_Up"
                     android:background="@mipmap/camera_move_left" />
 
                 <Button
                     android:id="@+id/btn_Right"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_below="@id/btn_Up"
                     android:layout_toRightOf="@id/btn_Up"
                     android:background="@mipmap/camera_move_right" />
 
                 <Button
                     android:id="@+id/btn_ZoomIn"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
                     android:background="@mipmap/camera_move_bigger" />
 
                 <Button
                     android:id="@+id/btn_ZoomOut"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_alignLeft="@id/btn_Right"
                     android:layout_alignParentBottom="true"
                     android:background="@mipmap/camera_move_smaller" />
@@ -173,143 +188,250 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-
             android:orientation="vertical">
-
 
             <RelativeLayout
                 android:id="@+id/rltv_cmdScale_hik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/translucent"
+                android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/tv_scwidthshow_hik"
+                <LinearLayout
+                    android:id="@+id/li_rltv001_hik"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="识别区域宽度比例："
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <SeekBar
-                    android:id="@+id/skb_scwidth_hik"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_scwidthshow_hik"
-                    android:max="99"
-                    android:maxHeight="2dp"
-                    android:minHeight="2dp"
-                    android:progress="0"
-                    android:progressDrawable="@drawable/seekbar_layer_progress"
-                    android:thumb="@drawable/seekbar_shape_circle" />
+                    <TextView
+                        android:id="@+id/tv_scwidthshow_hik"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="识别区域宽度比例："
+                        android:textColor="@color/gold"
+                        android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/tv_scwidth_hik"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_scwidthshow_hik"
-                    android:layout_centerHorizontal="true"
-                    android:layout_toRightOf="@+id/skb_scwidth_hik"
-                    android:gravity="left"
-                    android:text="速度：1"
-                    android:textColor="#16BC5C"
-                    android:textSize="14.5dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="宽度比数值"
+                        android:textColor="@color/gold"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
 
-                <TextView
-                    android:id="@+id/tv_scheightshow_hik"
+                <LinearLayout
+                    android:id="@+id/li_rltv002_hik"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/skb_scwidth_hik"
-                    android:layout_marginTop="15dp"
-                    android:text="识别区域高度比例："
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:layout_height="25dp"
+                    android:layout_below="@id/li_rltv001_hik"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/skb_scwidth_hik"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:max="99"
+                        android:maxHeight="2dp"
+                        android:minHeight="2dp"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/seekbar_layer_progress"
+                        android:thumb="@drawable/seekbar_shape_circle" />
+
+                    <TextView
+                        android:id="@+id/tv_scwidth_hik"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="1001100010"
+                        android:textColor="@color/gold"
+                        android:textSize="8dp" />
+                </LinearLayout>
 
 
-                <SeekBar
-                    android:id="@+id/skb_scheight_hik"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_scheightshow_hik"
-                    android:layout_marginTop="5dp"
-                    android:max="99"
-                    android:maxHeight="2dp"
-                    android:minHeight="2dp"
-                    android:progress="0"
-                    android:progressDrawable="@drawable/seekbar_layer_progress"
-                    android:thumb="@drawable/seekbar_shape_circle" />
+                <LinearLayout
+                    android:id="@+id/li_rltv003_hik"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_below="@id/li_rltv002_hik"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_scheight_hik"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_scheightshow_hik"
-                    android:layout_marginTop="5dp"
-                    android:layout_toRightOf="@+id/skb_scheight_hik"
-                    android:gravity="left"
-                    android:text="速度：1"
-                    android:textColor="#16BC5C"
-                    android:textSize="14.5dp" />
+                    <TextView
+                        android:id="@+id/tv_scheightshow_hik"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="识别区域高度比例："
+                        android:textColor="@color/gold"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="宽度比数值"
+                        android:textColor="@color/gold"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/li_rltv004_hik"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_below="@id/li_rltv003_hik"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/skb_scheight_hik"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:max="99"
+                        android:maxHeight="2dp"
+                        android:minHeight="2dp"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/seekbar_layer_progress"
+                        android:thumb="@drawable/seekbar_shape_circle" />
+
+                    <TextView
+                        android:id="@+id/tv_scheight_hik"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="1100100101"
+                        android:textColor="@color/gold"
+                        android:textSize="8sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_below="@id/li_rltv004_hik"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="WIFI信号强度："
+                        android:textColor="@color/orange"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_wifiStrength_hik"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-200"
+                        android:textColor="@color/orange"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
             </RelativeLayout>
 
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/li_geomagneticMag_hik"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:background="@drawable/selector_button"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_set_mag" />
+
                 <TextView
+                    android:id="@+id/btn_geomagneticMag_hik"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/orange"
-                    android:text="WIFI信号强度："/>
-                <TextView
-                    android:id="@+id/tv_wifiStrength_hik"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/orange"
-                    android:text="-200"/>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="地磁管理"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
             </LinearLayout>
 
 
-            <Button
-                android:id="@+id/btn_geomagneticMag_hik"
-                style="@style/ButtonStyle"
+            <LinearLayout
+                android:id="@+id/li_carnum_hik"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:layout_gravity="right"
                 android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="地磁管理" />
+                android:background="@drawable/selector_button"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_saomiao" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="识别车牌"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
 
-            <Button
-                android:id="@+id/btn_carnum_hik"
-                style="@style/ButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_gravity="right"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="识别车牌" />
+            <!--<Button-->
+            <!--android:id="@+id/btn_carnum_hik"-->
+            <!--style="@style/ButtonStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="识别车牌" />-->
 
 
-            <Button
-                android:id="@+id/btn_priority_hik"
-                style="@style/ButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_gravity="right"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="优先级" />
+            <!--<Button-->
+                <!--android:id="@+id/btn_priority_hik"-->
+                <!--style="@style/ButtonStyle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:gravity="center"-->
+                <!--android:text="优先级"-->
+                <!--android:visibility="gone" />-->
 
 
         </LinearLayout>
+
     </LinearLayout>
 
 

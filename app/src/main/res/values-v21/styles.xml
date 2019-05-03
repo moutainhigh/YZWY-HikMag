@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:colorEdgeEffect">@color/white_d</item>
+        <!--<item name="android:textCursorDrawable">@color/colorAccent</item>-->
+        <!--<item name="android:colorControlNormal">#747778</item>-->
+        <!--<item name="android:colorControlActivated">#00A483</item>-->
+    </style>
+</resources>

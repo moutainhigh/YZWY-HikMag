@@ -44,15 +44,15 @@ public class WifiHotMagActivity extends AppCompatActivity {
     /**
      *
      * */
-    private EditText edt_locIP_wifihotmag;
+    private EditText edt_locIP_tremconn;
     /**
      *
      * */
-    private EditText edt_wwwnet_wifihotmag;
+    private EditText edt_wwwnet_tremconn;
     /**
      *
      * */
-    private EditText edt_nettype_wifihotmag;
+    private EditText edt_nettype_tremconn;
     /**
      *
      * */
@@ -76,6 +76,7 @@ public class WifiHotMagActivity extends AppCompatActivity {
      * 开关
      */
     private ImageButton imgbtn_wifihot_wifihotmag;
+    private EditText edt_conntern_tremconn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +99,12 @@ public class WifiHotMagActivity extends AppCompatActivity {
      * 加載View
      */
     private void initView() {
-        edt_locIP_wifihotmag = (EditText) findViewById(R.id.edt_locIP_wifihotmag);
-        edt_wwwnet_wifihotmag = (EditText) findViewById(R.id.edt_wwwnet_wifihotmag);
-        edt_nettype_wifihotmag = (EditText) findViewById(R.id.edt_nettype_wifihotmag);
+        edt_locIP_tremconn = (EditText) findViewById(R.id.edt_locIP_tremconn);
+        edt_wwwnet_tremconn = (EditText) findViewById(R.id.edt_wwwnet_tremconn);
+        edt_nettype_tremconn = (EditText) findViewById(R.id.edt_nettype_tremconn);
+        edt_conntern_tremconn = (EditText) findViewById(R.id.edt_conntern_tremconn);
+
+
         edt_hikusername_wifihotmag = (EditText) findViewById(R.id.edt_hikusername_wifihotmag);
         edt_hikpwd_wifihotmag = (EditText) findViewById(R.id.edt_hikpwd_wifihotmag);
 
@@ -300,9 +304,10 @@ public class WifiHotMagActivity extends AppCompatActivity {
      * 设置 EditText 不可编辑
      */
     private void setEnabled() {
-        edt_locIP_wifihotmag.setEnabled(false);
-        edt_wwwnet_wifihotmag.setEnabled(false);
-        edt_nettype_wifihotmag.setEnabled(false);
+        edt_locIP_tremconn.setEnabled(false);
+        edt_wwwnet_tremconn.setEnabled(false);
+        edt_nettype_tremconn.setEnabled(false);
+        edt_conntern_tremconn.setEnabled(false);
     }
 
     /**
@@ -313,23 +318,23 @@ public class WifiHotMagActivity extends AppCompatActivity {
 
         String InetAddress = InetAddressUtil.getIP();
         if (InetAddress == null || InetAddress.equals("")) {
-            edt_locIP_wifihotmag.setText("0.0.0.0");
+            edt_locIP_tremconn.setText("0.0.0.0");
         } else {
-            edt_locIP_wifihotmag.setText(InetAddressUtil.getIP());
+            edt_locIP_tremconn.setText(InetAddressUtil.getIP());
         }
 
 
         boolean netConnected = NetUtils.isNetConnected(WifiHotMagActivity.this);
         if (netConnected) {
-            edt_wwwnet_wifihotmag.setText("Internet网访问");
+            edt_wwwnet_tremconn.setText("Internet网访问");
         } else {
-            edt_wwwnet_wifihotmag.setText("网络未连接");
+            edt_wwwnet_tremconn.setText("网络未连接");
         }
 
         //java数组初始化
         String[] networkStateTypeArray = {"没有网络连接", "wifi连接", "2G", "3G", "4G", "手机流量"};
         int networkStateType = NetUtils.getNetworkState(WifiHotMagActivity.this);
-        edt_nettype_wifihotmag.setText(networkStateTypeArray[networkStateType]);
+        edt_nettype_tremconn.setText(networkStateTypeArray[networkStateType]);
 
 
         /**
@@ -390,7 +395,7 @@ public class WifiHotMagActivity extends AppCompatActivity {
                                 String wifiPwd = jsonObject.getString("wifiPwd");
                                 edt_hikusername_wifihotmag.setText(wifiName);
                                 edt_hikpwd_wifihotmag.setText(wifiPwd);
-
+                                edt_conntern_tremconn.setText("是");
 
                                 break;
 
@@ -427,10 +432,11 @@ public class WifiHotMagActivity extends AppCompatActivity {
                 case 101:
                     Tools.Toast(WifiHotMagActivity.this, "终端连接异常，请检查~");
                     LogUtil.showLog("ResSocket >>>", dataMsg);
+                    edt_conntern_tremconn.setText("否");
 
                     CloseWifiHotBlo = false;
                     tv_wifihotstatus_wifihotmag.setText("异常");
-                    
+
                     break;
             }
 

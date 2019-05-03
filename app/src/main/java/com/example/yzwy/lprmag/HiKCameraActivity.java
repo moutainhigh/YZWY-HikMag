@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ import com.example.yzwy.lprmag.myConstant.HiKEventBusConstant;
 import com.example.yzwy.lprmag.myConstant.HiKLineWHRectLintScreen;
 import com.example.yzwy.lprmag.util.ConvertUtil;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
+import com.example.yzwy.lprmag.util.DisplayUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
@@ -135,6 +137,16 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      */
     private Button btn_carnum_hik;//打开设置预置点的界面
 
+
+    /**
+     * 地磁管理按钮事件
+     */
+    private LinearLayout li_geomagneticMag_hik;
+    /**
+     * 车牌识别按钮事件
+     */
+    private LinearLayout li_carnum_hik;//打开设置预置点的界面
+
     /**
      * 定义摄像机管理类
      */
@@ -188,11 +200,11 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
     /**
      * 速度值
      */
-    private int speed_hik = 0;
+    private int speed_hik = 3;
     /**
      * 速度条控制面板
      */
-    private RelativeLayout rltv_cmd_hik;
+    //private RelativeLayout rltv_cmd_hik;
     private SeekBar skb_scwidth_hik;
     private TextView tv_scwidth_hik;
     private SeekBar skb_scheight_hik;
@@ -209,7 +221,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
      */
     private int screenWidth = 0;
     private int screenHeight = 0;
-    private Button btn_priority_hik;
+    //private Button btn_priority_hik;
     //    private ImageView img_loading_hik;
 //    private Animation LoadingAnimation;
     private LinearLayout li_loading_hik;
@@ -388,7 +400,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         /**
          * 设置预置点
          * */
-        btn_geomagneticMag_hik.setOnClickListener(new OnClickListener() {
+        li_geomagneticMag_hik.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Tools.Toast(HiKCameraActivity.this, "点击了设置预置点页面");
@@ -417,7 +429,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         /**
          * 通信开始识别车牌
          * */
-        btn_carnum_hik.setOnClickListener(new View.OnClickListener() {
+        li_carnum_hik.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -439,27 +451,27 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
 
             }
         });
+//        /**
+//         * 设置优先级
+//         * */
+//        btn_priority_hik.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                //Tools.Toast(HiKCameraActivity.this, "点击了开始识别车牌");
+//                Tools.IntentBack(HiKCameraActivity.this, PriorityDialog.class);
+//
+////                Intent in = new Intent(HiKCameraActivity.this, LprDialog.class);
+////                in.putExtra("scwidth_hik", String.valueOf(scwidth_hik));
+////                in.putExtra("scheight_hik", String.valueOf(scheight_hik));
+////                HiKCameraActivity.this.startActivity(in);
+//
+//            }
+//        });
+
+
         /**
-         * 设置优先级
-         * */
-        btn_priority_hik.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Tools.Toast(HiKCameraActivity.this, "点击了开始识别车牌");
-                Tools.IntentBack(HiKCameraActivity.this, PriorityDialog.class);
-
-//                Intent in = new Intent(HiKCameraActivity.this, LprDialog.class);
-//                in.putExtra("scwidth_hik", String.valueOf(scwidth_hik));
-//                in.putExtra("scheight_hik", String.valueOf(scheight_hik));
-//                HiKCameraActivity.this.startActivity(in);
-
-            }
-        });
-
-
-        /**
-         * 设置优先级
+         *
          * */
         m_osurfaceView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -604,11 +616,8 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
     private void ShowCmdPage() {
         li_magPage_hik.setVisibility(View.VISIBLE);
         rectLine.setVisibility(View.VISIBLE);
-        rltv_cmd_hik.setVisibility(View.VISIBLE);
         tv_Loading.setVisibility(View.GONE);
-
         li_loading_hik.setVisibility(View.GONE);
-        //LoadingAnimation.cancel();
 
         m_osurfaceView.setEnabled(true);
 
@@ -797,9 +806,11 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         this.btnDown = (Button) findViewById(R.id.btn_Down);
         this.btnUp = (Button) findViewById(R.id.btn_Up);
 
-        this.btn_geomagneticMag_hik = (Button) findViewById(R.id.btn_geomagneticMag_hik);
-        this.btn_carnum_hik = (Button) findViewById(R.id.btn_carnum_hik);
-        this.btn_priority_hik = (Button) findViewById(R.id.btn_priority_hik);
+        //this.btn_geomagneticMag_hik = (Button) findViewById(R.id.btn_geomagneticMag_hik);
+        this.li_geomagneticMag_hik = (LinearLayout) findViewById(R.id.li_geomagneticMag_hik);
+        this.li_carnum_hik = (LinearLayout) findViewById(R.id.li_carnum_hik);
+        //this.btn_carnum_hik = (Button) findViewById(R.id.btn_carnum_hik);
+        //this.btn_priority_hik = (Button) findViewById(R.id.btn_priority_hik);
         this.imgbtn_back_hik = (ImageButton) findViewById(R.id.imgbtn_back_hik);
         this.li_magPage_hik = (LinearLayout) findViewById(R.id.li_magPage_hik);
         this.tv_Loading = (TextView) findViewById(R.id.tv_Loading);
@@ -820,7 +831,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         this.m_osurfaceView = (SurfaceView) findViewById(R.id.sf_VideoMonitor);
 
 
-        this.rltv_cmd_hik = (RelativeLayout) findViewById(R.id.rltv_cmdSpeed_hik);
+        //this.rltv_cmd_hik = (RelativeLayout) findViewById(R.id.rltv_cmdSpeed_hik);
         this.li_loading_hik = (LinearLayout) findViewById(R.id.li_loading_hik);
         this.li_cmdtop_hik = (LinearLayout) findViewById(R.id.li_cmdtop_hik);
         li_cmdtop_hik.setVisibility(View.GONE);
@@ -845,7 +856,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
         //btn_carnum_hik.setVisibility(View.GONE);
         li_magPage_hik.setVisibility(View.GONE);
         rectLine.setVisibility(View.GONE);
-        rltv_cmd_hik.setVisibility(View.GONE);
+        //rltv_cmd_hik.setVisibility(View.GONE);
 
 
         btnUp.setOnTouchListener(this);
@@ -872,6 +883,13 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
 //        LoadingAnimation = AnimationUtils.loadAnimation(HiKCameraActivity.this, R.anim.loading);
 //        LoadingAnimation.setInterpolator(new LinearInterpolator());
 //        img_loading_hik.startAnimation(LoadingAnimation);
+
+//        //获得Drawable对象
+//        Drawable drawable = getResources().getDrawable(R.drawable.ic_set_mag);
+//        drawable.setBounds(0, 0, DisplayUtil.dip2px(HiKCameraActivity.this,35), DisplayUtil.dip2px(HiKCameraActivity.this,35));
+//        //drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+//        li_geomagneticMag_hik.setCompoundDrawables(drawable, null, null, null);
+
 
     }
 
@@ -916,7 +934,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
                 //scwidth_hik = screenWidth / progress_1;
                 scwidth_hik = Tools.divisorScale(screenWidth, progress_1, 100);
                 LogUtil.showLog("HiKCameraActivity --->", "scwidth_hik: " + scwidth_hik + " = " + screenWidth + "/" + progress_1);
-                tv_scwidth_hik.setText("宽度比:" + Double.toString(scwidth_hik));
+                tv_scwidth_hik.setText("v:" + Double.toString(scwidth_hik));
                 /**
                  * 动态识别区域高度宽度设置比例值和显示RectLine
                  * */
@@ -946,7 +964,7 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
                 int progress_1 = progress + 1;
                 //scheight_hik = screenHeight / progress_1;
                 scheight_hik = Tools.divisorScale(screenHeight, progress_1, 100);
-                tv_scheight_hik.setText("高度比:" + Double.toString(scheight_hik));
+                tv_scheight_hik.setText("v:" + Double.toString(scheight_hik));
                 LogUtil.showLog("HiKCameraActivity --->", "scheight_hik: " + scheight_hik + " = " + screenHeight + "/" + progress_1);
 
                 /**
@@ -1010,8 +1028,8 @@ public class HiKCameraActivity extends AppCompatActivity implements Callback, On
                 /**
                  * 初始化识别区域显示值
                  * */
-                tv_scheight_hik.setText(String.valueOf(HiKLineWHRectLintScreen.WidthProportion));
-                tv_scwidth_hik.setText(String.valueOf(HiKLineWHRectLintScreen.HeightProportion));
+                tv_scheight_hik.setText("v:" + String.valueOf(HiKLineWHRectLintScreen.WidthProportion));
+                tv_scwidth_hik.setText("v:" + String.valueOf(HiKLineWHRectLintScreen.HeightProportion));
 
             }
         });

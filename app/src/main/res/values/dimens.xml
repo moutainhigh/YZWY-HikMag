@@ -16,7 +16,7 @@
     <dimen name="button_round_size">2dp</dimen>
 
     <!-- 首页菜单的圆角大小 -->
-    <dimen name="button_home_menu_size">10dp</dimen>
+    <dimen name="button_home_menu_size">3dp</dimen>
 
 
 
