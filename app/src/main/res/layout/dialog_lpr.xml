@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:maxWidth="400dp"
-    android:minWidth="300dp"
+    android:maxWidth="@dimen/qb_px_400"
+    android:minWidth="@dimen/qb_px_300"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="@dimen/qb_px_5">
 
         <TextView
             android:layout_width="0dp"
@@ -19,12 +19,12 @@
             android:gravity="center_vertical"
             android:text="车牌识别"
             android:textColor="@color/white_f"
-            android:textSize="20sp" />
+            android:textSize="@dimen/fs_px_20" />
 
         <Button
             android:id="@+id/btn_closePage_dialogLpr"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/qb_px_40"
+            android:layout_height="@dimen/qb_px_40"
             android:background="@drawable/ic_close_white_f" />
     </LinearLayout>
 
@@ -44,7 +44,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="@dimen/qb_px_10">
 
 
             <!--<Button-->
@@ -60,31 +60,31 @@
                 android:id="@+id/status_init"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/qb_px_5"
                 android:text="初始化"
                 android:textColor="@color/orange"
-                android:textSize="12sp" />
+                android:textSize="@dimen/fs_px_12" />
 
 
             <TextView
                 android:id="@+id/status_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/qb_px_10"
                 android:text="正在获取车牌，请稍后···"
                 android:textColor="@color/gold"
-                android:textSize="12sp" />
+                android:textSize="@dimen/fs_px_12" />
 
             <TextView
                 android:id="@+id/tv_persetnum_dialoglpr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="3dp"
+                android:layout_marginTop="@dimen/qb_px_10"
+                android:padding="@dimen/qb_px_3"
                 android:background="#2c000000"
                 android:text=""
                 android:textColor="#d40505"
-                android:textSize="13sp" />
+                android:textSize="@dimen/fs_px_13" />
 
         </LinearLayout>
 

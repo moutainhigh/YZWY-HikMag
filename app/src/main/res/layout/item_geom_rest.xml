@@ -11,7 +11,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="@dimen/qb_px_5">
 
 
         <LinearLayout
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
             android:orientation="horizontal">
+
             <CheckBox
                 android:id="@+id/ckb_fuxuan_item_gemorest"
                 android:layout_width="wrap_content"
@@ -33,7 +34,7 @@
                 android:gravity="center_vertical"
                 android:text="序号"
                 android:textColor="@color/balck_0"
-                android:textSize="14sp" />
+                android:textSize="@dimen/fs_px_12" />
         </LinearLayout>
 
 
@@ -43,10 +44,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+            android:paddingLeft="@dimen/qb_px_10"
             android:text="地磁号"
             android:textColor="@color/balck_0"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
 
 
         <TextView
@@ -55,10 +56,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+            android:paddingLeft="@dimen/qb_px_10"
             android:text="预置点位"
             android:textColor="@color/balck_0"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
 
         <!--<Button-->
         <!--android:id="@+id/btn_enter_tremdatamag"-->

@@ -206,6 +206,6 @@ public class ActivityStackManager2 {
 //     */
 //    private static String getObjectTag(Object object) {
 //        // 对象所在的包名 + 对象的内存地址
-//        return object.getClass().getName() + Integer.toHexString(object.hashCode());
+//        return object.getClass().getName() + Integer.ByteToHexString(object.hashCode());
 //    }
 }

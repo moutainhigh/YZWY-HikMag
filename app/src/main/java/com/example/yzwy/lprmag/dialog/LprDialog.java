@@ -8,6 +8,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.format.Formatter;
 import android.util.Log;
@@ -21,25 +22,17 @@ import android.widget.TextView;
 
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
-import com.example.yzwy.lprmag.util.InetAddressUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.wifimess.model.SendOrder;
-import com.example.yzwy.lprmag.wifimess.thread.ConnectThread;
-import com.example.yzwy.lprmag.wifimess.thread.ListenerThread;
 import com.example.yzwy.lprmag.wifimess.util.SocketUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.Socket;
-import java.util.ArrayList;
 
 import static com.example.yzwy.lprmag.myConstant.OrderConstant.ORDER_OrderPlate;
-import static com.example.yzwy.lprmag.util.Tools.getWifiRouteIPAddress;
 
 
 public class LprDialog extends Activity {
@@ -150,17 +143,16 @@ public class LprDialog extends Activity {
                 + "\n路由：" + getWifiRouteIPAddress(LprDialog.this));
 
 
-
-
-        LogUtil.showLog("LprDialog scwidth_hik--->" , scwidth_hik);
-        LogUtil.showLog("LprDialog scheight_hik--->" , scheight_hik);
+        LogUtil.showLog("LprDialog scwidth_hik--->", scwidth_hik);
+        LogUtil.showLog("LprDialog scheight_hik--->", scheight_hik);
 
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String socketServerMsg = SocketUtil.getInstance().SocketRequest(getWifiRouteIPAddress(LprDialog.this), WifiMsgConstant.PORT_wifi, SendOrder.Get_OrderPlateNum(scwidth_hik,scheight_hik));
+                   // SocketUtil.getInstance().SocketRequest(mHandlerSocket, getWifiRouteIPAddress(LprDialog.this), WifiMsgConstant.PORT_wifi_RealTime, SendOrder.Get_OrderPlateNum(scwidth_hik, scheight_hik));
+                    String socketServerMsg = SocketUtil.getInstance().SocketRequestRT(getWifiRouteIPAddress(LprDialog.this), WifiMsgConstant.PORT_wifi_RealTime, SendOrder.Get_OrderPlateNum(scwidth_hik, scheight_hik));
                     LogUtil.showLog("ConfigSetActivity /...", socketServerMsg);
                     HandlerMsgSend(handler, 100, "data", socketServerMsg);
                 } catch (final IOException e) {
@@ -172,6 +164,51 @@ public class LprDialog extends Activity {
         }).start();
 
     }
+
+    /**
+     * Handler
+     */
+    private Handler mHandlerSocket = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0: {
+                    String content = (String) msg.obj;
+                    LogUtil.showLog("#--->", content);
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(content);
+
+                        int Order = Integer.valueOf(jsonObject.getString("Order"));
+
+                        switch (Order) {
+
+                            //返回查询所有的消息
+                            case ORDER_OrderPlate:
+                                String errcode = jsonObject.getString("errcode");
+                                if (errcode.equals("0")) {
+                                    String carNum = jsonObject.getString("carNum");
+                                    tv_persetnum_dialoglpr.setText("拍到的车牌号码为：\n" + carNum);
+                                } else {
+                                    String errmsg = jsonObject.getString("errmsg");
+                                    tv_persetnum_dialoglpr.setText(errmsg);
+                                }
+
+                                break;
+
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+                }
+            }
+        }
+    };
+
 
     /**
      * 获取已连接的热点路由

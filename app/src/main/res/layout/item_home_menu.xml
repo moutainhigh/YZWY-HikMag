@@ -11,26 +11,26 @@
         android:background="@drawable/press_home_menu_style"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:paddingTop="10dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="8dp">
+        android:paddingLeft="@dimen/qb_px_5"
+        android:paddingTop="@dimen/qb_px_10"
+        android:paddingRight="@dimen/qb_px_5"
+        android:paddingBottom="@dimen/qb_px_8">
 
         <ImageView
             android:id="@+id/img_homemenu_item_frgmthome"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_config_app" />
+            android:layout_width="@dimen/qb_px_32"
+            android:layout_height="@dimen/qb_px_32"
+            android:src="@drawable/ic_launcher_background" />
 
         <TextView
             android:id="@+id/tv_homemenu_item_frgmthome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/qb_px_8"
             android:gravity="center"
             android:text="设备连接配置"
             android:textColor="@color/balck_0"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
 
         <TextView
             android:id="@+id/tv_keyid_item_frgmthome"

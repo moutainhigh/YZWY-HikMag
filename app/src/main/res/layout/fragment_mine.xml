@@ -25,9 +25,9 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:padding="12dp"
+                    android:layout_width="@dimen/qb_px_80"
+                    android:layout_height="@dimen/qb_px_80"
+                    android:padding="@dimen/qb_px_12"
                     android:src="@drawable/social_head_default" />
 
                 <LinearLayout
@@ -39,6 +39,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_usernameaddr_fgmtmine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -46,9 +47,10 @@
                         android:singleLine="true"
                         android:text="超级管理员(珠海区域)"
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/fs_px_18" />
 
                     <TextView
+                        android:id="@+id/tv_username_fgmtmine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -56,14 +58,14 @@
                         android:singleLine="true"
                         android:text="admin"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/fs_px_15" />
 
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="10dp"
+                    android:layout_width="@dimen/qb_px_10"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="@dimen/qb_px_10"
                     android:scaleType="centerInside"
                     android:visibility="gone"
                     android:src="@drawable/ic_right_arrow_white" />
@@ -80,21 +82,21 @@
                 android:id="@+id/li_useCourse_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/qb_px_15"
                 android:background="@drawable/press_white_style"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingTop="@dimen/qb_px_10"
+                android:paddingBottom="@dimen/qb_px_10">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="@dimen/qb_px_10"
                     android:layout_weight="1"
                     android:text="使用教程"
                     android:textColor="@color/balck_0"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/fs_px_15" />
 
                 <include layout="@layout/arrow_right_setpage" />
             </LinearLayout>
@@ -113,17 +115,17 @@
                 android:background="@drawable/press_white_style"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingTop="@dimen/qb_px_10"
+                android:paddingBottom="@dimen/qb_px_10">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/qb_px_10"
                     android:layout_weight="1"
                     android:text="客服中心"
                     android:textColor="@color/balck_0"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/fs_px_15" />
 
                 <include layout="@layout/arrow_right_setpage" />
             </LinearLayout>
@@ -138,21 +140,21 @@
                 android:id="@+id/li_aboutus_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/qb_px_15"
                 android:background="@drawable/press_white_style"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingTop="@dimen/qb_px_10"
+                android:paddingBottom="@dimen/qb_px_10">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/qb_px_10"
                     android:layout_weight="1"
                     android:text="关于我们"
                     android:textColor="@color/balck_0"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/fs_px_15" />
 
                 <include layout="@layout/arrow_right_setpage" />
             </LinearLayout>
@@ -170,17 +172,17 @@
                 android:background="@drawable/press_white_style"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingTop="@dimen/qb_px_10"
+                android:paddingBottom="@dimen/qb_px_10">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/qb_px_10"
                     android:layout_weight="1"
                     android:text="隐私协议"
                     android:textColor="@color/balck_0"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/fs_px_15" />
 
                 <include layout="@layout/arrow_right_setpage" />
             </LinearLayout>
@@ -196,31 +198,31 @@
                 android:id="@+id/li_update_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/qb_px_15"
                 android:background="@drawable/press_white_style"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingTop="@dimen/qb_px_10"
+                android:paddingBottom="@dimen/qb_px_10">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/qb_px_10"
                     android:layout_weight="1"
                     android:text="检查更新"
                     android:textColor="@color/balck_0"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/fs_px_15" />
 
 
                 <TextView
                     android:id="@+id/tv_verionnum_mine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="@dimen/qb_px_10"
                     android:text="版本号 v0.1.1"
                     android:textColor="@color/balck_2"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/fs_px_13" />
 
                 <include layout="@layout/arrow_right_setpage" />
             </LinearLayout>
@@ -235,13 +237,15 @@
             <Button
                 android:id="@+id/btn_loginOut_mine"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/qb_px_10"
+                android:paddingTop="@dimen/qb_px_12"
+                android:paddingBottom="@dimen/qb_px_12"
+                android:layout_marginBottom="@dimen/qb_px_20"
                 android:background="@color/white"
                 android:text="退出登录"
                 android:textColor="@color/red_t1"
-                android:textSize="17sp" />
+                android:textSize="@dimen/fs_px_17" />
 
         </LinearLayout>
     </ScrollView>

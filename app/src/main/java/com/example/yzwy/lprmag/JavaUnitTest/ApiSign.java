@@ -1,6 +1,6 @@
-package com.example.yzwy.lprmag.test;
+package com.example.yzwy.lprmag.JavaUnitTest;
 
-import com.example.yzwy.lprmag.util.crypto.AesUtil;
+//import com.example.yzwy.lprmag.util.crypto.AesUtil;
 import com.example.yzwy.lprmag.util.crypto.Des3Util;
 import com.example.yzwy.lprmag.util.crypto.MD5Util;
 import com.example.yzwy.lprmag.util.crypto.RSAUtil;
@@ -43,29 +43,29 @@ public class ApiSign {
 //        String raw = "111111";
         System.out.println("RSA加密结果是：" + RSAUtil.encodeRSA(null, raw));
 
-        try {
-            /**
-             * 04-09 16:56:54.274 3765-3765/com.example.yzwy.lprmag I/System.out: mainactivity --->null
-             * 04-09 16:56:54.278 3765-3765/com.example.yzwy.lprmag I/System.out: mainactivity --->7X9S5G1nVLeEXV7UptgHew==
-             * 04-09 16:56:54.278 3765-3765/com.example.yzwy.lprmag I/System.out: mainactivity Str--->ed7f52e46d6754b7845d5ed4a6d8077b
-             * */
-//            String seed = "knk%OPq7F…Nk8pzmoUjcb7LeL&q@+flihy8S=qJG8M8+s—R+=bNm%7￥X）L…#YD#G43yh";
+//        try {
+//            /**
+//             * 04-09 16:56:54.274 3765-3765/com.example.yzwy.lprmag I/System.out: mainactivity --->null
+//             * 04-09 16:56:54.278 3765-3765/com.example.yzwy.lprmag I/System.out: mainactivity --->7X9S5G1nVLeEXV7UptgHew==
+//             * 04-09 16:56:54.278 3765-3765/com.example.yzwy.lprmag I/System.out: mainactivity Str--->ed7f52e46d6754b7845d5ed4a6d8077b
+//             * */
+////            String seed = "knk%OPq7F…Nk8pzmoUjcb7LeL&q@+flihy8S=qJG8M8+s—R+=bNm%7￥X）L…#YD#G43yh";
+////            String seed = "A1zFlux77a99X1be";
 //            String seed = "A1zFlux77a99X1be";
-            String seed = "A1zFlux77a99X1be";
-            String enStr = AesUtil.encryptHexStr(seed, raw, AesUtil.TRANSFORM_ECB_PKCS5PADDING);//1D4F8CA100ED403ACD7FDB0588CC8A0D
-            String deStr = AesUtil.decryptStr(seed, enStr, AesUtil.TRANSFORM_ECB_PKCS5PADDING);
-            String desc = String.format("AES加密结果是:%s\nAES解密结果是:%s", enStr, deStr);
-            System.out.println(desc);
-            String seedtest = "123";
-            System.out.println("AES 1234 获取128位的加密密钥：" + new String(AesUtil.getRawKey(seedtest.getBytes(), 128)));
-            System.out.println("AES 1234 获取192位的加密密钥：" + new String(AesUtil.getRawKey(seedtest.getBytes(), 192)));
-            System.out.println("AES 1234 获取256位的加密密钥：" + new String(AesUtil.getRawKey(seedtest.getBytes(), 256)));
-            //System.out.println("AES加密结果是 Base64 ：" + AesUtil.encryptBase64(seed, raw));
-            System.out.println("AES 生成密钥：" + getAESKey());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("AES加密/解密失败");
-        }
+//            String enStr = AesUtil.encryptHexStr(seed, raw, AesUtil.TRANSFORM_ECB_PKCS5PADDING);//1D4F8CA100ED403ACD7FDB0588CC8A0D
+//            String deStr = AesUtil.decryptStr(seed, enStr, AesUtil.TRANSFORM_ECB_PKCS5PADDING);
+//            String desc = String.format("AES加密结果是:%s\nAES解密结果是:%s", enStr, deStr);
+//            System.out.println(desc);
+//            String seedtest = "123";
+//            System.out.println("AES 1234 获取128位的加密密钥：" + new String(AesUtil.getRawKey(seedtest.getBytes(), 128)));
+//            System.out.println("AES 1234 获取192位的加密密钥：" + new String(AesUtil.getRawKey(seedtest.getBytes(), 192)));
+//            System.out.println("AES 1234 获取256位的加密密钥：" + new String(AesUtil.getRawKey(seedtest.getBytes(), 256)));
+//            //System.out.println("AES加密结果是 Base64 ：" + AesUtil.encryptBase64(seed, raw));
+//            System.out.println("AES 生成密钥：" + getAESKey());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("AES加密/解密失败");
+//        }
 
 
         String key = "a";

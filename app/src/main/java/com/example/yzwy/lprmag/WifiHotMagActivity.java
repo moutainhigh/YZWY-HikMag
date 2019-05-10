@@ -1,9 +1,9 @@
 package com.example.yzwy.lprmag;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,13 +12,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.myConstant.OrderConstant;
 import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
-import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.InetAddressUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.NetUtils;
 import com.example.yzwy.lprmag.util.Tools;
+import com.example.yzwy.lprmag.view.LoadingDialog;
 import com.example.yzwy.lprmag.view.SwitchButton;
 import com.example.yzwy.lprmag.wifimess.model.SendOrder;
 import com.example.yzwy.lprmag.wifimess.util.SocketUtil;
@@ -78,6 +79,8 @@ public class WifiHotMagActivity extends AppCompatActivity {
     private ImageButton imgbtn_wifihot_wifihotmag;
     private EditText edt_conntern_tremconn;
 
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +95,9 @@ public class WifiHotMagActivity extends AppCompatActivity {
          * 加载View
          * */
         initView();
+
+        //Thread ConnThreadAsyn = null;
+        //LogUtil.showLog("#--->", ConnThreadAsyn.isAlive() + "");
     }
 
     /**
@@ -233,6 +239,7 @@ public class WifiHotMagActivity extends AppCompatActivity {
             return false;
         }
 
+
         //向终端发送设置终端热点的命令
         SetTerminalWifiHotInfio(edt_hikusername_wifihotmag_str, edt_hikpwd_wifihotmag_str);
 
@@ -244,6 +251,10 @@ public class WifiHotMagActivity extends AppCompatActivity {
      * 向终端发送获取终端热点的命令
      */
     private void GetTerminalWifiHotInfio() {
+
+        //loadingDialog = new LoadingDialog(this, "正在向终端提交数据...", R.mipmap.ic_dialog_loading);
+        //loadingDialog.show();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -369,12 +380,11 @@ public class WifiHotMagActivity extends AppCompatActivity {
 
 
     @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
+    private Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(Message msg) {
+            //if (loadingDialog != null) loadingDialog.dismiss();
             String dataMsg = msg.getData().getString("data");
-            System.out.println("返回的数据>>>>>>>>>>>>>" + dataMsg);
-
             switch (msg.what) {
 
                 case 100:
@@ -402,9 +412,23 @@ public class WifiHotMagActivity extends AppCompatActivity {
                             //设置终端wifi热点
                             case OrderConstant.ORDER_Set_WifiHotInfo:
                                 if (errcode.equals("0")) {
-                                    final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
+                                    //final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+                                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    //startActivity(intent);
+
+//                                    loadingDialog = new LoadingDialog(WifiHotMagActivity.this, "正在启用终端WIFI热点...", R.mipmap.ic_dialog_loading);
+//                                    loadingDialog.show();
+//
+//                                    try {
+//                                        Thread.sleep(5000);
+//                                        if (loadingDialog != null) loadingDialog.dismiss();
+//
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                    }
+
+                                    Tools.Toast(WifiHotMagActivity.this, errmsg);
+
                                 }
                                 break;
 

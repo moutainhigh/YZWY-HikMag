@@ -12,7 +12,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.myConstant.HttpURL;
+import com.example.yzwy.lprmag.util.ExecRootCmd;
 import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
@@ -101,9 +103,32 @@ public class CrashHandler implements UncaughtExceptionHandler {
             } catch (InterruptedException e) {
                 Log.e(TAG, "error : ", e);
             }
-            //退出程序
+
+            ActivityStackManager.getInstance().finishAllActivity();
             android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+
+            //mDefaultHandler.uncaughtException(thread, ex);
+           // android.os.Process.killProcess(android.os.Process.myPid());
+
+
+            /**
+             * 由于是系统签名，所以必须适应root权限杀死进程
+             * */
+//            try {
+//                Runtime.getRuntime().exec("am force-stop com.example.yzwy.lprmag");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            String killAPP = "am force-stop com.example.yzwy.lprmag";
+//            ExecRootCmd.execRootCmd(killAPP);
+
+//            ActivityStackManager.getInstance().finishAllActivity();
+//            //System.exit(0);
+//            //退出程序
+//            android.os.Process.killProcess(android.os.Process.myPid());
+//            System.exit(1);
+
+
         }
     }
 

@@ -32,6 +32,7 @@ import com.example.yzwy.lprmag.UseCourseListActivity;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
+import com.example.yzwy.lprmag.util.AESUtil;
 import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
@@ -85,6 +86,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private LinearLayout li_customService_mine;
     private int version = 0;
     private String versionName = null;
+    private TextView tv_usernameaddr_fgmtmine;
+    private TextView tv_username_fgmtmine;
 
     @Nullable
     @Override
@@ -150,6 +153,33 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }).start();
 
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Map<String, String> LoginStringMap = new HashMap<>();
+                LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(SharePreferencesUtil.getStringValue(getActivity(), UserInfoConstant.userName, "")));
+                LoginStringMap.put("passWord", SharePreferencesUtil.getStringValue(getActivity(), UserInfoConstant.passWord, ""));
+                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                    @Override
+                    public void success(Call call, Response response) throws IOException {
+                        String rs = response.body().string();
+                        HanderUtil.HanderMsgSend(handlerUserInfo, 901, rs);
+                        LogUtil.showLog("NetAPi success --->", rs);
+                    }
+
+                    @Override
+                    public void failed(Call call, IOException e) {
+                        HanderUtil.HanderMsgSend(handler, 902, e.toString());
+                        LogUtil.showLog("NetAPi failed --->", e.toString());
+                    }
+                });
+
+
+            }
+        }).start();
+
+
         String userName = SharePreferencesUtil.getStringValue(getActivity(), UserInfoConstant.userName, "你还没有登录哦~");
         String pwd = SharePreferencesUtil.getStringValue(getActivity(), UserInfoConstant.passWord, "0");
         Boolean aBoolean = SharePreferencesUtil.getBooleanValue(getActivity(), UserInfoConstant.Flag, true);
@@ -170,6 +200,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         li_update_mine = (LinearLayout) view.findViewById(R.id.li_update_mine);
         btn_loginOut_mine = (Button) view.findViewById(R.id.btn_loginOut_mine);
         tv_verionnum_mine = (TextView) view.findViewById(R.id.tv_verionnum_mine);
+        tv_usernameaddr_fgmtmine = (TextView) view.findViewById(R.id.tv_usernameaddr_fgmtmine);
+        tv_username_fgmtmine = (TextView) view.findViewById(R.id.tv_username_fgmtmine);
 
 
         initOnClick();
@@ -309,9 +341,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         SharePreferencesUtil.putStringValue(getActivity(), UserInfoConstant.userName, "0");
         SharePreferencesUtil.putStringValue(getActivity(), UserInfoConstant.passWord, "0");
         SharePreferencesUtil.putBooleanValue(getActivity(), UserInfoConstant.Flag, false);
-
         Tools.Toast(getActivity(), "成功退出账号");
-
         Tools.Intent(getActivity(), LoginActivity.class);
 
     }
@@ -416,6 +446,74 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 LogUtil.showLog(" JSON failed --->", e.toString());
                 Tools.Toast(getActivity(), "失败，数据解析异常，异常Log：\n" + data);
             }
+
+        }
+
+    };
+    /**
+     * =============================================================================================
+     */
+    @SuppressLint("HandlerLeak")
+    private Handler handlerUserInfo = new Handler() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String data = msg.getData().getString("data");
+
+
+            LogUtil.showLog("#--->", data);
+            System.out.println("#--->：" + AESUtil.getInstance().JieDecrypt(data));
+
+            switch (msg.what) {
+                case 901:
+                    try {
+                        String decryptData;
+                        try {
+                            decryptData = AESUtil.getInstance().JieDecrypt(data);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Tools.Toast(getActivity(), "数据异常，解密失败");
+                            break;
+                        }
+                        JSONObject jsonObject = new JSONObject(decryptData);
+                        String errcode = jsonObject.optString("errcode", null);
+                        String errmsg = jsonObject.optString("errmsg", null);
+
+
+                        if (errcode.equals("0")) {
+                            JSONObject jsonObjectData = jsonObject.getJSONObject("data");
+                            String userid = jsonObjectData.optString("Id", "0");
+                            String roleName = jsonObjectData.optString("roleName", null);
+                            String UserName = jsonObjectData.optString("UserName", "");
+                            String Address = jsonObjectData.optString("Address", "");
+                            if (roleName != null) {
+                                tv_usernameaddr_fgmtmine.setText((roleName + "(" + Address + ")"));
+                            } else {
+                                tv_usernameaddr_fgmtmine.setText((Address));
+                            }
+
+                            tv_username_fgmtmine.setText(UserName);
+                        } else {
+                            //登陆成功
+                            Tools.Toast(getActivity(), errmsg);
+                            Tools.Intent(getActivity(), LoginActivity.class);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        LogUtil.showLog("JSON failed --->", e.toString());
+                        Tools.Toast(getActivity(), "数据解析异常");
+                    }
+
+
+                    break;
+
+                default:
+                    break;
+
+            }
+
 
         }
 

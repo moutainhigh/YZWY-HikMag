@@ -7,7 +7,7 @@
 
     <com.example.yzwy.lprmag.view.TabIconView
         android:id="@+id/iv_tab_icon"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="@dimen/qb_px_3"
         android:layout_width="@dimen/tab_icon_width"
         android:layout_height="@dimen/tab_icon_height"
         android:layout_centerHorizontal="true"
@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/iv_tab_icon"
         android:textColor="@color/main_bottom_tab_textcolor_normal"
-        android:textSize="12.5sp" />
+        android:textSize="@dimen/qb_px_12" />
 
 </RelativeLayout>
 

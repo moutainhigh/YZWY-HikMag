@@ -33,6 +33,8 @@
     <!-- 屏幕常量 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!--<uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>-->
+
     <application
         android:name=".application.MyApp"
         android:allowBackup="true"

@@ -7,6 +7,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -27,9 +28,9 @@ import com.example.yzwy.lprmag.bean.PresetBean;
 import com.example.yzwy.lprmag.myConstant.HiKEventBusConstant;
 import com.example.yzwy.lprmag.myConstant.OrderConstant;
 import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
+import com.example.yzwy.lprmag.util.DisplayUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
-import com.example.yzwy.lprmag.util.DisplayUtil;
 import com.example.yzwy.lprmag.wifimess.model.SendOrder;
 import com.example.yzwy.lprmag.wifimess.util.SocketUtil;
 import com.hikvision.netsdk.HCNetSDK;
@@ -40,8 +41,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -239,8 +238,7 @@ public class PresetDialog extends Activity {
 //        return routeIp;
 //    }
 
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
+    private Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(Message msg) {
 
@@ -488,10 +486,14 @@ public class PresetDialog extends Activity {
                 final String GeomagnetismAddressNumber = edt_putGeomagnetismAddressNumber_setPreset.getText().toString();
 
                 //判断预置点的范围
-                if (EdtPerset > 255 || EdtPerset < 0) {
-                    Toast.makeText(PresetDialog.this, "请设置预置点1-255之间", Toast.LENGTH_SHORT).show();
+                if (EdtPerset > 300 || EdtPerset < 0) {
+                    Toast.makeText(PresetDialog.this, "请设置预置点1-300之间", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if ((EdtPerset >= 33 && EdtPerset <= 46) || (EdtPerset >= 92 && EdtPerset <= 105)) {
+                    Toast.makeText(PresetDialog.this, EdtPerset + "为特殊预置位请重新输入", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
 
                 //判断预置点的范围
                 if (GeomagnetismAddressNumber == null || GeomagnetismAddressNumber.equals("")) {
@@ -578,6 +580,128 @@ public class PresetDialog extends Activity {
             }
         }).start();
     }
+
+    /**
+     * Handler
+     */
+//    private Handler mHandlerSocket = new Handler(Looper.myLooper()) {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what) {
+//                case 0: {
+//                    String content = (String) msg.obj;
+//                    LogUtil.showLog("#--->", content);
+//
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(content);
+//                        int Order = Integer.valueOf(jsonObject.getString("Order"));
+//
+//                        switch (Order) {
+//
+//                            //返回查询所有预置点的消息
+//                            case OrderConstant.SELECT_PERSET_ALL:
+//
+//                                JSONArray jsonArrayPrset = jsonObject.getJSONArray("data");
+//
+//                                //String Priority = jsonObject.getString("Priority");
+//
+//                                if (presetBeansList.size() > 0) {
+//                                    presetBeansList.clear();//清除之前的数据
+//                                }
+//
+//                                for (int i = 0; i < jsonArrayPrset.length(); i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+//                                    JSONObject jsonArrayPrsetObj = jsonArrayPrset.getJSONObject(i);
+//                                    PresetBean itemPresetBean = new PresetBean(jsonArrayPrsetObj.getString("GeomagnetismAddressNumber"), i + "", jsonArrayPrsetObj.getString("PersetNumber"), jsonArrayPrsetObj.getString("ScaleWidth"), jsonArrayPrsetObj.getString("ScaleHeight"));
+//                                    presetBeansList.add(itemPresetBean);
+//                                }
+//
+//                                if (!isInitAdapterPreset) {
+//                                    /**
+//                                     * 初始化适配器
+//                                     * */
+//                                    initAdapter();
+//                                    isInitAdapterPreset = true;
+//                                } else {
+//                                    adapter.notifyDataSetChanged(); //更新界面
+//                                }
+//
+////                                if (!Priority.equals("0")) {
+////                                    edt_priority_setPreset.setText(Priority);
+////                                }
+//
+//
+//                                break;
+//
+//                            //新增预置点
+//                            case OrderConstant.ORDER_SET:
+//                                String errcode = jsonObject.getString("errcode");
+//                                String errmsg = jsonObject.getString("errmsg");
+//                                if (errcode.equals("0")) {
+//                                    /**
+//                                     * 重新设置数据
+//                                     * */
+//                                    boolean b = HCNetSDK.getInstance().NET_DVR_PTZPreset(m_iPlayID, SET_PRESET, EdtPerset);
+//                                    Tools.Toast(PresetDialog.this, "预置点设置成功");
+//
+//                                    //请求获取所有的预置点信息
+//                                    GetAllPersetSocketRequest();
+//
+//                                } else {
+//                                    Tools.Toast(PresetDialog.this, errmsg);
+//                                }
+//                                break;
+//
+//                            case OrderConstant.ORDER_DELETE:
+//                                String errcodeDelete = jsonObject.getString("errcode");
+//                                String errmsgDelete = jsonObject.getString("errmsg");
+//                                if (errcodeDelete.equals("0")) {
+//                                    boolean b = HCNetSDK.getInstance().NET_DVR_PTZPreset(m_iPlayID, CLE_PRESET, EdtPerset);
+//                                    if (b) {
+//                                        Tools.Toast(PresetDialog.this, "预置点删除成功");
+//
+//                                        //请求获取所有的预置点信息
+//                                        GetAllPersetSocketRequest();
+//
+//                                    } else {
+//                                        Tools.Toast(PresetDialog.this, "预置点删除失败");
+//                                    }
+//
+//
+//                                } else {
+//                                    Tools.Toast(PresetDialog.this, errmsgDelete);
+//                                }
+//                                break;
+//
+//
+//                            case OrderConstant.ORDER_Update_Preset:
+//                                String errcodeUpdate = jsonObject.getString("errcode");
+//                                String errmsgUpdate = jsonObject.getString("errmsg");
+//                                String PersetNumberUpdate = jsonObject.getString("PersetNumber");
+//                                if (errcodeUpdate.equals("0")) {
+//                                    boolean b = HCNetSDK.getInstance().NET_DVR_PTZPreset(m_iPlayID, SET_PRESET, Integer.parseInt(PersetNumberUpdate));
+//                                    Tools.Toast(PresetDialog.this, errmsgUpdate);
+//
+//                                    //请求获取所有的预置点信息
+//                                    GetAllPersetSocketRequest();
+//
+//
+//                                } else {
+//                                    Tools.Toast(PresetDialog.this, errmsgUpdate);
+//                                }
+//                                break;
+//
+//                        }
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    break;
+//                }
+//            }
+//        }
+//    };
 
 
     /**

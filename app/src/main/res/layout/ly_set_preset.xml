@@ -29,14 +29,14 @@
 
         <ImageView
             android:id="@+id/SetImageView"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/qb_px_100"
+            android:layout_height="@dimen/qb_px_50"
             android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/qb_px_20"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -87,8 +87,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="@dimen/qb_px_8"
+                android:layout_marginRight="@dimen/qb_px_8"
                 android:background="#72CB6F"
                 android:text="设置预置点"
                 android:textColor="#181717" />
@@ -106,11 +106,11 @@
         <Button
             android:id="@+id/btn_goTo_setPreset"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="@dimen/qb_px_55"
+            android:layout_marginLeft="@dimen/qb_px_8"
+            android:layout_marginTop="@dimen/qb_px_20"
+            android:layout_marginRight="@dimen/qb_px_8"
+            android:layout_marginBottom="@dimen/qb_px_8"
             android:background="#72CB6F"
             android:ems="10"
             android:gravity="center"

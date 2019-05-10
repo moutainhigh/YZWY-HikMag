@@ -13,11 +13,11 @@
 
         <ImageButton
             android:id="@+id/imgbtn_back"
-            android:layout_width="60dp"
+            android:layout_width="@dimen/qb_px_60"
             android:layout_height="match_parent"
             android:background="@null"
-            android:paddingTop="11dp"
-            android:paddingBottom="11dp"
+            android:paddingTop="@dimen/qb_px_11"
+            android:paddingBottom="@dimen/qb_px_11"
             android:scaleType="centerInside"
             android:src="@drawable/ic_title_bar_back_btn_white" />
 
@@ -32,23 +32,23 @@
             android:singleLine="true"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="@dimen/fs_px_15" />
 
         <Button
             android:id="@+id/btn_menu"
-            android:layout_width="60dp"
+            android:layout_width="@dimen/qb_px_60"
             android:layout_height="match_parent"
             android:background="@null"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
     </LinearLayout>
 
     <ProgressBar
         android:id="@+id/pb_web_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="@dimen/qb_px_3"
         android:progressDrawable="@drawable/bg_web_progress_bar"
         android:visibility="gone" />
 

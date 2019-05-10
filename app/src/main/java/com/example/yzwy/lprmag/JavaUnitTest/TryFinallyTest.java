@@ -1,4 +1,4 @@
-package com.example.yzwy.lprmag.test;
+package com.example.yzwy.lprmag.JavaUnitTest;
 
 
 public class TryFinallyTest {

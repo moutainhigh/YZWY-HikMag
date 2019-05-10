@@ -8,35 +8,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginTop="@dimen/qb_px_2"
+        android:layout_marginBottom="@dimen/qb_px_2"
         android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/tv_serialNumber_itPreset"
-            android:layout_width="35dp"
+            android:layout_width="@dimen/qb_px_35"
             android:layout_height="wrap_content"
             android:text="000"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
 
         <!--预置点-->
         <TextView
             android:id="@+id/tv_persetNum_itpreset"
-            android:layout_width="55dp"
+            android:layout_width="@dimen/qb_px_55"
             android:layout_height="wrap_content"
             android:text="000"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
 
         <!--地磁设备地址-->
         <TextView
             android:id="@+id/tv_geomagneticAddress_itpreset"
-            android:layout_width="80dp"
+            android:layout_width="@dimen/qb_px_80"
             android:layout_height="wrap_content"
             android:text="00000000"
             android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
 
         <!--宽度比-->
         <TextView
@@ -58,32 +58,32 @@
             <Button
                 android:id="@+id/btn_goto_itPreset"
                 style="@style/ButtonStyle"
-                android:layout_width="50dp"
-                android:layout_height="22dp"
+                android:layout_width="@dimen/qb_px_50"
+                android:layout_height="@dimen/qb_px_22"
                 android:padding="0dp"
                 android:text="转到"
-                android:textSize="12sp" />
+                android:textSize="@dimen/fs_px_12" />
 
             <Button
                 android:id="@+id/btn_setPreset_itPreset"
                 style="@style/ButtonStyle"
-                android:layout_width="50dp"
-                android:layout_height="22dp"
+                android:layout_width="@dimen/qb_px_50"
+                android:layout_height="@dimen/qb_px_22"
                 android:padding="0dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginLeft="@dimen/qb_px_4"
+                android:layout_marginRight="@dimen/qb_px_4"
                 android:text="设置"
-                android:textSize="12sp" />
+                android:textSize="@dimen/fs_px_12" />
 
             <Button
                 android:id="@+id/btn_delete_itPreset"
                 style="@style/ButtonStyle"
-                android:layout_width="50dp"
-                android:layout_height="22dp"
+                android:layout_width="@dimen/qb_px_50"
+                android:layout_height="@dimen/qb_px_22"
                 android:padding="0dp"
                 android:background="@color/red_t1"
                 android:text="删除"
-                android:textSize="12sp" />
+                android:textSize="@dimen/fs_px_12" />
 
         </LinearLayout>
 

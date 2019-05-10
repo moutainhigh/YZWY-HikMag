@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="@dimen/qb_px_5">
 
         <TextView
             android:layout_width="0dp"
@@ -17,18 +17,18 @@
             android:gravity="center_vertical"
             android:text="地磁控制台管理"
             android:textColor="@color/white_f"
-            android:textSize="20sp" />
+            android:textSize="@dimen/fs_px_20" />
 
         <Button
             android:id="@+id/btn_closePage_dialogPerset"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/qb_px_40"
+            android:layout_height="@dimen/qb_px_40"
             android:background="@drawable/ic_close_white_f" />
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/qb_px_1"
         android:background="@color/white_e" />
 
     <LinearLayout
@@ -36,7 +36,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="@dimen/qb_px_8">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -48,35 +48,35 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
+                android:layout_margin="@dimen/qb_px_2"
                 android:background="#73a3a3a3"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_serialNumber_itPreset"
-                    android:layout_width="35dp"
+                    android:layout_width="@dimen/qb_px_35"
                     android:layout_height="wrap_content"
                     android:text="序号"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/fs_px_14" />
 
                 <!--预置点-->
                 <TextView
                     android:id="@+id/tv_persetNum_itpreset"
-                    android:layout_width="55dp"
+                    android:layout_width="@dimen/qb_px_55"
                     android:layout_height="wrap_content"
                     android:text="预置点"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/fs_px_14" />
 
                 <!--地磁设备地址-->
                 <TextView
                     android:id="@+id/tv_geomagneticAddress_itpreset"
-                    android:layout_width="80dp"
+                    android:layout_width="@dimen/qb_px_80"
                     android:layout_height="wrap_content"
                     android:text="地磁地址"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/fs_px_14" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -84,7 +84,7 @@
                     android:layout_weight="1"
                     android:text="操作"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/fs_px_14" />
 
             </LinearLayout>
 
@@ -99,7 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp">
+            android:padding="@dimen/qb_px_5">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:text="未连接"
                     android:textColor="@color/orange"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/fs_px_12" />
 
 
                 <TextView
@@ -121,13 +121,28 @@
                     android:layout_height="wrap_content"
                     android:text="状态"
                     android:textColor="@color/gold"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/fs_px_12"
                     android:visibility="gone" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="填写说明："
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fs_px_13" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="\u3000\u3000预置点必须为正整数，小于等于300，且不能包含特殊预置位[33-46,92-105]"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fs_px_13" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/qb_px_5"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
@@ -138,7 +153,7 @@
                         android:gravity="right"
                         android:text="预置点:"
                         android:textColor="#ffffff"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/fs_px_12" />
 
 
                     <EditText
@@ -155,7 +170,7 @@
                         android:singleLine="true"
                         android:text=""
                         android:textColor="#ffffff"
-                        android:textSize="13sp" />
+                        android:textSize="@dimen/fs_px_13" />
 
 
                 </LinearLayout>
@@ -176,7 +191,7 @@
                         android:gravity="right"
                         android:text="地磁地址:"
                         android:textColor="#ffffff"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/fs_px_12" />
 
                     <EditText
                         android:id="@+id/edt_putGeomagnetismAddressNumber_setPreset"
@@ -191,7 +206,7 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#ffffff"
-                        android:textSize="13sp" />
+                        android:textSize="@dimen/fs_px_13" />
                 </LinearLayout>
 
                 <View style="@style/HorizontalLineStyle" />
@@ -200,11 +215,11 @@
                     android:id="@+id/btn_setPreset_setPreset"
                     style="@style/ButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_margin="10dp"
+                    android:layout_height="@dimen/qb_px_35"
+                    android:layout_margin="@dimen/qb_px_10"
                     android:text="设置预置点"
                     android:textColor="#181717"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/fs_px_12" />
 
 
                 <!--<LinearLayout-->

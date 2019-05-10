@@ -7,17 +7,17 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/qb_px_40"
         android:background="@color/green_logo"
         android:gravity="center_vertical">
 
         <ImageButton
             android:id="@+id/imgbtn_left_cusservice"
-            android:layout_width="60dp"
+            android:layout_width="@dimen/qb_px_60"
             android:layout_height="match_parent"
             android:background="@drawable/press_head_transparent_style"
-            android:paddingTop="11dp"
-            android:paddingBottom="11dp"
+            android:paddingTop="@dimen/qb_px_11"
+            android:paddingBottom="@dimen/qb_px_11"
             android:scaleType="centerInside"
             android:src="@drawable/ic_title_bar_back_btn_white" />
 
@@ -29,24 +29,24 @@
             android:gravity="center_vertical"
             android:text="客服中心"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="@dimen/fs_px_15" />
 
         <Button
             android:id="@+id/btn_rigth_cusservice"
-            android:layout_width="60dp"
+            android:layout_width="@dimen/qb_px_60"
             android:layout_height="match_parent"
             android:background="@null"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp">
+        android:paddingTop="@dimen/qb_px_15"
+        android:paddingBottom="@dimen/qb_px_15">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recv_item_cusservice"

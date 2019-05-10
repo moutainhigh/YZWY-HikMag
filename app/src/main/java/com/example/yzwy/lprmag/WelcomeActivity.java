@@ -18,10 +18,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.guide.animation.guide.GuideActivity;
 import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
-import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
+import com.example.yzwy.lprmag.util.AESUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
 import com.example.yzwy.lprmag.util.SharePreferencesUtil;
@@ -107,7 +108,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             public void run() {
 
                                 Map<String, String> LoginStringMap = new HashMap<>();
-                                LoginStringMap.put("userName", userName);
+                                LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(userName));
                                 LoginStringMap.put("passWord", passWord);
                                 OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                                     @Override
@@ -190,7 +191,18 @@ public class WelcomeActivity extends AppCompatActivity {
                 case 100:
 
                     try {
-                        JSONObject jsonObject = new JSONObject(data);
+
+                        String decryptData;
+                        try {
+                            decryptData = AESUtil.getInstance().JieDecrypt(data);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Tools.Toast(WelcomeActivity.this, "数据异常，解密失败");
+                            break;
+                        }
+                        JSONObject jsonObject = new JSONObject(decryptData);
+
+                        //JSONObject jsonObject = new JSONObject(data);
                         String errcode = jsonObject.getString("errcode");
                         String errmsg = jsonObject.getString("errmsg");
 
@@ -244,6 +256,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.userName, "0");
         SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.passWord, "0");
+        SharePreferencesUtil.putStringValue(WelcomeActivity.this, UserInfoConstant.userID, "0");
         SharePreferencesUtil.putBooleanValue(WelcomeActivity.this, UserInfoConstant.Flag, false);
         //去登录界面
         Tools.Intent(WelcomeActivity.this, LoginActivity.class);

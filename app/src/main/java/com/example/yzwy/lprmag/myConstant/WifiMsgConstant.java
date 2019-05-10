@@ -16,6 +16,7 @@ public class WifiMsgConstant {
 
 
     public static final int PORT_wifi = 54321;
+    public static final int PORT_wifi_RealTime = 54322;
 
 
 }

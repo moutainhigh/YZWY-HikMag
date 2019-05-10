@@ -14,30 +14,30 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24.0dip"
+        android:layout_marginBottom="@dimen/qb_px_24"
         android:orientation="horizontal" >
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/qb_px_35"
+            android:layout_height="@dimen/qb_px_35"
             android:layout_gravity="center"
             android:clickable="true"
-            android:padding="10dp"
+            android:padding="@dimen/qb_px_10"
             android:src="@drawable/point" />
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/qb_px_35"
+            android:layout_height="@dimen/qb_px_35"
             android:clickable="true"
-            android:padding="10dp"
+            android:padding="@dimen/qb_px_10"
             android:src="@drawable/point" />
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/qb_px_35"
+            android:layout_height="@dimen/qb_px_35"
             android:layout_gravity="center"
             android:clickable="true"
-            android:padding="10dp"
+            android:padding="@dimen/qb_px_10"
             android:src="@drawable/point" />
     </LinearLayout>
 

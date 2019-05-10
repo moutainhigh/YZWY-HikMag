@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -23,12 +27,14 @@ import android.widget.TextView;
 import com.example.yzwy.lprmag.bean.GeomDataBean;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.myConstant.OrderConstant;
+import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
 import com.example.yzwy.lprmag.myConstant.WifiMsgConstant;
 import com.example.yzwy.lprmag.util.DisplayUtil;
 import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.InetAddressUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.NetUtils;
+import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 import com.example.yzwy.lprmag.util.Tools;
 import com.example.yzwy.lprmag.view.LoadingDialog;
 import com.example.yzwy.lprmag.wifimess.model.SendOrder;
@@ -98,7 +104,7 @@ public class GeomagneticManageActivity extends AppCompatActivity {
      */
     private List<GeomDataBean> adapterBeanList = new ArrayList<>();
     private int spanCount = 1;
-    private LinearLayout li_rcv_geom_rest;
+//    private LinearLayout li_rcv_geom_rest;
 
     private boolean isSelectAll = false;
     private CheckBox ckb_selectall_gemorest;
@@ -107,6 +113,15 @@ public class GeomagneticManageActivity extends AppCompatActivity {
     SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private LoadingDialog loadingDialog;
 
+    private String myUserID;
+
+    private List<String> stringArrayList = new ArrayList<>();
+    private ArrayList<GeomDataBean> selectedItemData;
+    private boolean boolIsError = false;
+    private boolean closeTimeTHree = false;
+    private TextView tv_show_diggeom;
+    private StringBuffer dialogStr = new StringBuffer();
+    private Thread mTimeThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +132,8 @@ public class GeomagneticManageActivity extends AppCompatActivity {
 
         //==========================================================================================
         ActivityStackManager.getInstance().addActivity(this);
+
+        myUserID = SharePreferencesUtil.getStringValue(GeomagneticManageActivity.this, UserInfoConstant.userID, "0");
 
         //加载View
         initView();
@@ -158,7 +175,7 @@ public class GeomagneticManageActivity extends AppCompatActivity {
         btn_f5data_tremdatamag = (Button) findViewById(R.id.btn_f5data_tremdatamag);
 
 
-        li_rcv_geom_rest = (LinearLayout) findViewById(R.id.li_rcv_geom_rest);
+//        li_rcv_geom_rest = (LinearLayout) findViewById(R.id.li_rcv_geom_rest);
 
 
         ckb_selectall_gemorest = (CheckBox) findViewById(R.id.ckb_selectall_gemorest);
@@ -253,6 +270,11 @@ public class GeomagneticManageActivity extends AppCompatActivity {
     private boolean GeomDadaRest() {
 
 
+        boolIsError = false;
+        if (stringArrayList.size() > 0) {
+            stringArrayList.clear();
+        }
+
         /**
          * 获取所有的数据框的数据，去除首位空格
          * */
@@ -268,11 +290,17 @@ public class GeomagneticManageActivity extends AppCompatActivity {
 //            return false;
 //        }
 
+
+        JSONArray jsonGeom = new JSONArray();
+        selectedItemData = getSelectedItemData();
+
+        if (selectedItemData.size() <= 0) {
+            Tools.Toast(GeomagneticManageActivity.this, "请至少选择一项列表");
+            return false;
+        }
         loadingDialog = new LoadingDialog(this, "正在提交数据...", R.mipmap.ic_dialog_loading);
         loadingDialog.show();
 
-        JSONArray jsonGeom = new JSONArray();
-        ArrayList<GeomDataBean> selectedItemData = getSelectedItemData();
         for (int i = 0; i < selectedItemData.size(); i++) {
             try {
                 JSONObject jsonObjArray = new JSONObject();
@@ -303,7 +331,7 @@ public class GeomagneticManageActivity extends AppCompatActivity {
                     String socketServerMsg = SocketUtil.getInstance().SocketRequest(getWifiRouteIPAddress(GeomagneticManageActivity.this), WifiMsgConstant.PORT_wifi, SendOrder.Get_GeomRest());
                     LogUtil.showLog("SocketUtilRs /...", socketServerMsg);
                     HanderUtil.HanderMsgSend(handler, 100, "data", socketServerMsg);
-                } catch (final IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     LogUtil.showLog("SocketUtilRs /***", e.toString());
                     HanderUtil.HanderMsgSend(handler, 101, "data", e.toString());
@@ -317,11 +345,29 @@ public class GeomagneticManageActivity extends AppCompatActivity {
      * 向终端发送设置终端热点的命令
      */
     private void SetTerminalDataInfo(final JSONArray jsonGeom) {
+
+        if (mTimeThread != null) {
+            mTimeThread.interrupt();
+        }
+
+        mTimeThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000 * 20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                HanderUtil.HanderMsgSend(handler, 600, "data", "");
+            }
+        });
+        mTimeThread.start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String socketServerMsg = SocketUtil.getInstance().SocketRequest(getWifiRouteIPAddress(GeomagneticManageActivity.this), WifiMsgConstant.PORT_wifi, SendOrder.Set_GeomRest(jsonGeom));
+                    String socketServerMsg = SocketUtil.getInstance().SocketRequestRT(getWifiRouteIPAddress(GeomagneticManageActivity.this), WifiMsgConstant.PORT_wifi_RealTime, SendOrder.Set_GeomRest(jsonGeom));
                     LogUtil.showLog("socketServerMsg /...", socketServerMsg);
                     HanderUtil.HanderMsgSend(handler, 100, "data", socketServerMsg);
                 } catch (final IOException e) {
@@ -332,6 +378,60 @@ public class GeomagneticManageActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    /**
+     * =============================================================================================
+     * 设置预置点监听事件
+     */
+    public void SetDialog() {
+        View linearLayout = getLayoutInflater().inflate(R.layout.dialog_geomrest, null);
+        Button btnSetPreset = (Button) linearLayout.findViewById(R.id.btn_dialog_custom_ok);
+        tv_show_diggeom = (TextView) linearLayout.findViewById(R.id.tv_show_diggeom);
+        final AlertDialog dialog = getDialongView(linearLayout);
+        //设置背景半透明
+        //dialog.getWindow().setBackgroundDrawableResource(R.color.translucent);
+        //取消
+        btnSetPreset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    /**
+     * =============================================================================================
+     * 设置Dialong属性
+     *
+     * @param view
+     * @return
+     */
+    private AlertDialog getDialongView(View view) {
+        final AlertDialog.Builder builder6 = new AlertDialog.Builder(GeomagneticManageActivity.this);
+        builder6.setView(view);
+        builder6.create();
+        AlertDialog dialog = builder6.show();
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.gravity = Gravity.CENTER;
+        window.setAttributes(lp);
+
+
+//        Window window = getWindow();
+//        window.getDecorView().setPadding(0, 0, 0, 0);
+//        WindowManager.LayoutParams lp = window.getAttributes();
+//        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        lp.gravity = Gravity.CENTER;
+//        window.setAttributes(layoutParams);
+
+
+        return dialog;
+    }
+
 
     /**
      * =============================================================================================
@@ -380,7 +480,7 @@ public class GeomagneticManageActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             String dataMsg = msg.getData().getString("data");
             System.out.println("返回的数据>>>>>>>>>>>>>" + dataMsg);
-            if (loadingDialog != null) loadingDialog.cancel();
+            //if (loadingDialog != null) loadingDialog.cancel();
             switch (msg.what) {
 
                 case 100:
@@ -397,7 +497,6 @@ public class GeomagneticManageActivity extends AppCompatActivity {
                                 String data = jsonObject.getString("data");
                                 edt_conntern_tremconn.setText("是");
 
-
                                 //加载Bean数据
                                 initBeanData(dataMsg);
 
@@ -410,11 +509,35 @@ public class GeomagneticManageActivity extends AppCompatActivity {
 
                             //设置终端上的数据
                             case OrderConstant.ORDER_SET_GeomListRest:
-                                if (errcode.equals("0")) {
-                                    Tools.Toast(GeomagneticManageActivity.this, "数据设置成功");
-                                } else {
-                                    Tools.Toast(GeomagneticManageActivity.this, errmsg);
+                                String userID = jsonObject.getString("userID");
+                                String geomID = jsonObject.getString("geomID");
+
+
+                                if (myUserID.equals(userID)) {
+                                    stringArrayList.add(geomID);
+
+                                    if (selectedItemData.size() == stringArrayList.size()) {
+                                        //数据全部接收完毕
+                                        boolIsError = true;
+                                        mTimeThread.interrupt();
+                                        mTimeThread = null;
+                                        Tools.Toast(GeomagneticManageActivity.this, "地磁复位成功");
+                                        loadingDialogClear();
+
+//                                        dialogStr.append() = "";
+//                                        tv_show_diggeom.setText();
+
+                                    }
+
+//                                    if (errcode.equals("0")) {
+//                                        Tools.Toast(GeomagneticManageActivity.this, "数据设置成功");
+//                                    } else {
+//                                        Tools.Toast(GeomagneticManageActivity.this, errmsg);
+//                                    }
+
                                 }
+
+
                                 break;
                         }
 
@@ -430,10 +553,53 @@ public class GeomagneticManageActivity extends AppCompatActivity {
                     LogUtil.showLog("ResSocket >>>", dataMsg);
                     edt_conntern_tremconn.setText("否");
                     break;
+
+
+                case 600:
+                    if (!boolIsError) {
+                        //查询出失败的重置地磁地址
+
+                        for (int i = 0; i < stringArrayList.size(); i++) {
+
+                            for (int j = 0; j < selectedItemData.size(); j++) {
+                                if (stringArrayList.get(i).equals(selectedItemData.get(j).getGeomID())) {
+                                    selectedItemData.remove(j);
+                                    continue;
+                                }
+                            }
+
+                        }
+
+                        String TostLog = "";
+                        if (selectedItemData.size() <= 0) {
+                            Tools.Toast(GeomagneticManageActivity.this, "地磁复位成功");
+                        } else {
+                            for (int j = 0; j < selectedItemData.size(); j++) {
+                                String geomID = selectedItemData.get(j).getGeomID();
+                                TostLog += TostLog + "," + geomID;
+                                dialogStr.append("，" + geomID + "\n");
+                            }
+                            SetDialog();
+                            tv_show_diggeom.setText("地磁复位失败的有" + dialogStr);
+                            Tools.Toast(GeomagneticManageActivity.this, "地磁复位失败的有" + TostLog);
+                            TostLog = "";
+                        }
+
+
+                    }
+                    loadingDialogClear();
+                    break;
             }
 
         }
     };
+
+    private void loadingDialogClear() {
+        if (loadingDialog != null) {
+            loadingDialog.cancel();
+            loadingDialog = null;
+        }
+    }
 
     /**
      * =============================================================================================
@@ -487,6 +653,8 @@ public class GeomagneticManageActivity extends AppCompatActivity {
 
         //设置边距
         recyclerView.addItemDecoration(new SpaceItemDecoration());
+
+        recyclerView.setNestedScrollingEnabled(false);
 
 
     }

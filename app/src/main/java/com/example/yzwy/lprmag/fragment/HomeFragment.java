@@ -1,5 +1,6 @@
 package com.example.yzwy.lprmag.fragment;
 
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -77,6 +78,18 @@ public class HomeFragment extends Fragment
         initBeanData();
         //加载适配器
         initAdapter();
+        //Load defaults from resources
+
+
+//        Resources res = getResources();
+//
+//        float defaultStrokeWidth = res.getDimension(R.dimen.default_circle_indicator_stroke_width);
+//        float defaultRadius = res.getDimension(R.dimen.default_circle_indicator_radius);
+//        int dimension = (int)res.getDimension(R.dimen.qb_px_5);
+//        float qb_px_5 = res.getDimension(R.dimen.qb_px_5);
+//        float qb_px_20 = res.getDimension(R.dimen.qb_px_20);
+//
+//        LogUtil.showLog("qb_px",qb_px_5+"=="+qb_px_20+"");
 
     }
 

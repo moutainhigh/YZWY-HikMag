@@ -3,25 +3,29 @@ package com.example.yzwy.lprmag;
 
 import android.app.Activity;
 import android.content.Intent;
-
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
+import android.widget.LinearLayout;
 
 import com.example.yzwy.lprmag.adapter.TabFragmentAdapter;
 import com.example.yzwy.lprmag.broadcast.NetWorkChangReceiver;
+import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
+import com.example.yzwy.lprmag.fragment.HomeFragment;
 import com.example.yzwy.lprmag.fragment.MineFragment;
 import com.example.yzwy.lprmag.myinterface.NetBroadcastListener;
-import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.LogUtil;
+import com.example.yzwy.lprmag.util.SystemUtil;
 import com.example.yzwy.lprmag.util.Tools;
-import com.example.yzwy.lprmag.util.crypto.AesUtil;
 import com.example.yzwy.lprmag.view.TabContainerView;
-import com.example.yzwy.lprmag.fragment.HomeFragment;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
@@ -113,24 +117,93 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         //初始化组件
         initViews();
 
-        try {
 
-            String Key = "A1zFlux77a99X1be";
-            String src = "admin";
-            String Base64Str = AesUtil.encryptBase64("A1zFlux77a99X1be", "admin", AesUtil.TRANSFORM_ECB_PKCS5PADDING);
-            String HexStr = AesUtil.encryptHexStr("A1zFlux77a99X1be", "admin", AesUtil.TRANSFORM_ECB_PKCS5PADDING);
+        StringBuffer stringBufferswLog = new StringBuffer();
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = Math.min(dm.widthPixels, dm.heightPixels);
+        stringBufferswLog.append("--->\n");
+        stringBufferswLog.append("密度Dpi: " + dm.densityDpi + "\n");
+        stringBufferswLog.append("最小宽度像素: " + width + "\n");
+        stringBufferswLog.append("计算出来的smallestWidth : " + width / (dm.densityDpi / 160.0) + "dp" + "\n");
+        stringBufferswLog.append("实际使用的smallestWidth :  " + getResources().getString(R.string.base_dpi) + "\n");
+        stringBufferswLog.append("当前手机： " + SystemUtil.getDeviceBrand() + "  " + SystemUtil.getSystemModel() + " \n" + "当前系统： " + SystemUtil.getSystemVersion() + " ");
+
+        LogUtil.showLog("swSystem", stringBufferswLog.toString());
 
 
-            System.out.println("mainactivity --->AES加密结果是 Base64 ：" + Base64Str);
-            System.out.println("mainactivity --->AES加密结果是 HexStr ：" + AesUtil.encryptHexStr(Key, src, AesUtil.TRANSFORM_ECB_PKCS5PADDING));
+//        try {
+//
+//            String Key = "A1zFlux77a99X1be";
+//            String src = "admin";
+//            String Base64Str = AesUtil.encryptBase64("A1zFlux77a99X1be", "admin", AesUtil.TRANSFORM_ECB_PKCS5PADDING);
+//            String HexStr = AesUtil.encryptHexStr("A1zFlux77a99X1be", "admin", AesUtil.TRANSFORM_ECB_PKCS5PADDING);
+//
+//
+//            System.out.println("mainactivity --->AES加密结果是 Base64 ：" + Base64Str);
+//            System.out.println("mainactivity --->AES加密结果是 HexStr ：" + AesUtil.encryptHexStr(Key, src, AesUtil.TRANSFORM_ECB_PKCS5PADDING));
+//
+//            System.out.println("mainactivity --->AES解密结果是 Str ：" + AesUtil.decryptStr(Key, HexStr, AesUtil.TRANSFORM_ECB_PKCS5PADDING));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-            System.out.println("mainactivity --->AES解密结果是 Str ：" + AesUtil.decryptStr(Key, HexStr, AesUtil.TRANSFORM_ECB_PKCS5PADDING));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+//        MinaThread mThread = new MinaThread(getWifiRouteIPAddress(MainActivity.this), WifiMsgConstant.PORT_wifi);
+//        mThread.start();
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+////                SocketClient client = new SocketClient();
+////                // 建立socket对象
+////                int iret = client.connect(getWifiRouteIPAddress(MainActivity.this), WifiMsgConstant.PORT_wifi);
+////                if (iret == 0) {
+////                    // 发送数据
+////                    client.write("helloworld".getBytes());
+////                    // 接收数据
+////                    byte data[] = client.read();
+////                    if ((data != null) && (data.length != 0)) {
+////                        // 处理接收结果
+////                        System.out.println("响应报文字节数组---->" + Arrays.toString(data));
+////                    }
+////                }
+//
+//
+//                try {
+////                    String socketServerMsg = SocketUtil.getInstance().SocketRequest(getWifiRouteIPAddress(MainActivity.this), WifiMsgConstant.PORT_wifi, SendOrder.Get_PersetData());
+//                    SocketUtil.getInstance().SocketRequest(mHandler,"192.168.1.110", WifiMsgConstant.PORT_wifi, SendOrder.Get_PersetData());
+////                    LogUtil.showLog("ServerUtil---> /...", socketServerMsg);
+////                    HandlerMsgSend(handler, 100, "data", socketServerMsg);
+//                } catch (final IOException e) {
+//                    e.printStackTrace();
+//                    LogUtil.showLog("ServerUtil--->  /***", e.toString());
+////                    HandlerMsgSend(handler, 101, "data", e.toString());
+//                }
+//            }
+//        }).start();
 
 
     }
+
+    /**
+     * Handler
+     */
+    private Handler mHandler = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0: {
+                    String content = (String) msg.obj;
+                    //mTxtContent.setText(content);
+                    break;
+                }
+            }
+        }
+    };
 
 
     /**
@@ -151,7 +224,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         int width = getResources().getDimensionPixelSize(R.dimen.tab_icon_width);
         int height = getResources().getDimensionPixelSize(R.dimen.tab_icon_height);
-        mTabLayout.setContainerLayout(R.layout.tab_container_view, R.id.iv_tab_icon, R.id.tv_tab_text, width, height);
+        int fontSize = getResources().getDimensionPixelOffset(R.dimen.qb_px_10);
+        mTabLayout.setContainerLayout(R.layout.tab_container_view, R.id.iv_tab_icon, R.id.tv_tab_text, width, height,fontSize);
 //        mTabLayout.setSingleTextLayout(R.layout.tab_container_view, R.id.tv_tab_text);
 //        mTabLayout.setSingleIconLayout(R.layout.tab_container_view, R.id.iv_tab_icon);
 

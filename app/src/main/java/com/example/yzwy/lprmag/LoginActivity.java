@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.myConstant.HttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
+import com.example.yzwy.lprmag.util.AESUtil;
 import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
@@ -138,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void run() {
 
                         Map<String, String> LoginStringMap = new HashMap<>();
-                        LoginStringMap.put("userName", edtUsername);
+                        LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(edtUsername));
                         LoginStringMap.put("passWord", edtPwd);
                         OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                             @Override
@@ -167,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                    Tools.Toast(LoginActivity.this, "用户名不能为空");
 //                } else if (edtPwd.equals("")) {
 //                    Tools.Toast(LoginActivity.this, "密码不能为空");
-//                } else if (edtUsername.equals("admin") && edtPwd.equals("admin123")) {
+//                } else if (edtUsername.equals("admin") && edtPwd.equals("123")) {
 //                    //登陆成功
 //                    Tools.Toast(LoginActivity.this, "登陆成功");
 //
@@ -275,17 +276,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 case 100:
                     try {
-                        JSONObject jsonObject = new JSONObject(data);
-                        String errcode = jsonObject.getString("errcode");
-                        String errmsg = jsonObject.getString("errmsg");
+                        String decryptData;
+                        try {
+                            decryptData = AESUtil.getInstance().JieDecrypt(data);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Tools.Toast(LoginActivity.this, "数据异常，解密失败");
+                            break;
+                        }
+                        JSONObject jsonObject = new JSONObject(decryptData);
+                        String errcode = jsonObject.optString("errcode", null);
+                        String errmsg = jsonObject.optString("errmsg", null);
+
 
                         if (errcode.equals("0")) {
                             //登陆成功
                             Tools.Toast(LoginActivity.this, "登陆成功");
 
 
+                            JSONObject jsonObjectData = jsonObject.getJSONObject("data");
+                            String userid = jsonObjectData.optString("Id", "0");
+
                             SharePreferencesUtil.putStringValue(LoginActivity.this, UserInfoConstant.userName, edtUsername);
                             SharePreferencesUtil.putStringValue(LoginActivity.this, UserInfoConstant.passWord, edtPwd);
+                            SharePreferencesUtil.putStringValue(LoginActivity.this, UserInfoConstant.userID, userid);
                             SharePreferencesUtil.putBooleanValue(LoginActivity.this, UserInfoConstant.Flag, true);
 
                             Tools.Intent(LoginActivity.this, MainActivity.class);

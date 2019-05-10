@@ -22,8 +22,8 @@
     <!--裁剪的图片-->
     <View
         android:id="@+id/rectLine"
-        android:layout_width="250px"
-        android:layout_height="120px"
+        android:layout_width="@dimen/qb_px_250"
+        android:layout_height="@dimen/qb_px_120"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:background="@drawable/ac_rect"
@@ -52,11 +52,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_margin="20dp"
+            android:layout_margin="@dimen/qb_px_20"
             android:gravity="center"
             android:text="正在登录设备中···"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="@dimen/fs_px_20" />
     </LinearLayout>
 
 
@@ -81,32 +81,32 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="@dimen/qb_px_5">
 
             <RelativeLayout
                 android:id="@+id/rltv_cmdSpeed_hik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="@dimen/qb_px_35"
                 android:background="@color/translucent"
                 android:gravity="center_vertical"
-                android:padding="5dp">
+                android:padding="@dimen/qb_px_5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="@dimen/qb_px_25"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <SeekBar
                         android:id="@+id/skb_speed_hik"
-                        android:layout_width="200dp"
+                        android:layout_width="@dimen/qb_px_200"
                         android:layout_height="wrap_content"
                         android:max="6"
-                        android:maxHeight="2dp"
-                        android:minHeight="2dp"
+                        android:maxHeight="@dimen/qb_px_2"
+                        android:minHeight="@dimen/qb_px_2"
                         android:progress="2"
                         android:progressDrawable="@drawable/seekbar_layer_progress"
                         android:thumb="@drawable/seekbar_shape_circle" />
@@ -119,7 +119,7 @@
                         android:gravity="left"
                         android:text="速度：3"
                         android:textColor="@color/gold"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/fs_px_14" />
                 </LinearLayout>
 
 
@@ -132,51 +132,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/qb_px_10"
                 android:gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/btn_Up"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/qb_px_50"
+                    android:layout_height="@dimen/qb_px_50"
                     android:layout_toRightOf="@+id/btn_Left"
                     android:background="@mipmap/camera_move_up" />
 
                 <Button
                     android:id="@+id/btn_Down"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/qb_px_50"
+                    android:layout_height="@dimen/qb_px_50"
                     android:layout_below="@+id/btn_Left"
                     android:layout_toRightOf="@+id/btn_Left"
                     android:background="@mipmap/camera_move_down" />
 
                 <Button
                     android:id="@+id/btn_Left"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/qb_px_50"
+                    android:layout_height="@dimen/qb_px_50"
                     android:layout_below="@id/btn_Up"
                     android:background="@mipmap/camera_move_left" />
 
                 <Button
                     android:id="@+id/btn_Right"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/qb_px_50"
+                    android:layout_height="@dimen/qb_px_50"
                     android:layout_below="@id/btn_Up"
                     android:layout_toRightOf="@id/btn_Up"
                     android:background="@mipmap/camera_move_right" />
 
                 <Button
                     android:id="@+id/btn_ZoomIn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/qb_px_50"
+                    android:layout_height="@dimen/qb_px_50"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
                     android:background="@mipmap/camera_move_bigger" />
 
                 <Button
                     android:id="@+id/btn_ZoomOut"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/qb_px_50"
+                    android:layout_height="@dimen/qb_px_50"
                     android:layout_alignLeft="@id/btn_Right"
                     android:layout_alignParentBottom="true"
                     android:background="@mipmap/camera_move_smaller" />
@@ -195,26 +195,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/qb_px_40"
+                android:layout_marginRight="@dimen/qb_px_5"
                 android:background="@color/translucent"
-                android:padding="5dp">
+                android:padding="@dimen/qb_px_5">
 
                 <LinearLayout
                     android:id="@+id/li_rltv001_hik"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="@dimen/qb_px_25"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_scwidthshow_hik"
-                        android:layout_width="200dp"
+                        android:layout_width="@dimen/qb_px_200"
                         android:layout_height="wrap_content"
                         android:text="识别区域宽度比例："
                         android:textColor="@color/gold"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/fs_px_14" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -222,14 +222,14 @@
                         android:layout_weight="1"
                         android:text="宽度比数值"
                         android:textColor="@color/gold"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/fs_px_14" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:id="@+id/li_rltv002_hik"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="@dimen/qb_px_25"
                     android:layout_below="@id/li_rltv001_hik"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
@@ -237,11 +237,11 @@
 
                     <SeekBar
                         android:id="@+id/skb_scwidth_hik"
-                        android:layout_width="200dp"
+                        android:layout_width="@dimen/qb_px_200"
                         android:layout_height="wrap_content"
                         android:max="99"
-                        android:maxHeight="2dp"
-                        android:minHeight="2dp"
+                        android:maxHeight="@dimen/qb_px_2"
+                        android:minHeight="@dimen/qb_px_2"
                         android:progress="0"
                         android:progressDrawable="@drawable/seekbar_layer_progress"
                         android:thumb="@drawable/seekbar_shape_circle" />
@@ -254,27 +254,27 @@
                         android:gravity="left"
                         android:text="1001100010"
                         android:textColor="@color/gold"
-                        android:textSize="8dp" />
+                        android:textSize="@dimen/fs_px_8" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:id="@+id/li_rltv003_hik"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="@dimen/qb_px_25"
                     android:layout_below="@id/li_rltv002_hik"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/qb_px_10"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_scheightshow_hik"
-                        android:layout_width="200dp"
+                        android:layout_width="@dimen/qb_px_200"
                         android:layout_height="wrap_content"
                         android:text="识别区域高度比例："
                         android:textColor="@color/gold"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/fs_px_14" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -283,14 +283,14 @@
                         android:gravity="left"
                         android:text="宽度比数值"
                         android:textColor="@color/gold"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/fs_px_14" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:id="@+id/li_rltv004_hik"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="@dimen/qb_px_25"
                     android:layout_below="@id/li_rltv003_hik"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
@@ -298,11 +298,11 @@
 
                     <SeekBar
                         android:id="@+id/skb_scheight_hik"
-                        android:layout_width="200dp"
+                        android:layout_width="@dimen/qb_px_200"
                         android:layout_height="wrap_content"
                         android:max="99"
-                        android:maxHeight="2dp"
-                        android:minHeight="2dp"
+                        android:maxHeight="@dimen/qb_px_2"
+                        android:minHeight="@dimen/qb_px_2"
                         android:progress="0"
                         android:progressDrawable="@drawable/seekbar_layer_progress"
                         android:thumb="@drawable/seekbar_shape_circle" />
@@ -315,15 +315,15 @@
                         android:gravity="left"
                         android:text="1100100101"
                         android:textColor="@color/gold"
-                        android:textSize="8sp" />
+                        android:textSize="@dimen/fs_px_8" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="@dimen/qb_px_25"
                     android:layout_below="@id/li_rltv004_hik"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/qb_px_10"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -332,7 +332,7 @@
                         android:layout_height="wrap_content"
                         android:text="WIFI信号强度："
                         android:textColor="@color/orange"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/fs_px_14" />
 
                     <TextView
                         android:id="@+id/tv_wifiStrength_hik"
@@ -340,7 +340,7 @@
                         android:layout_height="wrap_content"
                         android:text="-200"
                         android:textColor="@color/orange"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/fs_px_14" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -349,18 +349,18 @@
             <LinearLayout
                 android:id="@+id/li_geomagneticMag_hik"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/qb_px_40"
                 android:layout_gravity="right"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/qb_px_10"
                 android:background="@drawable/selector_button"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingLeft="@dimen/qb_px_20"
+                android:paddingRight="@dimen/qb_px_20">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/qb_px_30"
+                    android:layout_height="@dimen/qb_px_30"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_set_mag" />
 
@@ -368,42 +368,42 @@
                     android:id="@+id/btn_geomagneticMag_hik"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/qb_px_10"
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:text="地磁管理"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/fs_px_15" />
             </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/li_carnum_hik"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/qb_px_40"
                 android:layout_gravity="right"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/qb_px_10"
                 android:background="@drawable/selector_button"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingLeft="@dimen/qb_px_20"
+                android:paddingRight="@dimen/qb_px_20">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/qb_px_30"
+                    android:layout_height="@dimen/qb_px_30"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_saomiao" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/qb_px_10"
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:text="识别车牌"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/fs_px_15" />
             </LinearLayout>
 
 
@@ -443,17 +443,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/qb_px_40"
             android:background="@color/translucent"
             android:gravity="center_vertical">
 
             <ImageButton
                 android:id="@+id/imgbtn_back_hik"
-                android:layout_width="60dp"
+                android:layout_width="@dimen/qb_px_60"
                 android:layout_height="match_parent"
                 android:background="@drawable/press_head_transparent_style"
-                android:paddingTop="11dp"
-                android:paddingBottom="11dp"
+                android:paddingTop="@dimen/qb_px_11"
+                android:paddingBottom="@dimen/qb_px_11"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_title_bar_back_btn_white" />
 
@@ -464,15 +464,15 @@
                 android:gravity="center|left"
                 android:text="退出"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="@dimen/fs_px_15" />
 
             <Button
-                android:layout_width="60dp"
+                android:layout_width="@dimen/qb_px_60"
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:text=""
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="@dimen/fs_px_14" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

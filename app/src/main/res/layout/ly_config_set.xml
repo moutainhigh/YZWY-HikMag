@@ -7,17 +7,17 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/qb_px_40"
         android:background="@color/green_logo"
         android:gravity="center_vertical">
 
         <ImageButton
             android:id="@+id/imgbtn_back_cfgset"
-            android:layout_width="60dp"
+            android:layout_width="@dimen/qb_px_60"
             android:layout_height="match_parent"
             android:background="@drawable/press_head_transparent_style"
-            android:paddingTop="11dp"
-            android:paddingBottom="11dp"
+            android:paddingTop="@dimen/qb_px_11"
+            android:paddingBottom="@dimen/qb_px_11"
             android:scaleType="centerInside"
             android:src="@drawable/ic_title_bar_back_btn_white" />
 
@@ -29,16 +29,16 @@
             android:gravity="center|left"
             android:text="连接配置"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="@dimen/fs_px_15" />
 
         <Button
             android:id="@+id/btn_f5data_cfgset"
-            android:layout_width="60dp"
+            android:layout_width="@dimen/qb_px_60"
             android:layout_height="match_parent"
             android:background="@null"
             android:text="刷新"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="@dimen/fs_px_14" />
     </LinearLayout>
 
     <FrameLayout
@@ -55,12 +55,12 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical"
-                android:paddingBottom="75dp">
+                android:paddingBottom="@dimen/qb_px_75">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/qb_px_15"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -117,8 +117,8 @@
 
                     <!--<View-->
                         <!--style="@style/HorizontalLineStyle"-->
-                        <!--android:layout_marginLeft="@dimen/space_30"-->
-                        <!--android:layout_marginRight="@dimen/space_30" />-->
+                        <!--android:layout_marginLeft="@dimen/qb_px_15"-->
+                        <!--android:layout_marginRight="@dimen/qb_px_15" />-->
 
 
                     <!--<LinearLayout-->
@@ -150,8 +150,8 @@
 
                     <!--<View-->
                         <!--style="@style/HorizontalLineStyle"-->
-                        <!--android:layout_marginLeft="@dimen/space_30"-->
-                        <!--android:layout_marginRight="@dimen/space_30" />-->
+                        <!--android:layout_marginLeft="@dimen/qb_px_15"-->
+                        <!--android:layout_marginRight="@dimen/qb_px_15" />-->
 
 
                     <!--<LinearLayout-->
@@ -187,7 +187,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/qb_px_15"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -195,7 +195,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="@dimen/qb_px_10"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -204,15 +204,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:padding="10dp"
+                            android:padding="@dimen/qb_px_10"
                             android:text="海康网络配置"
                             android:textColor="@color/balck_1"
-                            android:textSize="17sp" />
+                            android:textSize="@dimen/fs_px_17" />
 
                         <ImageButton
                             android:id="@+id/imgbtn_hikpush_cfgset"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="@dimen/qb_px_45"
+                            android:layout_height="@dimen/qb_px_45"
                             android:layout_gravity="center_vertical"
                             android:background="@null"
                             android:scaleType="centerInside"
@@ -220,11 +220,11 @@
 
                         <TextView
                             android:id="@+id/tv_hikpushstatus_cfgset"
-                            android:layout_width="75dp"
+                            android:layout_width="@dimen/qb_px_75"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
+                            android:layout_marginLeft="@dimen/qb_px_8"
+                            android:layout_marginRight="@dimen/qb_px_8"
                             android:gravity="left"
                             android:text="待同步"
                             android:textColor="@color/balck_1"
@@ -241,10 +241,10 @@
                         android:gravity="center_vertical">
 
                         <TextView
-                            android:layout_width="80dp"
+                            android:layout_width="@dimen/qb_px_80"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="@dimen/qb_px_5"
                             android:gravity="right"
                             android:text="IP地址："
                             android:textColor="@color/balck_1"
@@ -264,8 +264,8 @@
 
                     <View
                         style="@style/HorizontalLineStyle"
-                        android:layout_marginLeft="@dimen/space_30"
-                        android:layout_marginRight="@dimen/space_30" />
+                        android:layout_marginLeft="@dimen/qb_px_15"
+                        android:layout_marginRight="@dimen/qb_px_15" />
 
 
                     <LinearLayout
@@ -276,10 +276,10 @@
                         android:gravity="center_vertical">
 
                         <TextView
-                            android:layout_width="80dp"
+                            android:layout_width="@dimen/qb_px_80"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="@dimen/qb_px_5"
                             android:gravity="right"
                             android:text="端口号："
                             android:textColor="@color/balck_1"
@@ -298,8 +298,8 @@
 
                     <View
                         style="@style/HorizontalLineStyle"
-                        android:layout_marginLeft="@dimen/space_30"
-                        android:layout_marginRight="@dimen/space_30" />
+                        android:layout_marginLeft="@dimen/qb_px_15"
+                        android:layout_marginRight="@dimen/qb_px_15" />
 
 
                     <LinearLayout
@@ -310,10 +310,10 @@
                         android:gravity="center_vertical">
 
                         <TextView
-                            android:layout_width="80dp"
+                            android:layout_width="@dimen/qb_px_80"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="@dimen/qb_px_5"
                             android:gravity="right"
                             android:text="用户名："
                             android:textColor="@color/balck_1"
@@ -332,8 +332,8 @@
 
                     <View
                         style="@style/HorizontalLineStyle"
-                        android:layout_marginLeft="@dimen/space_30"
-                        android:layout_marginRight="@dimen/space_30" />
+                        android:layout_marginLeft="@dimen/qb_px_15"
+                        android:layout_marginRight="@dimen/qb_px_15" />
 
 
                     <LinearLayout
@@ -344,14 +344,14 @@
                         android:gravity="center_vertical">
 
                         <TextView
-                            android:layout_width="80dp"
+                            android:layout_width="@dimen/qb_px_80"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="@dimen/qb_px_5"
                             android:gravity="right"
                             android:text="密     码："
                             android:textColor="@color/balck_1"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/fs_px_15" />
 
                         <EditText
                             android:id="@+id/edt_hikpwd_cfgset"
@@ -362,7 +362,7 @@
                             android:hint="请输入4到21位的字符密码"
                             android:maxLength="50"
                             android:maxLines="1"
-                            android:paddingLeft="8dp" />
+                            android:paddingLeft="@dimen/qb_px_8" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -374,12 +374,12 @@
             android:id="@+id/btn_enter_cfgset"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="@dimen/qb_px_45"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="确认（需要重启应用）" />
+            android:layout_marginLeft="@dimen/qb_px_20"
+            android:layout_marginRight="@dimen/qb_px_20"
+            android:layout_marginBottom="@dimen/qb_px_20"
+            android:text="确认（需要重启终端应用）" />
     </FrameLayout>
 
 

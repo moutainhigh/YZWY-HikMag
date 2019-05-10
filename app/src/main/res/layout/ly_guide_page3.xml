@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="是否同意相关协议"
             android:textColor="@color/balck_0"
-            android:textSize="12sp" />
+            android:textSize="@dimen/fs_px_12" />
 
         <TextView
             android:id="@+id/tv_agmt_gdpg3"
@@ -28,18 +28,18 @@
             android:layout_height="wrap_content"
             android:text="《相关服务条款》"
             android:textColor="@color/blue"
-            android:textSize="12sp" />
+            android:textSize="@dimen/fs_px_12" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_start_gdpg3"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="@dimen/qb_px_150"
+        android:layout_height="@dimen/qb_px_60"
+        android:layout_marginBottom="@dimen/qb_px_50"
+        android:layout_marginTop="@dimen/qb_px_20"
         android:background="@drawable/bg_trans"
         android:text="正式体验"
         android:textColor="@color/green_logo"
-        android:textSize="30sp" />
+        android:textSize="@dimen/fs_px_30" />
 
 </LinearLayout>

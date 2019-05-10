@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="@dimen/qb_px_5">
 
         <TextView
             android:layout_width="0dp"
@@ -19,7 +19,7 @@
             android:gravity="center_vertical"
             android:text="设置终端优先级"
             android:textColor="@color/white_f"
-            android:textSize="20sp" />
+            android:textSize="@dimen/fs_px_20" />
 
         <Button
             android:id="@+id/btn_closePage_dialogPriority"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:text="网络未连接"
                     android:textColor="@color/orange"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/fs_px_12" />
 
 
                 <LinearLayout
@@ -79,7 +79,7 @@
                         android:gravity="right"
                         android:text="优先级："
                         android:textColor="#ffffff"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/fs_px_12" />
 
 
                     <EditText
@@ -95,7 +95,7 @@
                         android:singleLine="true"
                         android:text=""
                         android:textColor="#ffffff"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/fs_px_12" />
                 </LinearLayout>
 
                 <View style="@style/HorizontalLineStyle" />

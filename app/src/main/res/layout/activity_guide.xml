@@ -14,12 +14,12 @@
     <com.example.yzwy.lprmag.guide.animation.viewpager.CirclePageIndicator
         android:id="@+id/indy_guid"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="@dimen/qb_px_15"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/qb_px_20"
         app:fillColor="#c9c9c9"
         app:pageColor="#e5e5e5"
-        app:radius="5dp"
+        app:radius="@dimen/qb_px_5"
         app:strokeColor="@android:color/transparent" />
 
 </RelativeLayout>

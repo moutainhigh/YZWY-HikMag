@@ -1,6 +1,9 @@
 package com.example.yzwy.lprmag.wifimess.model;
 
+import com.example.yzwy.lprmag.application.MyApp;
 import com.example.yzwy.lprmag.myConstant.OrderConstant;
+import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
+import com.example.yzwy.lprmag.util.SharePreferencesUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -296,6 +299,7 @@ public class SendOrder {
         JSONObject jo1 = new JSONObject();
         try {
             jo1.put("Order", String.valueOf(OrderConstant.ORDER_SET_GeomListRest));
+            jo1.put("userID", SharePreferencesUtil.getStringValue(MyApp.getContext(), UserInfoConstant.userID, "0"));
             jo1.put("data", jsonGeom);
         } catch (JSONException e) {
             e.printStackTrace();

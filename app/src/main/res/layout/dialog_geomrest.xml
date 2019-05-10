@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white_bg"
+    android:layout_gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/green_logo"
+        android:gravity="center"
+        android:paddingTop="@dimen/qb_px_5"
+        android:paddingBottom="@dimen/qb_px_5"
+        android:text="提示"
+        android:textColor="@color/white"
+        android:textSize="@dimen/fs_px_20" />
+
+
+    <TextView
+        android:id="@+id/tv_show_diggeom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/qb_px_10"
+        android:layout_marginTop="@dimen/qb_px_15"
+        android:layout_marginRight="@dimen/qb_px_10"
+        android:layout_marginBottom="@dimen/qb_px_15"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="亲，请联系客服重置密码哟~"
+        android:textColor="@color/balck_4"
+        android:textSize="14sp" />
+
+
+    <Button
+        android:id="@+id/btn_dialog_custom_ok"
+        android:layout_width="@dimen/qb_px_200"
+        android:layout_height="@dimen/qb_px_80"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/qb_px_20"
+        android:background="@mipmap/img_custom_dialog_button" />
+
+</LinearLayout>
