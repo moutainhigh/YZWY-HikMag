@@ -30,7 +30,7 @@ import com.example.yzwy.lprmag.PrivacyAgreementActivity;
 import com.example.yzwy.lprmag.R;
 import com.example.yzwy.lprmag.UseCourseListActivity;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
-import com.example.yzwy.lprmag.myConstant.HttpURL;
+import com.example.yzwy.lprmag.myConstant.ApiHttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
 import com.example.yzwy.lprmag.util.AESUtil;
 import com.example.yzwy.lprmag.util.HanderUtil;
@@ -88,6 +88,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private String versionName = null;
     private TextView tv_usernameaddr_fgmtmine;
     private TextView tv_username_fgmtmine;
+    private TextView tv_version_fgmtmine;
 
     @Nullable
     @Override
@@ -120,47 +121,56 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         version = UpdateManager.getInstance().getVersion(getActivity());
         versionName = UpdateManager.getInstance().getVersionName(getActivity());
 
-        Tools.Toast(getActivity(), "版本号：" + String.valueOf(version) + "  版本名称：" + versionName);
+        tv_version_fgmtmine.setText("当前版本号：" + version);
+
+        //Tools.Toast(getActivity(), "版本号：" + String.valueOf(version) + "  版本名称：" + versionName);
         LogUtil.showLog(TAG, "版本号：" + String.valueOf(version) + "  版本名称：" + versionName);
 
 
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                Map<String, String> LoginStringMap = new HashMap<>();
+////                LoginStringMap.put("userName", userName);
+////                LoginStringMap.put("passWord", passWord);
+//                OkHttpUtil.getInstance().postDataAsyn(ApiHttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+//                    @Override
+//                    public void success(Call call, Response response) throws IOException {
+//                        String rs = response.body().string();
+//                        HanderUtil.HanderMsgSend(handler, 100100, rs);
+//                        LogUtil.showLog("NetAPi success --->", rs);
+//                    }
+//
+//                    @Override
+//                    public void failed(Call call, IOException e) {
+//                        HanderUtil.HanderMsgSend(handler, 101101, e.toString());
+////                        if(e.getCause().equals(SocketTimeoutException.class))
+////                            Tools.Toast(getActivity(),"连接超时");
+//                        LogUtil.showLog("NetAPi failed --->", e.toString());
+//                    }
+//                });
+//
+//
+//            }
+//        }).start();
+//
+//
+
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 Map<String, String> LoginStringMap = new HashMap<>();
-//                LoginStringMap.put("userName", userName);
-//                LoginStringMap.put("passWord", passWord);
-                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
-                    @Override
-                    public void success(Call call, Response response) throws IOException {
-                        String rs = response.body().string();
-                        HanderUtil.HanderMsgSend(handler, 100100, rs);
-                        LogUtil.showLog("NetAPi success --->", rs);
-                    }
-
-                    @Override
-                    public void failed(Call call, IOException e) {
-                        HanderUtil.HanderMsgSend(handler, 101101, e.toString());
-//                        if(e.getCause().equals(SocketTimeoutException.class))
-//                            Tools.Toast(getActivity(),"连接超时");
-                        LogUtil.showLog("NetAPi failed --->", e.toString());
-                    }
-                });
-
-
-            }
-        }).start();
-
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                Map<String, String> LoginStringMap = new HashMap<>();
-                LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(SharePreferencesUtil.getStringValue(getActivity(), UserInfoConstant.userName, "")));
+                try {
+                    LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(SharePreferencesUtil.getStringValue(getActivity(), UserInfoConstant.userName, "")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtil.showLog("AESJIA", "加密失败");
+                    return;
+                }
                 LoginStringMap.put("passWord", SharePreferencesUtil.getStringValue(getActivity(), UserInfoConstant.passWord, ""));
-                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                OkHttpUtil.getInstance().postDataAsyn(ApiHttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();
@@ -202,6 +212,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         tv_verionnum_mine = (TextView) view.findViewById(R.id.tv_verionnum_mine);
         tv_usernameaddr_fgmtmine = (TextView) view.findViewById(R.id.tv_usernameaddr_fgmtmine);
         tv_username_fgmtmine = (TextView) view.findViewById(R.id.tv_username_fgmtmine);
+        tv_version_fgmtmine = (TextView) view.findViewById(R.id.tv_version_fgmtmine);
 
 
         initOnClick();
@@ -355,7 +366,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 Map<String, String> LoginStringMap = new HashMap<>();
 //                LoginStringMap.put("userName", userName);
 //                LoginStringMap.put("passWord", passWord);
-                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                OkHttpUtil.getInstance().postDataAsyn(ApiHttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();
@@ -414,6 +425,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     case 100100:
                         if (errcode.equals("0")) {
                             String VersionNumber = jsonObject.getString("VersionNumber");
+                            //tv_version_fgmtmine.setText("当前版本号："+VersionNumber);
                             //String StrVersionNumber = "0.0.1";
                             if (VersionNumber != null && !VersionNumber.equals("") && !VersionNumber.equals("null")) {
                                 if (VersionNumber.equals(versionName)) {
@@ -463,7 +475,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
 
             LogUtil.showLog("#--->", data);
-            System.out.println("#--->：" + AESUtil.getInstance().JieDecrypt(data));
+            try {
+                System.out.println("#--->：" + AESUtil.getInstance().JieDecrypt(data));
+            } catch (Exception e) {
+                e.printStackTrace();
+                LogUtil.showLog("AESJIA", "加密失败");
+                return;
+            }
 
             switch (msg.what) {
                 case 901:

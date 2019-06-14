@@ -30,13 +30,13 @@ public class AESUtil {
      * @param content
      * @return
      */
-    public String JieDecrypt(String content){
-        try {
+    public String JieDecrypt(String content) throws Exception {
+//        try {
         return AES_ECB_PKCS7Padding_128_Key32_Util.aesDecryptHexStr(content, key);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "";
+//        }
     }
 
     /**
@@ -46,13 +46,13 @@ public class AESUtil {
      * @param content
      * @return
      */
-    public String JiaEncrypt(String content) {
-        try {
+    public String JiaEncrypt(String content) throws Exception {
+//        try {
             return AES_ECB_PKCS7Padding_128_Key32_Util.aesEncryptHexStr(content, key);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "";
+//        }
     }
 
 }

@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.yzwy.lprmag.myConstant.HttpURL;
+import com.example.yzwy.lprmag.myConstant.ApiHttpURL;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
@@ -110,7 +110,7 @@ public class UseCourseDetailsActivity extends AppCompatActivity implements View.
                 Map<String, String> LoginStringMap = new HashMap<>();
                 LoginStringMap.put("ID", String.valueOf(ID));
                 //LoginStringMap.put("passWord", edtPwd);
-                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                OkHttpUtil.getInstance().postDataAsyn(ApiHttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();

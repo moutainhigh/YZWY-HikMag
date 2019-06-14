@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         LogUtil.showLog("swSystem", stringBufferswLog.toString());
 
+//        Thread thread = null;
+//        thread.isAlive();
 
 //        try {
 //
@@ -225,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         int width = getResources().getDimensionPixelSize(R.dimen.tab_icon_width);
         int height = getResources().getDimensionPixelSize(R.dimen.tab_icon_height);
         int fontSize = getResources().getDimensionPixelOffset(R.dimen.qb_px_10);
-        mTabLayout.setContainerLayout(R.layout.tab_container_view, R.id.iv_tab_icon, R.id.tv_tab_text, width, height,fontSize);
+        mTabLayout.setContainerLayout(R.layout.tab_container_view, R.id.iv_tab_icon, R.id.tv_tab_text, width, height, fontSize);
 //        mTabLayout.setSingleTextLayout(R.layout.tab_container_view, R.id.tv_tab_text);
 //        mTabLayout.setSingleIconLayout(R.layout.tab_container_view, R.id.iv_tab_icon);
 

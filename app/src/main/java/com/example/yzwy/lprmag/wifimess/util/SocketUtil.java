@@ -96,13 +96,23 @@ public class SocketUtil {
             os.close();
             socket.close();
 
+
+//        if(sb.toString() != null){
+            Log.i("SocketUtil  ASYN", "接收到的数据为---->：\n" + new String(sb.toString()));
+//        }
+
+            return sb.toString();
+
             //sendMsgmHandler(0, sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Log.i("SocketUtil  ASYN", "接收到的数据为---->：\n" + new String(sb.toString()));
-        return sb.toString();
+//        if(sb.toString() != null){
+//            Log.i("SocketUtil  ASYN", "接收到的数据为---->：\n" + new String(sb.toString()));
+//        }
+
+        return "";
     }
 //    /**
 //     * =============================================================================================

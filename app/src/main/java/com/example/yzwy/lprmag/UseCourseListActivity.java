@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.example.yzwy.lprmag.bean.UseCourseBean;
 import com.example.yzwy.lprmag.broadcast.NetWorkChangReceiver;
-import com.example.yzwy.lprmag.myConstant.HttpURL;
+import com.example.yzwy.lprmag.myConstant.ApiHttpURL;
 import com.example.yzwy.lprmag.myinterface.NetBroadcastListener;
 import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
@@ -195,7 +195,7 @@ public class UseCourseListActivity extends Activity implements NetBroadcastListe
                 Map<String, String> LoginStringMap = new HashMap<>();
                 LoginStringMap.put("ID", "");
                 //LoginStringMap.put("passWord", edtPwd);
-                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                OkHttpUtil.getInstance().postDataAsyn(ApiHttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();

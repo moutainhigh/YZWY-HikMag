@@ -73,6 +73,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/v_setting_bar_line" />
@@ -102,6 +103,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/v_setting_bar_line" />
@@ -131,6 +133,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/v_setting_bar_line" />
@@ -160,6 +163,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/v_setting_bar_line" />
@@ -188,6 +192,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/v_setting_bar_line" />
@@ -228,6 +233,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/v_setting_bar_line" />
@@ -238,7 +244,7 @@
                 android:id="@+id/btn_loginOut_mine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/qb_px_10"
+                android:layout_marginTop="@dimen/qb_px_20"
                 android:paddingTop="@dimen/qb_px_12"
                 android:paddingBottom="@dimen/qb_px_12"
                 android:layout_marginBottom="@dimen/qb_px_20"
@@ -246,6 +252,24 @@
                 android:text="退出登录"
                 android:textColor="@color/red_t1"
                 android:textSize="@dimen/fs_px_17" />
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/qb_px_20"
+                android:paddingBottom="@dimen/qb_px_20"
+                android:background="@color/white">
+                <TextView
+                    android:id="@+id/tv_version_fgmtmine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/fs_px_12"
+                    android:gravity="center"
+                    android:text="当前版本号："
+                    android:textColor="@color/white_a"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

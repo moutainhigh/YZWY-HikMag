@@ -94,4 +94,13 @@ public class OrderConstant {
      */
     public final static int ORDER_SET_GeomListRest = 27;
 
+    /**
+     * 获取终端上异常日志的数据
+     */
+    public final static int ORDER_GET_ErrorLog = 28;
+//    /**
+//     * 设置终端上异常日志的数据
+//     */
+//    public final static int ORDER_SET_ErrorLog = 29;
+
 }

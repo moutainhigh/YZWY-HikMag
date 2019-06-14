@@ -124,6 +124,10 @@
         <activity
             android:name=".GeomagneticManageActivity"
             android:launchMode="singleTop" />
+        <!--地磁复位管理界面-->
+        <activity
+            android:name=".ErrorLogActivity"
+            android:launchMode="singleTop" />
 
         <!--配置界面-->
         <activity android:name=".ConfigSetActivity" />

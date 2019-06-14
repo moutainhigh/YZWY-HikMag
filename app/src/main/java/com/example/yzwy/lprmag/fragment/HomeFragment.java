@@ -1,6 +1,5 @@
 package com.example.yzwy.lprmag.fragment;
 
-import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yzwy.lprmag.ConfigSetActivity;
+import com.example.yzwy.lprmag.ErrorLogActivity;
 import com.example.yzwy.lprmag.GeomagneticManageActivity;
 import com.example.yzwy.lprmag.HiKCameraActivity;
 import com.example.yzwy.lprmag.R;
@@ -24,7 +24,6 @@ import com.example.yzwy.lprmag.WifiHotMagActivity;
 import com.example.yzwy.lprmag.bean.HomeMenuBean;
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.util.DisplayUtil;
-import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.Tools;
 
 import java.util.ArrayList;
@@ -103,11 +102,12 @@ public class HomeFragment extends Fragment
             adapterBeanList.clear();
         }
 
-        adapterBeanList.add(new HomeMenuBean(1, R.drawable.ic_tiaoshi, "设备调试"));
-        adapterBeanList.add(new HomeMenuBean(2, R.drawable.ic_config_app, "设备连接配置"));
-        adapterBeanList.add(new HomeMenuBean(3, R.drawable.ic_hot_block, "热点管理"));
-        adapterBeanList.add(new HomeMenuBean(4, R.drawable.ic_term_data_mag, "终端数据管理"));
-        adapterBeanList.add(new HomeMenuBean(5, R.drawable.ic_geom_rest, "地磁复位管理"));
+        adapterBeanList.add(new HomeMenuBean(1, R.drawable.ic_menu_tiaoshi, "设备调试"));
+        adapterBeanList.add(new HomeMenuBean(2, R.drawable.ic_menu_config_app, "设备连接配置"));
+        adapterBeanList.add(new HomeMenuBean(3, R.drawable.ic_menu_hot_block, "热点管理"));
+        adapterBeanList.add(new HomeMenuBean(4, R.drawable.ic_menu_term_data_mag, "终端数据管理"));
+        adapterBeanList.add(new HomeMenuBean(5, R.drawable.ic_menu_geom_rest, "地磁复位管理"));
+        //adapterBeanList.add(new HomeMenuBean(6, R.drawable.ic_menu_errorlog, "终端异常数据管理"));
     }
 
 //    /**
@@ -174,6 +174,14 @@ public class HomeFragment extends Fragment
 //        }
 //    }
 
+
+    /**
+     * =============================================================================================
+     * 终端异常数据管理
+     */
+    private void ErrorLogOnClick() {
+        Tools.IntentBack(getActivity(), ErrorLogActivity.class);
+    }
 
     /**
      * 地磁复位管理
@@ -322,6 +330,13 @@ public class HomeFragment extends Fragment
                         //地磁复位管理
                         case 5:
                             GeomRestOnClick();
+                            break;
+
+
+                        //======================================================================================
+                        //地磁复位管理
+                        case 6:
+                            ErrorLogOnClick();
                             break;
                         default:
                             break;

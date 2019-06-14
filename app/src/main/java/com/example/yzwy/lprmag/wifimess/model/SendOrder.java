@@ -308,4 +308,25 @@ public class SendOrder {
         System.out.println("发送命令 设置终端地磁重置>>>>>" + json);
         return json;
     }
+
+
+
+
+
+    /**
+     * =============================================================================================
+     * 获取终端异常日志列表
+     */
+    public static String Get_ErrorLog() {
+        JSONObject jo1 = new JSONObject();
+        try {
+            jo1.put("Order", String.valueOf(OrderConstant.ORDER_GET_ErrorLog));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String json = jo1.toString();
+        System.out.println("发送命令 获取终端地磁列表>>>>>" + json);
+        return json;
+    }
+
 }

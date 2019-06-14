@@ -7,19 +7,17 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
-import com.example.yzwy.lprmag.myConstant.HttpURL;
-import com.example.yzwy.lprmag.util.ExecRootCmd;
+import com.example.yzwy.lprmag.myConstant.ApiHttpURL;
+import com.example.yzwy.lprmag.util.AESUtil;
 import com.example.yzwy.lprmag.util.HanderUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
 import com.example.yzwy.lprmag.util.OkHttpUtil;
+import com.example.yzwy.lprmag.util.Tools;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -47,7 +45,7 @@ import okhttp3.Response;
  */
 public class CrashHandler implements UncaughtExceptionHandler {
 
-    public static final String TAG = "CrashHandler";
+    public static final String TAG = "AppErrorCrash";
 
     private Throwable exsss;
 
@@ -108,7 +106,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             android.os.Process.killProcess(android.os.Process.myPid());
 
             //mDefaultHandler.uncaughtException(thread, ex);
-           // android.os.Process.killProcess(android.os.Process.myPid());
+            // android.os.Process.killProcess(android.os.Process.myPid());
 
 
             /**
@@ -172,7 +170,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private void initSaveType() {
 
         //上传到服务器
-        UpdateWWW();
+        uploadServer();
 
         //保存日志文件
         //saveCrashInfo2File(ex);
@@ -254,27 +252,82 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     }
 
-    private void UpdateWWW() {
+    /**
+     * =============================================================================================
+     * 上传日志到服务器
+     */
+    private void uploadServer() {
 
+        StringBuffer strBuffercollectDeviceInfo = new StringBuffer();
+        if (infos.size() > 0) {
+            for (java.util.Map.Entry<String, String> kk : infos.entrySet()) {
+                //LogUtil.showLog(TAG, kk.getKey() + "===" + kk.getValue());
+                strBuffercollectDeviceInfo.append(kk.getKey() + ":" + kk.getValue() + "\n");
+            }
+        }
+
+        String msg = "";
+        if (strBuffercollectDeviceInfo.length() > 0) {
+            msg = strBuffercollectDeviceInfo.toString() + "\n---#&*$$*&#---\n\n" + String.valueOf(getStackTraceInfo(exsss));
+        } else {
+            msg = String.valueOf(getStackTraceInfo(exsss));
+        }
+
+
+        final String finalMsg = msg;
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-                Map<String, String> LoginStringMap = new HashMap<>();
-//                LoginStringMap.put("userName", edtUsername);
-//                LoginStringMap.put("passWord", edtPwd);
-                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                Map<String, String> parMap = new HashMap<>();
+                try {
+                    parMap.put("logType", AESUtil.getInstance().JiaEncrypt("41"));
+                    parMap.put("logIdentifier", AESUtil.getInstance().JiaEncrypt("0"));
+                    parMap.put("logDescribe", AESUtil.getInstance().JiaEncrypt("拍管侠崩溃日志信息"));
+                    parMap.put("message", AESUtil.getInstance().JiaEncrypt(finalMsg));
+                    parMap.put("uploadTime", AESUtil.getInstance().JiaEncrypt(Tools.nowTimeAll()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtil.showLog(TAG, "数据异常，加密失败");
+                    return;
+                }
+                OkHttpUtil.getInstance().postDataAsyn(ApiHttpURL.ErrorLogUpLoad, parMap, new OkHttpUtil.MyNetCall() {
                     @Override
                     public void success(Call call, Response response) throws IOException {
                         String rs = response.body().string();
-                        HanderUtil.HanderMsgSend(handler, 100, rs);
-                        LogUtil.showLog("LoginActivity success --->", rs);
+                        LogUtil.showLog(TAG, "--->\n" + "原始数据：" + rs);
+                        String decryptData = null;
+                        try {
+                            decryptData = AESUtil.getInstance().JieDecrypt(rs);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            LogUtil.showLog(TAG, "--->\n数据异常，解密失败");
+                            return;
+                        }
+                        LogUtil.showLog(TAG, "--->\n解密数据：" + decryptData);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(decryptData);
+                            String errcode = jsonObject.optString("errcode", null);
+                            String errmsg = jsonObject.optString("errmsg", null);
+
+                            if (errcode.equals("0")) {
+                                LogUtil.showLog(TAG, "--->\n上传崩溃日志情况：" + errmsg);
+                                exsss = null;
+                            } else {
+                                saveCrashInfo2File(exsss);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            saveCrashInfo2File(exsss);
+                        }
+
+
                     }
 
                     @Override
                     public void failed(Call call, IOException e) {
-                        HanderUtil.HanderMsgSend(handler, 101, e.toString());
-                        LogUtil.showLog("LoginActivity failed --->", e.toString());
+                        //HanderUtil.HanderMsgSend(handler, 101, e.toString());
+                        LogUtil.showLog(TAG, " failed --->" + e.toString());
                     }
                 });
 
@@ -287,54 +340,29 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * =============================================================================================
-     * 海康登录UI更新和Log打印和m_iLogID设置
+     * 获取错误的信息
+     *
+     * @param throwable
+     * @return
      */
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-
-            String data = msg.getData().getString("data");
-            switch (msg.what) {
-
-                case 100:
-                    try {
-                        JSONObject jsonObject = new JSONObject(data);
-                        String errcode = jsonObject.getString("errcode");
-                        String errmsg = jsonObject.getString("errmsg");
-
-
-                        if (errcode.equals("0")) {
-
-                            exsss = null;
-
-                        } else {
-                            //保存到文件中
-                            saveCrashInfo2File(exsss);
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        saveCrashInfo2File(exsss);
-                        LogUtil.showLog("Crash JSON failed --->", e.toString());
-                    }
-                    break;
-
-                case 101:
-                    saveCrashInfo2File(exsss);
-                    break;
-
-
-                default:
-                    break;
-
+    private String getStackTraceInfo(final Throwable throwable) {
+        PrintWriter pw = null;
+        Writer writer = new StringWriter();
+        try {
+            pw = new PrintWriter(writer);
+            throwable.printStackTrace(pw);
+            Throwable cause = throwable.getCause();
+            while (cause != null) {
+                cause.printStackTrace(pw);
+                cause = cause.getCause();
             }
-
-
+        } catch (Exception e) {
+            return "";
+        } finally {
+            if (pw != null) {
+                pw.close();
+            }
         }
-
-
-    };
+        return writer.toString();
+    }
 }

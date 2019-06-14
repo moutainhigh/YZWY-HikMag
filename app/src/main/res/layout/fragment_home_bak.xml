@@ -95,7 +95,7 @@
                         android:layout_width="55dp"
                         android:layout_height="55dp"
                         android:padding="5dp"
-                        android:src="@drawable/ic_config_app" />
+                        android:src="@drawable/ic_menu_config_app" />
 
                     <TextView
                         android:id="@+id/tv_config_frgmthome"
@@ -126,7 +126,7 @@
                         android:layout_height="55dp"
                         android:padding="5dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_hot_block" />
+                        android:src="@drawable/ic_menu_hot_block" />
 
                     <TextView
                         android:id="@+id/tv_hotConfig_frgmthome"

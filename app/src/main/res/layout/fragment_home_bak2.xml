@@ -50,7 +50,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:contentDescription="设备调试"
-                        android:src="@drawable/ic_tiaoshi" />
+                        android:src="@drawable/ic_menu_tiaoshi" />
 
                     <TextView
                         android:id="@+id/tv_hik_frgmthome"
@@ -77,7 +77,7 @@
                         android:id="@+id/img_config_frgmthome"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/ic_config_app" />
+                        android:src="@drawable/ic_menu_config_app" />
 
                     <TextView
                         android:id="@+id/tv_config_frgmthome"
@@ -105,7 +105,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_hot_block" />
+                        android:src="@drawable/ic_menu_hot_block" />
 
                     <TextView
                         android:id="@+id/tv_hotConfig_frgmthome"
@@ -133,7 +133,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_term_data_mag" />
+                        android:src="@drawable/ic_menu_term_data_mag" />
 
                     <TextView
                         android:id="@+id/tv_termdatamag_frgmthome"

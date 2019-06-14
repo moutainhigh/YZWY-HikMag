@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
-import com.example.yzwy.lprmag.myConstant.HttpURL;
+import com.example.yzwy.lprmag.myConstant.ApiHttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
 import com.example.yzwy.lprmag.util.AESUtil;
 import com.example.yzwy.lprmag.util.HanderUtil;
@@ -139,9 +139,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void run() {
 
                         Map<String, String> LoginStringMap = new HashMap<>();
-                        LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(edtUsername));
+                        try {
+                            LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(edtUsername));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            LogUtil.showLog("AESJIA", "加密失败");
+                            return;
+                        }
                         LoginStringMap.put("passWord", edtPwd);
-                        OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                        OkHttpUtil.getInstance().postDataAsyn(ApiHttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                             @Override
                             public void success(Call call, Response response) throws IOException {
                                 String rs = response.body().string();

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/li_geom_rest_item_gemorest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/qb_px_5">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/ckb_fuxuan_item_gemorest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false" />
+
+            <TextView
+                android:id="@+id/tv_xuhao_item_gemorest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="序号"
+                android:textColor="@color/balck_0"
+                android:textSize="@dimen/fs_px_12" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_geomnum_item_gemorest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/qb_px_10"
+            android:text="地磁号"
+            android:textColor="@color/balck_0"
+            android:textSize="@dimen/fs_px_14" />
+
+
+        <TextView
+            android:id="@+id/tv_persetNumber_item_gemorest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/qb_px_10"
+            android:text="预置点位"
+            android:textColor="@color/balck_0"
+            android:textSize="@dimen/fs_px_14" />
+
+        <!--<Button-->
+        <!--android:id="@+id/btn_enter_tremdatamag"-->
+        <!--style="@style/ButtonStyle"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:text="复位" />-->
+
+    </LinearLayout>
+
+
+    <View style="@style/HorizontalLineStyle" />
+
+</LinearLayout>

@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -20,7 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.yzwy.lprmag.control.activityStackExtends.util.ActivityStackManager;
 import com.example.yzwy.lprmag.guide.animation.guide.GuideActivity;
-import com.example.yzwy.lprmag.myConstant.HttpURL;
+import com.example.yzwy.lprmag.myConstant.ApiHttpURL;
 import com.example.yzwy.lprmag.myConstant.UserInfoConstant;
 import com.example.yzwy.lprmag.util.AESUtil;
 import com.example.yzwy.lprmag.util.LogUtil;
@@ -54,6 +55,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public static SharedPreferences sp;
     SharedPreferences.Editor ed;
     boolean bl;
+    private Timer timer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class WelcomeActivity extends AppCompatActivity {
         sp = getPreferences(Activity.MODE_PRIVATE);
         ed = sp.edit();
         bl = sp.getBoolean("FIRSTINSTALLAPP", false);
-        Timer timer = new Timer();
+        timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -108,9 +110,15 @@ public class WelcomeActivity extends AppCompatActivity {
                             public void run() {
 
                                 Map<String, String> LoginStringMap = new HashMap<>();
-                                LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(userName));
+                                try {
+                                    LoginStringMap.put("userName", AESUtil.getInstance().JiaEncrypt(userName));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    LogUtil.showLog("AESJIA", "加密失败");
+                                    return;
+                                }
                                 LoginStringMap.put("passWord", passWord);
-                                OkHttpUtil.getInstance().postDataAsyn(HttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
+                                OkHttpUtil.getInstance().postDataAsyn(ApiHttpURL.LoginVerification, LoginStringMap, new OkHttpUtil.MyNetCall() {
                                     @Override
                                     public void success(Call call, Response response) throws IOException {
                                         String rs = response.body().string();
@@ -158,6 +166,19 @@ public class WelcomeActivity extends AppCompatActivity {
 
     /**
      * =============================================================================================
+     * 停止定时器
+     */
+    private void stopTimer() {
+        if (timer != null) {
+            timer.cancel();
+            // 一定设置为null，否则定时器不会被回收
+            timer = null;
+        }
+    }
+
+
+    /**
+     * =============================================================================================
      * 发消息
      *
      * @param handler
@@ -179,7 +200,7 @@ public class WelcomeActivity extends AppCompatActivity {
      * 海康登录UI更新和Log打印和m_iLogID设置
      */
     @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
+    private Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

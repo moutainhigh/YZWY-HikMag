@@ -6,9 +6,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'YZWYHikMagKeyStoreZhongchao'
-            keyPassword 'Yzwy1234'
-            storeFile file("../myKeyStore/YZWYHikMagKeyStore.jks")
-            storePassword 'Yzwy1234'
+            keyPassword '123456'
+            storeFile file("../myKeyStore/YZWYHikMagKeyStoreNew.jks")
+            storePassword '123456'
         }
     }
 
