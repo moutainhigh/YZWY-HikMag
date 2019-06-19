@@ -1,0 +1,19 @@
+密码：5uv4!30wz7JhU3v^
+
+Alias:别名  ##  YZWYHikMagKeyStore
+
+　　Validity(years):有效期（一般默认25年）  ##  25
+
+　　Certificate:证书
+
+　　　　First and Last Name：姓名  ##  zclprmag
+
+　　　　Organization Unit：组织单位  ##  xiledao
+
+　　　　Organization：组织  ##  xiledao
+
+　　　　City or Locality：城市或地区  ##  guangzhou
+
+　　　　State or Province：州或省  ##  gaungdong
+
+　　　　Country Code(XX)：国家代码(XX)，中国：86  ##  86

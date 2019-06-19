@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -45,6 +47,7 @@ import okhttp3.Response;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAGMSG = "LoginActivity--->";
     private EditText edt_username_lgn;
     private EditText edt_pwd_lgn;
 
@@ -278,6 +281,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             super.handleMessage(msg);
             loadingDialog.dismiss();
             String data = msg.getData().getString("data");
+            //System.out.println("LoinDataRes--->"+data);
             switch (msg.what) {
 
                 case 100:
@@ -287,7 +291,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             decryptData = AESUtil.getInstance().JieDecrypt(data);
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Tools.Toast(LoginActivity.this, "数据异常，解密失败");
+                            LogUtil.showLog(TAGMSG, "数据异常，解密失败" + "\n" + data);
+                            Tools.Toast(LoginActivity.this, "数据异常，解密失败" + "\n" + data);
                             break;
                         }
                         JSONObject jsonObject = new JSONObject(decryptData);
@@ -326,6 +331,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     break;
 
                 case 101:
+                    LogUtil.showLog(TAGMSG, "登陆失败，异常Log：\n" + data);
                     Tools.Toast(LoginActivity.this, "网络异常，请检查网络");
                     //Tools.Toast(LoginActivity.this, "登陆失败，异常Log：\n" + data);
                     break;
